@@ -1,0 +1,17 @@
+{
+  "name": "compound-marketing",
+  "owner": {
+    "name": "Bunty Somroy / Red Pine Digital",
+    "url": "https://github.com/buntysomroy"
+  },
+  "plugins": [
+    {
+      "name": "compound-marketing",
+      "source": ".",
+      "description": "Staged marketing workflow (audit → analyze → plan → review → execute) with approval gates. The marketing twin of Compound Engineering.",
+      "version": "0.1.0",
+      "category": "marketing",
+      "tags": ["marketing","compound-marketing","audit","planning","review","execution"]
+    }
+  ]
+}
