@@ -2,6 +2,13 @@
   "name": "compound-marketing",
   "version": "0.1.0",
   "description": "Compound Marketing — a staged, report-at-each-gate marketing workflow (audit → analyze → plan → review → execute) with an approval gate between stages, plus experiment and compounding-learning skills. Marketing adaptation of Compound Engineering.",
+  "author": {
+    "name": "Bunty Somroy / Red Pine Digital",
+    "url": "https://github.com/buntysomroy"
+  },
+  "homepage": "https://github.com/buntysomroy/compound-marketing",
+  "repository": "https://github.com/buntysomroy/compound-marketing",
+  "license": "MIT",
   "keywords": ["marketing","compound-marketing","audit","analysis","planning","adversarial-review","campaign-execution","approval-gates"],
-  "author": { "name": "ZenMaid", "url": "https://github.com/ZenMaid" }
+  "skills": "./skills"
 }

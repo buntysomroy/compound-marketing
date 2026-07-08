@@ -4,14 +4,16 @@
     "name": "Bunty Somroy / Red Pine Digital",
     "url": "https://github.com/buntysomroy"
   },
+  "metadata": {
+    "description": "Compound Marketing — the marketing twin of Compound Engineering: a staged, report-at-each-gate marketing workflow with approval gates.",
+    "version": "0.1.0",
+    "repository": "https://github.com/buntysomroy/compound-marketing"
+  },
   "plugins": [
     {
       "name": "compound-marketing",
-      "source": ".",
-      "description": "Staged marketing workflow (audit → analyze → plan → review → execute) with approval gates. The marketing twin of Compound Engineering.",
-      "version": "0.1.0",
-      "category": "marketing",
-      "tags": ["marketing","compound-marketing","audit","planning","review","execution"]
+      "description": "Staged marketing workflow (audit → analyze → plan → review → execute) with approval gates, plus experiment and compounding-learning skills. The marketing twin of Compound Engineering.",
+      "source": "./"
     }
   ]
 }
