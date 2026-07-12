@@ -1,6 +1,6 @@
 ---
 name: cm-plan
-description: "Compound Marketing — the PLAN stage (Stage 3). Two input modes: FULL-ACCOUNT (consume a /cm-analyze doc → a sequenced multi-initiative plan) or SINGLE-PROBLEM (a stated problem + cited evidence → a hardened solution+execution doc — the single-problem solution capability). Use when the user says '/cm-plan', 'build the marketing plan', 'turn the insights into a plan', 'sequence the recommendations', 'solution + execution plan for <client>', 'marketing DD', 'fix this one problem for <client>', or after /cm-analyze produces an analysis doc."
+description: "Compound Marketing — the PLAN stage (Stage 3). Two input modes: FULL-ACCOUNT (consume a /cm-analyze doc → a sequenced multi-initiative plan) or SINGLE-PROBLEM (a stated problem + cited evidence → a hardened solution+execution doc — the single-problem solution capability). Use when the user says '/cm-plan', 'build the marketing plan', 'turn the insights into a plan', 'sequence the recommendations', 'solution + execution plan for [client]', 'marketing DD', 'fix this one problem for [client]', or after /cm-analyze produces an analysis doc."
 ---
 
 # /cm-plan — Compound Marketing: Plan stage

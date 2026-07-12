@@ -1,6 +1,6 @@
 ---
 name: cm-audit
-description: "Compound Marketing — the AUDIT stage (Stage 1). Gather the real state of a client's marketing: pull live data, read client context + SOPs, and produce a structured audit doc that feeds /cm-analyze. Use when the user says '/cm-audit', 'audit the account', 'pull the data before analysis', 'gather client context', 'what data do we have on <client/channel>?', or as the first step of a full CM pipeline run."
+description: "Compound Marketing — the AUDIT stage (Stage 1). Gather the real state of a client's marketing: pull live data, read client context + SOPs, and produce a structured audit doc that feeds /cm-analyze. Use when the user says '/cm-audit', 'audit the account', 'pull the data before analysis', 'gather client context', 'what data do we have on [client/channel]?', or as the first step of a full CM pipeline run."
 ---
 
 # /cm-audit — Compound Marketing: Audit stage
