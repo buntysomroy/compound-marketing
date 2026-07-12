@@ -6,6 +6,10 @@ A staged, **report-at-each-gate** marketing workflow — the marketing adaptatio
 audit → analyze → plan → review → execute
 ```
 
+## Front door
+
+`/cm` — symptom intake, decisions recall, and an artifact check across your engagement docs, then a one-line recommendation for which stage to enter (with an alternative and a direct-bypass option). Run this before any numbered stage when you're not sure where to start; direct invocation of a stage skill is always still available.
+
 ## Pipeline
 
 | Stage | Skill | What it does |
@@ -16,11 +20,16 @@ audit → analyze → plan → review → execute
 | Review | `/cm-review` | Adversarial multi-lens review of any plan/analysis doc — four independent lenses (evidence, measurement, ownership, brand/client) inline-quote the artifact and challenge it before it ships. |
 | Execute | `/cm-execute` | Gated execution of an approved plan. |
 
-Plus two supporting skills:
+Plus supporting skills:
 
 - `/cm-experiment` — design and track a marketing experiment against the execution owner-map.
 - `/cm-compound` — capture a solved marketing problem or durable decision so the next run inherits it.
 - `/cm-analytics-audit` — deep analytics/measurement audit (web analytics + ad-platform data quality).
+- `/cm-handoff` — generate a session-close handoff prompt pointing at a real artifact (not the closing session's own proposed solution), for a fresh session to resume from.
+
+## Stage contract
+
+Every stage skill above (plus `/cm` and `/cm-handoff`) binds to one shared behavioral contract — `reference/protocol-cm-stage-contract.md` — so decisions recall, findings confirmation with denominator/coverage, a handoff block, and decision-time logging fire consistently on every run instead of depending on any one skill remembering to do it.
 
 ## Agents
 
@@ -37,7 +46,8 @@ Bundled review + recall agents the skills dispatch:
 The methodology docs the skills point to live in `reference/`:
 
 - `protocol-compound-marketing.md` — the north-star vision.
-- `sop-cm-pipeline.md` — stage contracts + the report-at-each-gate discipline.
+- `sop-cm-pipeline.md` — stage order, artifact naming, and the report-at-each-gate discipline.
+- `protocol-cm-stage-contract.md` — the shared per-stage behavioral contract (recall, findings confirmation, quantitative-claim rule, handoff block, decision-time logging).
 - `sop-cm-experiment.md` — experiment design + tracking.
 - `sop-cm-execution-owner-map.md` — the channel→owner map (a fillable template; a Red Pine example mapping is included as an appendix).
 

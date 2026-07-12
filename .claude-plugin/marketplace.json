@@ -5,14 +5,14 @@
     "url": "https://github.com/buntysomroy"
   },
   "metadata": {
-    "description": "Compound Marketing — the marketing twin of Compound Engineering: a staged, report-at-each-gate marketing workflow with approval gates.",
-    "version": "0.1.0",
+    "description": "Compound Marketing \u2014 the marketing twin of Compound Engineering: a staged, report-at-each-gate marketing workflow with approval gates.",
+    "version": "0.2.0",
     "repository": "https://github.com/buntysomroy/compound-marketing"
   },
   "plugins": [
     {
       "name": "compound-marketing",
-      "description": "Staged marketing workflow (audit → analyze → plan → review → execute) with approval gates, plus experiment and compounding-learning skills. The marketing twin of Compound Engineering.",
+      "description": "Staged marketing workflow (audit \u2192 analyze \u2192 plan \u2192 review \u2192 execute) with approval gates, a /cm front-door dispatcher, a shared stage contract, plus experiment, handoff, and compounding-learning skills. The marketing twin of Compound Engineering.",
       "source": "./"
     }
   ]

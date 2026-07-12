@@ -1,6 +1,6 @@
 ---
 name: cm-plan
-description: "Compound Marketing — the PLAN stage (Stage 3). Two input modes: FULL-ACCOUNT (consume a /cm-analyze doc → a sequenced multi-initiative plan) or SINGLE-PROBLEM (a stated problem + cited evidence → a hardened solution+execution doc — the single-problem solution capability). Use when the user says '/cm-plan', 'build the marketing plan', 'turn the insights into a plan', 'sequence the recommendations', 'solution + execution plan for [client]', 'marketing DD', 'fix this one problem for [client]', or after /cm-analyze produces an analysis doc."
+description: "Use when you say '/cm-plan', 'build the marketing plan', 'turn the insights into a plan', 'sequence the recommendations', 'solution + execution plan for <client>', 'marketing DD', 'fix this one problem for <client>', 'what should we do about <problem>', 'marketing plan', or after /cm-analyze produces an analysis doc. Compound Marketing — the PLAN stage (Stage 3). Two input modes: FULL-ACCOUNT (consume a /cm-analyze doc → a sequenced multi-initiative plan) or SINGLE-PROBLEM (a stated problem + cited evidence → a hardened solution+execution doc — the single-problem solution capability)."
 ---
 
 # /cm-plan — Compound Marketing: Plan stage
@@ -8,9 +8,11 @@ description: "Compound Marketing — the PLAN stage (Stage 3). Two input modes: 
 > **Where this sits.**
 > `/cm-audit` (Stage 1) → `/cm-analyze` (Stage 2) → **`/cm-plan` (this)** → `/cm-review` (Stage 4) → `/cm-execute` (Stage 5).
 >
+> **Stage contract (read FIRST, every run):** `reference/protocol-cm-stage-contract.md` — the five contract steps (decisions recall, findings confirmation, quantitative-claim rule, handoff block, decision-time logging) are mandatory for this stage. This skill is the thin driver; do not improvise contract mechanics from memory.
+>
 > Full pipeline reference: `reference/sop-cm-pipeline.md`
 >
-> **Companion:** when a plan action is a **measured test** (incrementality / brand-bid-down, geo holdout, budget-split lift, ad-platform native experiment, creative/LP A/B) rather than a direct change, route it to `/cm-experiment` (`reference/sop-cm-experiment.md`) to design + guardrail + baseline it before it ships.
+> **Companion:** when a plan action is a **measured test** (incrementality / brand-bid-down, geo holdout, budget-split lift, Google Ads native experiment, creative/LP A/B) rather than a direct change, route it to `/cm-experiment` (`reference/sop-cm-experiment.md`) to design + guardrail + baseline it before it ships.
 
 This is the **plan stage** — turn scored insights into a sequenced action plan. The output is a durable plan doc that the review stage (Stage 4) will adversarially probe and the build prep stage (Stage 5) will map to execution surfaces. No execution here. Plan only.
 
@@ -34,7 +36,7 @@ Both modes write a dated artifact, then hand off to `/cm-review` for the adversa
 A client problem/opportunity (from an investigation, a brief, a meeting, or an ad-platform/monitoring finding) becomes a review-hardened recommendation with an execution plan — before anything reaches a client or vendor. Two sub-modes:
 
 - **Create (default):** author a new Solution+Execution artifact, then run the 7-step flow.
-- **Review:** an existing client deliverable (audit, proposal, growth plan) already exists and needs hardening before it ships. Read the whole artifact, then audit it **section by section** through the four lenses with a per-section apply gate. Fix mechanical issues inline; defer numeric-table reconciliation to a clean rebuild.
+- **Review:** an existing client deliverable (audit, proposal, growth plan) already exists and needs hardening before it ships. Read the whole artifact, then audit it **section by section** through the four lenses with a per-section apply gate. Fix mechanical issues inline; defer numeric-table reconciliation to a clean rebuild. Keep your own worked examples of prior audit-review passes in your reference docs so future runs can learn from them (see Appendix for a Red Pine example).
 
 ### The 7-step flow
 
@@ -43,12 +45,12 @@ A client problem/opportunity (from an investigation, a brief, a meeting, or an a
 3. **Draft** the artifact (template below).
 4. **Lens review** — dispatch all 4 lens agents in parallel over the draft (`cm-lens-evidence`, `cm-lens-measurement`, `cm-lens-ownership`, `cm-lens-brand-client`) via `/cm-review`. **Read the drafted artifact and embed its FULL text inline in each agent prompt between `<ARTIFACT>…</ARTIFACT>` markers — never pass only a file path.** A pathless task returns a single `missing` finding, and every real finding must quote a verbatim substring from the inline artifact (the anti-hallucination guard).
 5. **Synthesize + revise** — fold confirmed findings into the artifact. Unresolved findings become "Open questions." Record every lens's verdict in the Lens Review Summary.
-6. **Approval gate** — present inline via `AskUserQuestion` (Approve / Modify). Never skip.
+6. **Approval gate** — present inline via `AskUserQuestion` (Approve / Modify), mirroring your standard plan/build approval gates. Never skip.
 7. **Hand off execution** — the artifact is a PLAN. Route execution to tactical `marketing-skills` (ads, cro, copywriting…) and to `/draft-message` for any client/vendor comms. Do not auto-send anything client-facing.
 
 ### Artifact location + template
 
-**Location:** a doc in your marketing docs store (Google Drive, etc.) in the flat `Compound Marketing` folder, titled `Solution — <Problem/Channel> — <Client Display Name> — <YYYY-MM-DD>` (per `reference/sop-cm-pipeline.md` § Artifact naming convention — Type first, then Channel/Topic, then Client, then ISO date). The read-back and `cm-learnings-researcher` search that flat folder by title.
+**Location:** a Google Doc in the flat `Compound Marketing` Drive folder, titled `Solution — <Problem/Channel> — <Client Display Name> — <YYYY-MM-DD>` (per `sop-cm-pipeline.md` § Artifact naming convention — Type first, then Channel/Topic, then Client, then ISO date). Earlier single-problem docs wrote to a per-client repo subfolder; that repo path is **retired** — the read-back and `cm-learnings-researcher` search the flat Drive folder by title.
 
 ```
 <!-- cm:solution -->
@@ -98,7 +100,7 @@ P0/P1 findings MUST be resolved (revise the doc) or surfaced in Open questions b
 
 - Data integrity: never draft on a number you have not traced to its authoritative source. Flag inferences with "⚠️ INFERENCE".
 - Recommend the root-cause option, not the cheapest patch.
-- Never auto-send client-facing comms — route through `/draft-message`.
+- Never auto-send client-facing comms — route through `/draft-message` (or your own drafting/comms workflow).
 
 ## Step 1 — Read the inputs (full-account mode)
 
@@ -106,9 +108,9 @@ P0/P1 findings MUST be resolved (revise the doc) or surfaced in Open questions b
 
 Read:
 
-1. **The insights doc** — the `<Client> — Analysis — <Channel> — <date>` doc in the flat `Compound Marketing` folder of your marketing docs store (search your marketing docs store — Google Drive, etc.). Read it fully; extract the "What to change" scored table as the primary raw material.
+1. **The insights doc** — the `<Client> — Analysis — <Channel> — <date>` Google Doc in the flat `Compound Marketing` Drive folder (find by searching your marketing docs store — Google Drive, etc.). Read it fully; extract the "What to change" scored table as the primary raw material.
 2. **Prior plan docs** — search the `Compound Marketing` folder for this client's prior `Plan` docs to see what was planned before and the delta. Don't plan what's already in flight.
-3. **Client context** — your client/account folder for owner map, vendor relationships, and execution constraints (e.g., ad-vendor scope, integrations, in-house vs vendor authority).
+3. **Client context** — your client/account folder's context doc for owner map, vendor relationships, and execution constraints (e.g., the ad vendor's scope, platform integration, your vs vendor authority).
 4. **Business context** — any upcoming launches, seasonality, budget cycles, or known constraints from recent meeting notes.
 
 Confirm the **planning horizon**: default 30-day sprint unless context suggests otherwise (a campaign launch, a seasonal peak, a quarterly planning cycle).
@@ -120,11 +122,11 @@ Convert the "What to change" table from the insights doc into a prioritized plan
 1. **Quick wins first** (Very Low / Low effort) — prove momentum, build trust, compound into bigger moves.
 2. **Blockers before dependents** — if Action B requires Action A's output (e.g., LP fix before bid increase), A goes first.
 3. **Risk-ordered for budget-affecting actions** — changes that affect live spend (bid changes, campaign pauses, budget reallocations) sequence AFTER their pre-flights (LP audit, tracking verify).
-4. **Spread the automation ladder** — include at least one fully-automated action (copilot executes without sign-off), one copilot-with-approval action, and one operator-decision action per plan cycle. Avoid all-operator plans (creates bottleneck) and all-automated plans (removes oversight).
+4. **Spread the automation ladder** — include at least one fully-automated action (copilot executes without sign-off), one copilot-with-approval action, and one you-decide action per plan cycle. Avoid all-you plans (creates bottleneck) and all-automated plans (removes oversight).
 
 ## Step 3 — Write the plan doc
 
-**Location:** a doc in the flat `Compound Marketing` folder of your marketing docs store (Google Drive, etc.), titled `Plan — <Channel> — <Client Display Name> — <YYYY-MM-DD>` (create via your docs-store tools / `/format-gdoc`). See `reference/sop-cm-pipeline.md` § Artifact naming convention.
+**Location:** a Google Doc in the flat `Compound Marketing` Drive folder, titled `Plan — <Channel> — <Client Display Name> — <YYYY-MM-DD>` (create via your Drive/docs tools, or `/format-gdoc` if bundled in your workspace). See `reference/sop-cm-pipeline.md` § Artifact naming convention. (Not a per-client repo folder path — the flat Drive folder is canonical.)
 
 **Structure:**
 
@@ -136,7 +138,7 @@ Convert the "What to change" table from the insights doc into a prioritized plan
 - Insights source: [link to Stage 2 analysis doc]
 - Planning horizon: [30 days / specific date range]
 - Success line: [metric + target from insights doc]
-- Owner map: In-house · Copilot (Claude) · Vendor (the ad vendor / other) · Auto
+- Owner map: You · Copilot (Claude) · Vendor (the ad vendor / other) · Auto
 
 ## Bottom line
 
@@ -146,7 +148,7 @@ Convert the "What to change" table from the insights doc into a prioritized plan
 
 | #   | Action | Impact | Effort | Owner              | Surface    | Success signal                | Timing |
 | --- | ------ | ------ | ------ | ------------------ | ---------- | ----------------------------- | ------ |
-| 1   | ...    | High   | Low    | Copilot + approval | Ad platform | ROAS ↑ from X to Y within 14d | Week 1 |
+| 1   | ...    | High   | Low    | Copilot + approval | Ad platform tool | ROAS ↑ from X to Y within 14d | Week 1 |
 | 2   | ...    | ...    | ...    | ...                | ...        | ...                           | ...    |
 
 ## Dependencies + sequencing
@@ -157,7 +159,7 @@ Convert the "What to change" table from the insights doc into a prioritized plan
 
 - Planned spend change: [+/- $X or %]
 - Spend cap: [MAX_SPEND_CHANGE for Stage 5 build plan]
-- Requires owner approval above: [$X threshold]
+- Requires your approval above: [$X threshold]
 
 ## What this plan doesn't address
 
@@ -168,7 +170,7 @@ Convert the "What to change" table from the insights doc into a prioritized plan
 [When to run the next /cm-audit to measure results]
 ```
 
-Show the plan doc path in chat. Render the Action plan table inline so the operator can see the full sequence without opening the file.
+Show the plan doc path in chat. Render the Action plan table inline so the user can see the full sequence without opening the file.
 
 ## Step 4 — Surface the highest-risk action
 
@@ -186,10 +188,4 @@ When this run surfaces a recurring planning pattern (e.g., "we always need a LP 
 
 ## Appendix — Red Pine reference implementation (optional)
 
-This skill was originally authored for the Red Pine Digital workspace. That team's concrete setup, for reference:
-
-- **Docs store / tools:** Google Drive via the Shanti MCP (`shanti_search_drive`, `shanti_read_drive_document`); docs formatted with `/format-gdoc`.
-- **Client context:** `documents/clients/<slug>/CLAUDE.md` per client (owner map, vendor scope, integrations).
-- **Ad-platform data source:** the "Dharma" Google Ads/Meta MCP (`dharma_*`); the SSS-style dashboard Google Sheet read via `shanti_read_spreadsheet`.
-- **Owner map:** Bunty (operator) · Copilot (Claude) · Vendor (WhiteGlovePPC / Affan) · Auto.
-- **Reference SOPs:** `sop-cm-pipeline.md`, `sop-cm-experiment.md`, `sop-cm-execution-owner-map.md`, and the approval gates in `sop-pipeline-approvals.md` (bundled here under `reference/`).
+Red Pine Digital's own deployment of this skill keeps a library of prior "Review" sub-mode passes as worked examples — e.g. `protocols-and-sops/case-seedboy-audit-review.md`, a section-by-section hardening of a pre-existing client audit doc through the four lenses. If your workspace accrues a similar body of past reviews, store them as durable case docs (Red Pine's convention: `case-<slug>.md` in its internal SOP knowledge base) so future single-problem runs can pull precedent instead of starting cold.

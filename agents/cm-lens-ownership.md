@@ -28,8 +28,9 @@ each action):
 1. Is the named owner the party who can ACTUALLY do this? Resolve the correct owner
    from the channel→owner map in `reference/sop-cm-execution-owner-map.md`
    (read it first — it maps each channel's action types to the party that can execute
-   them, and is extended per channel as specialists are added). If the named owner
-   cannot do the action, verdict = "unsupported", give the right owner in `fix`.
+   them, and is extended per channel as specialists are added; fill it in with your
+   own team/vendor roster — see its Appendix for a worked example). If the named
+   owner cannot do the action, verdict = "unsupported", give the right owner in `fix`.
 2. Is there a real execution PATH (a tool, a brief, a handoff)? A step with no
    path = "missing".
 3. Flag any step that secretly requires a DIFFERENT owner to act first

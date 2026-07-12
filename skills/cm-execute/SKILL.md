@@ -1,150 +1,72 @@
 ---
 name: cm-execute
-description: "Compound Marketing — the EXECUTE stage (Stage 5, execution bridge / build-prep). Map every approved plan action to its execution surface (your ad-platform data source / CRM tool / browser automation / a human owner), add spend cap + pre-flight checklist + approval gate, and produce a build plan doc ready for execution. Use when Bunty says '/cm-execute', 'build the execution plan', 'how do we actually do this', 'map the plan to tools', 'ready to execute', or after /cm-review approves the marketing plan."
+description: >-
+  Use when you say '/cm-execute', 'execute the plan', 'run the approved plan', 'build the execution plan', 'how do we actually do this', 'map the plan to tools', 'ready to execute', 'make the changes', 'implement the marketing plan', or after /cm-review approves the marketing plan. Compound Marketing — the EXECUTE stage (Stage 5, marketing→execution bridge). Compiles an approved marketing plan into a gated Execution Manifest, then RUNS it card-by-card against live platforms (your ad-platform tool / CRM-automation tool / browser automation / feed-CMS) with verification-of-effect and receipts.
 ---
 
-# /cm-execute — Compound Marketing: Execute stage (execution bridge / build-prep)
+# /cm-execute — Compound Marketing: Execute stage (Compile → Run)
 
-> **Where this sits.**
-> `/cm-audit` (Stage 1) → `/cm-analyze` (Stage 2) → `/cm-plan` (Stage 3) → `/cm-review` (Stage 4) → **`/cm-execute` (this)**.
+> **Where this sits.** `/cm-audit` → `/cm-analyze` → `/cm-plan` → `/cm-review` → **`/cm-execute` (this)**.
 >
-> Full pipeline reference: `reference/sop-cm-pipeline.md`
+> **Stage contract (read FIRST, every run):** `reference/protocol-cm-stage-contract.md` — the five contract steps (decisions recall, findings confirmation, quantitative-claim rule, handoff block, decision-time logging) are mandatory for this stage. This skill is the thin driver; do not improvise contract mechanics from memory.
 >
-> **Companion:** to actually RUN a plan action as a **measured experiment** under this execution protocol (same spend-cap / revert-trigger / approval / irreversible-op-floor gates), use `/cm-experiment` (`reference/sop-cm-experiment.md`).
+> **Canonical spec (read FIRST, every run):** your channel's marketing-execution protocol doc — the Action Card schema, rung-derivation table, gate bindings, Effect Probe, adapter contract, and artifact formats should all live there. This skill is the thin driver; do not improvise safety mechanics from memory. (Red Pine's own copy: `protocol-marketing-execution.md` — see Appendix.)
+> Pipeline reference: `reference/sop-cm-pipeline.md`. Companion: `/cm-experiment` runs a plan action as a measured experiment on the same machinery (+ success metric + revert trigger).
 
-This is the **execution bridge** — the marketing analogue of the EA Protocol + pre-flight gate. Stage 5 answers "HOW will Claude or a human actually do this?" It does NOT execute anything. It maps the plan to surfaces, adds guardrails, and waits for explicit Bunty approval before execution begins.
+Two phases: **Compile** (plan → validated Action Cards → Execution Manifest → Manifest Gate) and **Run** (per card: baseline → gate(s) → act → read-back → receipt). Compile never executes anything; Run never executes anything ungated.
 
-## Core safety rules (non-negotiable)
+## Core safety rules (non-negotiable — protocol §§2–4, restated for enforcement)
 
-1. **No auto-execution.** Every build plan ends at an `AskUserQuestion` approval gate. Bunty decides; Claude prepares.
-2. **Spend cap is required.** Every build plan must declare `MAX_SPEND_CHANGE`. Any execution action that would exceed it is blocked until Bunty upgrades the cap explicitly.
-3. **Pre-flight before any paid change.** LP audit + tracking verify before any campaign pause, bid change, or budget reallocation — sourced from your channel's audit SOP / account-intelligence doc § LP audit. For non-paid channels: equivalent pre-flight (list health for email, crawl check for SEO).
-4. **Audit trail.** The build plan doc is written and persisted before any execution begins. Every execution references back to it.
-5. **Irreversible-op floor (overrides spend gate).** Pause, delete, budget-zero, and status-flip actions on campaigns, ad groups, or ads are **never `Copilot auto`** — they require individual per-action `AskUserQuestion` approval even when the spend delta is $0. The `APPROVAL_REQUIRED_ABOVE $X` threshold governs budget movements only; structural/irreversible ops are always `Copilot + approval`. No exceptions. **Credential note:** all ad-platform data source calls (your ad-platform data source — Google Ads, Meta, etc.) execute inside the client's authenticated ad-account session brokered by the MCP server — browser-automation actions must run inside an already-authenticated browser window and must never accept, store, or echo raw credentials. If the current session does not have confirmed client-account access, stop and surface as `🔴 BUNTY — ACTION REQUIRED` before proceeding.
+1. **The rung is derived, never declared.** Compute each card's rung from its 3-axis classification via the protocol §2 table. A plan's rung label is advisory input; correct excess downward and flag it in the manifest.
+2. **No auto-execution.** Nothing runs before the Manifest Gate. Fully-auto-eligible cards run unattended only if the client's graduation flag is ON (default OFF — until then they batch into one approval gate). Authorization is session-scoped.
+3. **Floor invariant.** Hard-irreversible, unbounded-money, or client-comms cards require an explicit approval token (define your own convention, e.g. a literal `# APPROVED` marker in the triggering command) + pre-flight. Soft-irreversible or spend-adding cards (pauses, exclusions, restructures, status-flips — even at $0) require pre-flight + per-card approval. No exceptions.
+4. **Spend cap.** The manifest declares `MAX_SPEND_CHANGE` + `APPROVAL_REQUIRED_ABOVE`; any action exceeding either requires your explicit approval regardless of class.
+5. **Effect Probe on every card, every rung.** Baseline before acting (skip if already at `target_state`); read back after (prefer a different modality than the act); verdict CONFIRMED / PENDING(t) / FAILED. **FAILED halts the run** — rollback if safe, surface to the user, never retry blind.
+6. **Credential posture.** All API calls run through MCP-brokered client auth; browser automation acts only inside an already-authenticated client session and never accepts, stores, or echoes raw credentials. Missing access = `🔴 ACTION REQUIRED`, stop.
 
-## Step 1 — Read the approved plan
+## Phase A — Compile
 
-**Required input:** the approved `<Client> — Plan — <Channel> — <date>` Google Doc in the flat `Compound Marketing` Drive folder (search your marketing docs store — Google Drive, etc.), with the Lens Review Summary appended (Stage 4 output).
+1. **Read inputs:** the approved+reviewed plan doc (`<Client> — Plan — <Channel> — <date>` in the flat Compound Marketing Drive folder, with Lens Review Summary appended); your client/account folder's context doc; your automation-ladder / graduation-policy doc, if you have one; the protocol doc above.
+2. **Compile each plan action into an Action Card** (protocol §1 schema): classify (reversibility × money × audience) → derive rung + gate stack (§2) → bind adapter + tool (§5; api / chrome-ui / feed-cms / human) → write `target_state`, `baseline_probe`, `effect_probe` (with expected delta + latency), `rollback`, `pre_flight`. A mixed action splits into multiple cards (mechanical vs generated-content vs vendor-dispatch).
+3. **Validate:** every card has all required fields; no card's rung exceeds its derived max; manifest-level pre-flights pass (surface auth confirmed per adapter; upstream audit freshness — re-verify any tracking/LP audit older than its shelf life).
+4. **Write the Execution Manifest** — `Execution Manifest — <Client> — <Channel> — <YYYY-MM-DD>` Google Doc in the flat Compound Marketing Drive folder (protocol §7 format: card table, spend block, pre-flight results). Render the card table inline in chat.
+5. **Manifest Gate** (AskUserQuestion): **Approve — run** / Modify manifest / Cancel. On Modify/Cancel: execute nothing; update and re-present.
 
-Also read:
+## Phase B — Run
 
-- your client/account folder's execution notes — execution constraints, vendor scope, authority boundaries
-- your channel's audit SOP / account-intelligence doc — for paid search surface details
-- your autonomy-ladder / automation-ladder doc — the autonomy ladder tiers
+6. Execute cards in manifest order, each as `baseline → (skip if ALREADY-CONVERGED) → gate(s) → act → read-back → receipt`:
+   - Copilot-with-approval cards: render baseline evidence + exact change + probe plan + rollback inline, then AskUserQuestion (EA-class cards: include your workspace's approval token, e.g. `# APPROVED`, in the executing command if your gate checks for one). Batch same-shape cards into one gate with a per-item evidence table.
+   - Vendor/human cards: generate the brief with baseline evidence embedded; EA gate on dispatch; Claude still probes the human's change afterward.
+   - Append every receipt to the **Execution Log** doc as it lands (protocol §7) — never batch receipts to the end.
+7. **Anomalies:** FAILED probe → halt, rollback if safe, surface with evidence. PENDING(t) → schedule the re-check; the manifest stays open until all PENDINGs resolve (escalate a missed window). Mid-run discoveries → compile as new cards, append to the manifest, re-gate as a delta — never execute ad hoc.
+8. **Close-out:** render the receipt summary inline (what changed, what's pending, spend delta), link the manifest + log docs, and offer `/cm-compound` if the run surfaced a durable learning.
 
-## Step 2 — Map every action to its execution surface
+## Execution Tracker (R9)
 
-For each action in the approved plan's Action table, determine:
+After the manifest is approved (Phase A, Step 5), create a client-facing **Execution Tracker** doc:
 
-**Surface options:**
+- **Title:** `Execution Tracker — <Plan topic> — <Client> — <YYYY-MM-DD>`
+- **Location:** flat Compound Marketing Drive folder
+- **Format:** plan actions as a checklist with owner (from the channel→owner map in `reference/sop-cm-execution-owner-map.md`), status, and date. This is the client-facing view — no internal scaffolding (no provenance blocks, no handoff blocks, no recall digests — per contract's client-facing stripping rule).
+- **Shared:** with your approval, share via your Drive-sharing tools with the team and client.
+- **Updated:** as cards execute, alongside (not replacing) the internal append-only Execution Log.
 
-| Surface                         | When to use                                                                                            | Auth / tool                                                        |
-| ------------------------------- | ------------------------------------------------------------------------------------------------------ | ----------------------------------------------------------------- |
-| **Ad-platform — search**        | Campaign/ad/bid/budget changes in your search ad platform                                              | your ad-platform data source (Google Ads, etc.); requires ad-account auth |
-| **Ad-platform — social**        | Campaign/ad/budget changes in your social ad platform                                                  | your ad-platform data source (Meta, etc.); requires ad-account auth |
-| **CRM tool**                    | CRM updates, workflow edits, contact management                                                        | your CRM / marketing-automation tool                              |
-| **Email / Calendar**            | Client comms, meeting scheduling                                                                       | your email / calendar tools                                       |
-| **Browser automation**          | Platforms with no API — LinkedIn organic, manual creative ops in social creative hubs, platform UIs    | your browser-automation tool                                      |
-| **Human owner (e.g. Bunty)**    | Strategic calls above threshold: budget reallocation above cap, new campaign launch, pricing decisions | `🔴 BUNTY — ACTION REQUIRED` block                                |
+Read the live tracker doc back via MCP after updates (deliverable-is-the-live-artifact rule).
 
-**For each action, specify:**
+## SOP Capture During Execution (R10)
 
-- The exact tool or method
-- Pre-conditions (auth required, pre-flight, approval)
-- The MCP tool call or Chrome action sequence (enough detail that a follow-up execution session can act without re-planning)
-- Verification step (how we confirm it worked post-execution)
+When a run surfaces a platform quirk, adapter gotcha, probe latency, missing pre-flight item, or recurring authorization pattern — write or update the relevant reference/account-intelligence doc (or Drive Learning doc for marketing-side mechanics) **at discovery time**, not at session wrap. This mirrors the decision-time-logging posture from the contract.
 
-## Step 3 — Build the pre-flight checklist
+Specifically:
 
-For **paid ads actions** — run through this before any campaign change:
-
-- [ ] Landing page(s) for affected campaigns are live and loading
-- [ ] Primary conversion tag fires on the LP (verified via your web analytics (GA4, etc.) debug or platform pixel helper)
-- [ ] No tracking discrepancies above 20% between platform and web analytics for the affected campaigns
-- [ ] Bid strategy is not in a learning phase (if so, note the lockout window)
-- [ ] Negative keywords list is current (no brand terms missing)
-
-For **email actions:**
-
-- [ ] Unsubscribe flow is functional
-- [ ] List health: bounce rate < 2%, spam rate < 0.08%
-- [ ] Test send reviewed (rendering + links)
-
-For **CRM actions:**
-
-- [ ] Workflow has a test contact run completed
-- [ ] No live automations will be disrupted by the change
-
-Add channel-specific items from the relevant SOP.
-
-## Step 4 — Declare the spend cap
-
-Calculate the total budget impact of all paid actions in the plan. Then:
-
-```
-MAX_SPEND_CHANGE: $X (or Y% of weekly budget)
-CURRENT_WEEKLY_SPEND: $X
-PLANNED_CHANGE: +/-$X (+/-Y%)
-APPROVAL_REQUIRED_ABOVE: $X (threshold for explicit Bunty sign-off per action)
-```
-
-Any single action that would move spend by more than `APPROVAL_REQUIRED_ABOVE` is tagged as a Bunty action regardless of its automation-ladder rating.
-
-## Step 5 — Write the build plan doc
-
-**Location:** a Google Doc in the flat `Compound Marketing` Drive folder, titled `Build Plan — <Channel> — <Client Display Name> — <YYYY-MM-DD>` (create in your marketing docs store — Google Drive, etc. / `/format-gdoc`). See `reference/sop-cm-pipeline.md` § Artifact naming convention.
-
-**Structure:**
-
-```markdown
-# <Client> — <Channel> Build Plan — <YYYY-MM-DD>
-
-## Source
-
-- Approved plan: [link to Stage 3/4 plan doc]
-- Approved by: [date + any notes from approval gate]
-
-## Spend cap
-
-- MAX_SPEND_CHANGE: $X
-- Approval threshold per action: $X
-- Current weekly spend: $X
-
-## Pre-flight checklist
-
-[Channel-specific pre-flight from Step 3]
-
-## Execution sequence
-
-| #   | Action                         | Surface              | Tool / Method                                             | Pre-condition       | Verification                              | Owner              |
-| --- | ------------------------------ | -------------------- | -------------------------------------------------------- | ------------------- | ----------------------------------------- | ------------------ |
-| 1   | Increase max CPC on [campaign] | Ad-platform — search | update campaign bid (campaign_id=X, max_cpc=Y)           | LP live + tag fires | Check platform CPC + impressions next day | Copilot + approval |
-| 2   | Pause [underperforming ad]     | Ad-platform — search | update ad status (ad_id=X, status=PAUSED)                | Pre-flight complete | Confirm status in platform                | Copilot + approval |
-| ... | ...                            | ...                  | ...                                                      | ...                 | ...                                       | ...                |
-
-## Bunty actions required
-
-[Actions tagged as Bunty in the execution sequence, with the exact steps]
-
-## Execution notes
-
-[Any sequencing constraints, timing windows, platform considerations]
-```
-
-Show the doc path in chat. Render the Execution sequence table inline.
-
-## Step 6 — Approval gate (non-negotiable)
-
-After showing the build plan, present `AskUserQuestion`:
-
-- **Approve — begin execution** (Copilot will run the Copilot-auto and Copilot+approval actions in sequence; Bunty action items will be surfaced as required)
-- **Modify the build plan** — adjust scope, surface, or spend cap before starting
-- **Cancel** — do not execute; return to planning
-
-On Approve: begin the Copilot-auto actions immediately — **excluding any pause, delete, budget-zero, or status-flip ops, which are always `Copilot + approval` regardless of how they are labeled in the plan (safety rule 5).** Surface each Copilot+approval action as a separate `AskUserQuestion` before executing. Tag Bunty actions as `🔴 BUNTY — ACTION REQUIRED` blocks.
-
-On Cancel or Modify: do NOT execute anything. Update the build plan doc and re-present.
+- **Protocol updates:** your marketing-execution protocol doc (adapter notes, pre-flight lists) — update before finishing the run.
+- **Marketing-side mechanics:** append to the relevant `Learning —` doc via `/cm-compound` path.
+- **Skill updates:** update this skill's own SKILL.md only when the flow itself changes.
 
 ## Self-update directive
 
-When this run surfaces a new execution surface, a missing pre-flight step, or a recurring authorization pattern — update this file before finishing.
+When a run surfaces a new adapter gotcha, a probe latency, a missing pre-flight item, or a recurring authorization pattern — update your marketing-execution protocol doc (adapter notes / pre-flight lists) before finishing. Update this file only when the flow itself changes.
+
+## Appendix — Red Pine reference implementation (optional)
+
+Red Pine Digital's own deployment binds this skill to `protocols-and-sops/protocol-marketing-execution.md` (the full Action Card schema, rung-derivation table, gate bindings, Effect Probe, and adapter contract), `documents/clients/<slug>/CLAUDE.md` for per-client execution constraints, and `protocols-and-sops/protocol-automation-ladder.md` for the graduation-flag policy (which clients/actions are cleared for unattended execution). Its approval token is the literal string `# BUNTY-APPROVED`, checked by a pre-commit-style hook on the executing command; its EA (Executive Assistant) posture assumes a single named human approver. Adapt these to your own repo layout and approval mechanism — the schema and safety rules are what matter, not the file names.

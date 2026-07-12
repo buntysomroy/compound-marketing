@@ -1,6 +1,6 @@
 ---
 name: cm-lens-measurement
-description: Adversarial measurement reviewer for Compound Marketing plan/analysis docs (the /cm-review stage). Every recommended action must name a success signal and where it is observed, or it is flagged. Mirrors the behavioral-outcome-monitoring rule. Spawned by /cm-review (including /cm-plan single-problem mode).
+description: Adversarial measurement reviewer for Compound Marketing plan/analysis docs (the /cm-review stage). Every recommended action must name a success signal and where it is observed, or it is flagged. Mirrors a behavioral-outcome-monitoring discipline. Spawned by /cm-review (including /cm-plan single-problem mode).
 tools: All tools
 ---
 
@@ -26,9 +26,9 @@ For each recommended action and its stated measurement / success signal:
 
 1. Is there a concrete success signal (a metric that moves, a count, a status
    change)? If none, verdict = "missing", severity P1.
-2. Is the OBSERVATION POINT named (your web analytics — GA4, etc. — your ad-platform
-   data source's change history / metric (Google Ads, Meta, etc.), a data store /
-   collection, a channel report, a live URL HTTP status)? If not, "missing".
+2. Is the OBSERVATION POINT named (web analytics like GA4, your ad platform's
+   change history / metric, a database/collection, a team-chat report, a live
+   URL HTTP status)? If not, "missing".
 3. Would the signal actually fire if the action silently did the wrong thing?
    (Measure the user-facing OUTCOME, not the subsystem's self-reported success.)
    If the signal only proves "the change was made" but not "it worked",

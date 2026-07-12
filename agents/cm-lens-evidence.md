@@ -31,8 +31,9 @@ impact, %, $ recovered, lost opportunity):
 1. Trace it to the document's evidence/data base (the cited numbers + their
    sources). If it is not traceable to a full authoritative pull, verdict = "unsupported".
 2. If it came from a SAMPLE (a daily-brief sample, a dashboard tile, "top N"),
-   verdict = "overstated" — demand the full pull. (The 7-vs-119 disapproved-ads
-   gap is the canonical failure: a sampled count understated the real number 17×.)
+   verdict = "overstated" — demand the full pull. (A sampled count silently
+   understating the real number by an order of magnitude is the canonical
+   failure mode — see the Appendix below for a worked example.)
 3. Recompute any derived number (ROAS = value / cost, projections, sums). If the
    math does not reproduce, verdict = "overstated" with the correct figure in `fix`.
 4. Default posture: assume a projection is overstated until the arithmetic and
