@@ -1,6 +1,6 @@
 ---
 name: cm-analyze
-description: "Compound Marketing — the ANALYZE stage (Stage 2). Turn a marketing data set / account / channel into a small set of high-confidence, scored strategic insights (what's working, what's not, what to change, why), written to a deliverable doc. Sits after /cm-audit (Stage 1) and before /cm-plan (Stage 3) + /cm-review (Stage 4). Use when the user says '/cm-analyze', 'strategic insights', 'what's working/not', 'analyze the <channel/account> data', 'what should we change', or after an audit/data refresh. Reads the data first — never analyzes from generic knowledge."
+description: "Compound Marketing — the ANALYZE stage (Stage 2). Turn a marketing data set / account / channel into a small set of high-confidence, scored strategic insights (what's working, what's not, what to change, why), written to a deliverable doc. Sits after /cm-audit (Stage 1) and before /cm-plan (Stage 3) + /cm-review (Stage 4). Use when the user says '/cm-analyze', 'strategic insights', 'what's working/not', 'analyze the [channel/account] data', 'what should we change', or after an audit/data refresh. Reads the data first — never analyzes from generic knowledge."
 ---
 
 # /cm-analyze — Compound Marketing: Analyze stage
