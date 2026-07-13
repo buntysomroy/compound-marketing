@@ -1,6 +1,17 @@
 # Claude Code Cloud Setup Script Guide
 
-This guide explains how to create a portable setup script that works in both local and cloud environments. **Based on real-world testing in Claude Code cloud sessions.**
+**This guide is specifically for Claude Code on the web (https://claude.ai/code).** It explains how to configure setup scripts that run when you start a new cloud session in Claude Code's managed cloud environment. Not applicable to local CLI or other tools.
+
+Based on real-world testing in Claude Code cloud sessions.
+
+## Where to Configure (Claude Code on Web)
+
+In Claude Code on the web at https://claude.ai/code:
+
+1. Click the cloud icon showing your environment name (top right area)
+2. Select **Add environment** or edit an existing one
+3. Find the **Setup script** field (at the bottom of the dialog)
+4. Enter your bash command or reference your setup script file
 
 ## Quick Start
 
@@ -12,7 +23,7 @@ apt update && apt install -y gh && docker compose pull || true
 
 **For a reusable file-based script:**
 1. Create `scripts/web-setup.sh` with your setup logic
-2. In Claude Code environment settings, use: `bash scripts/web-setup.sh`
+2. In Claude Code environment's **Setup script** field, use: `bash scripts/web-setup.sh`
 3. See templates below for examples
 
 ## Overview
@@ -110,11 +121,11 @@ CLAUDE_CODE_REMOTE=true bash scripts/web-setup.sh
 CLAUDE_CODE_REMOTE=false bash scripts/web-setup.sh
 ```
 
-## Configuration in Claude Code
+## Configuration in Claude Code on the Web
 
-You have two approaches for configuring the setup script. Choose based on your needs:
+You have two approaches for configuring the setup script in Claude Code's cloud environment. Choose based on your needs:
 
-### Approach 1: Inline Script (Recommended for Cloud)
+### Approach 1: Inline Script (Recommended for Claude Code Cloud)
 Put your bash commands **directly** in the Claude Code environment's **Setup script** field:
 
 ```bash
