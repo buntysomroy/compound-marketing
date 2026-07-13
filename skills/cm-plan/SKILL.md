@@ -182,6 +182,10 @@ After rendering the plan table, call out the single action most likely to fail r
 
 Offer to proceed to `/cm-review` (Stage 4) to adversarially probe the plan before committing to execution. Always recommend running the review before Stage 5 — the lenses exist to catch things the planner misses.
 
+## Close — session-wrap offer (R10)
+
+If this session settled a durable marketing decision, produced a CM artifact the user reworked before approving, or surfaced a methodology learning worth carrying forward, offer `/cm-session-review` as the wrap step: "This session settled something worth capturing — run `/cm-session-review` to mine the learnings and close the CM loop."
+
 ## Self-update directive
 
 When this run surfaces a recurring planning pattern (e.g., "we always need a LP pre-flight before bid changes"), a missing owner category, or a plan structure improvement — update this file or propose the improvement before finishing.

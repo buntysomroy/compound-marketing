@@ -78,6 +78,10 @@ Offer to save the handoff block as a file (e.g., `handoff-<client>-<date>.md` in
 - **Invoked mid-stage** — gather what the stage has produced so far (partial findings, draft artifacts) and emit the handoff block with a note that the stage is incomplete. The next session can resume from the handoff block.
 - **Multiple clients in session** — emit one handoff block per client, or ask the user which client to hand off.
 
+## Close — session-wrap offer (R10)
+
+If this session settled a durable marketing decision, produced a CM artifact the user reworked before approving, or surfaced a methodology learning worth carrying forward, offer `/cm-session-review` as the wrap step: "This session settled something worth capturing — run `/cm-session-review` to mine the learnings and close the CM loop."
+
 ## Self-Update Directive
 
 If a handoff block is pasted into a fresh session and the next session re-derives state instead of resuming from the block, the block's "Carried-over context" or "Don't repeat" fields were insufficient. Tighten the field guidance to make the transferable context explicit.

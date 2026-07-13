@@ -96,6 +96,10 @@ Write the `<!-- cm:solution -->` doc (template below). Render the verified findi
 ## Lens Review Summary
 ```
 
+## Close — session-wrap offer (R10)
+
+If this session settled a durable marketing decision, produced a CM artifact the user reworked before approving, or surfaced a methodology learning worth carrying forward, offer `/cm-session-review` as the wrap step: "This session settled something worth capturing — run `/cm-session-review` to mine the learnings and close the CM loop."
+
 ## Self-update directive
 
 When a run surfaces a recurring tracking failure mode (Shopify checkout-pixel vs theme-dataLayer double-fire, GA4-import-over-gtag double count, multi-stream GA4, a new platform's capture quirk) or a better verification step, update this file or propose the improvement before finishing.

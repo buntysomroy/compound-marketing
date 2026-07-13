@@ -65,6 +65,7 @@ Use the intent→stage table to recommend ONE entry stage with a one-line reason
 | "Tracking is broken / conversions look off"                         | `/cm-analytics-audit` (diagnostic)    |
 | "Test this before we roll it out" / plan action is a measured test  | `/cm-experiment` (companion)          |
 | "Capture this learning / mark this decision"                        | `/cm-compound` (no dispatcher needed) |
+| "Wrap the marketing session / what did we learn"                    | `/cm-session-review` (session-wrap trigger) |
 
 **Never route silently on a coin-flip.** If the intent is ambiguous between two stages, ask one outcome-framed question (e.g., "Do you want to understand what's happening first (audit), or do you already have data and want to know what to change (analyze)?"). Then recommend.
 

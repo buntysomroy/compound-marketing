@@ -36,6 +36,10 @@ Run an experiment when the action is **reversible-but-uncertain and the downside
 
 A durable Experiment doc (never just a chat answer), design table rendered inline for approval, and — on conclusion — a Results block + a one-line reusable pattern for `/cm-compound`.
 
+## Close — session-wrap offer (R10)
+
+If this session settled a durable marketing decision, produced a CM artifact the user reworked before approving, or surfaced a methodology learning worth carrying forward, offer `/cm-session-review` as the wrap step: "This session settled something worth capturing — run `/cm-session-review` to mine the learnings and close the CM loop."
+
 ## Self-update directive
 
 When a run surfaces a new experiment type, a measurement-source gotcha, a guardrail pattern, or a better doc structure — update `reference/sop-cm-experiment.md` (the heavy detail) or this file before finishing. The experiment practice compounds: each run sharpens the method.

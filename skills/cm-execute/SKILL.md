@@ -63,6 +63,10 @@ Specifically:
 - **Marketing-side mechanics:** append to the relevant `Learning —` doc via `/cm-compound` path.
 - **Skill updates:** update this skill's own SKILL.md only when the flow itself changes.
 
+## Close — session-wrap offer (R10)
+
+If this session settled a durable marketing decision, produced a CM artifact the user reworked before approving, or surfaced a methodology learning worth carrying forward, offer `/cm-session-review` as the wrap step: "This session settled something worth capturing — run `/cm-session-review` to mine the learnings and close the CM loop."
+
 ## Self-update directive
 
 When a run surfaces a new adapter gotcha, a probe latency, a missing pre-flight item, or a recurring authorization pattern — update your marketing-execution protocol doc (adapter notes / pre-flight lists) before finishing. Update this file only when the flow itself changes.
