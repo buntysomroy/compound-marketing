@@ -1,0 +1,11 @@
+"$schema" = "https://conductor.build/schemas/settings.repo.schema.json"
+
+[scripts]
+# No package.json / build step in this repo (plugin/skills bundle) — refresh
+# only rebases onto main. See scripts/workspace-refresh.sh.
+setup = "bash scripts/workspace-refresh.sh 2>/dev/null || true"
+auto_run_after_setup = true
+
+[scripts.run.refresh]
+command = "bash scripts/workspace-refresh.sh 2>/dev/null || true"
+default = true
