@@ -90,6 +90,12 @@ It is a local Drive-mount file, so update it with a direct filesystem write (not
 - **Trigger:** your session-wrap / learning-capture routine (the marketing analog of an engineering "capture a solved problem" step) should offer `/cm-compound` when a session produced a marketing decision/learning. Also invoke directly, or at the end of a `/cm-plan` that settled something durable.
 - **Distinct from an autonomous-copilot learning extractor, if your workspace has one:** that kind of skill would extract _playbook/guardrail_ patterns into code for an autonomous copilot. `/cm-compound` captures _client-strategy + methodology_ learnings into Drive for human + `/cm-*` recall — a different consumer. Run both when both apply.
 
+## Close — session-wrap offer (R10)
+
+If this session settled a durable marketing decision, produced a CM artifact the user reworked before approving, or surfaced a methodology learning worth carrying forward, offer `/cm-session-review` as the wrap step: "This session settled something worth capturing — run `/cm-session-review` to mine the learnings and close the CM loop."
+
+**Suppress this offer when `/cm-compound` was invoked by `/cm-session-review`** (i.e. running as the wrap's Step 4 capture sub-step, not standalone) — the wrap is already in progress, so re-offering it is redundant.
+
 ## Self-update directive
 
 When a capture surfaces a better doc structure, a Drive-folder convention change, or a new learning type, update this file before finishing.

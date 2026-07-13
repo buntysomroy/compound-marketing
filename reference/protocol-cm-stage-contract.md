@@ -8,7 +8,7 @@
 
 ## Scope
 
-This contract applies to every cm-\* stage skill: `/cm-audit`, `/cm-analyze`, `/cm-plan`, `/cm-review`, `/cm-execute`, `/cm-experiment`, `/cm-compound`, `/cm-analytics-audit`. The front-door dispatcher (`/cm`) and the standalone handoff skill (`/cm-handoff`) bind via their own Step 0, which loads this contract and runs its recall step once before routing.
+This contract applies to every cm-\* stage skill: `/cm-audit`, `/cm-analyze`, `/cm-plan`, `/cm-review`, `/cm-execute`, `/cm-experiment`, `/cm-compound`, `/cm-analytics-audit`. The front-door dispatcher (`/cm`) and the standalone handoff skill (`/cm-handoff`) bind via their own Step 0, which loads this contract and runs its recall step once before routing. The session-wrap trigger (`/cm-session-review`) references this contract but is not itself a pipeline stage (it does not produce a Drive artifact; it invokes `/cm-compound` for the actual write).
 
 **Legitimate bypass.** A stage may skip a contract step only when the step's own bypass note permits it. No other reason qualifies. If a step cannot fire (tool unavailable, data missing), the stage surfaces the failure loudly and carries the gap in its handoff block — it does not silently skip.
 
@@ -183,7 +183,7 @@ The one deliberately client-facing artifact is the **Execution Tracker** (produc
 This doc reads standalone. A skill author can implement a compliant stage from it without reading any cm-\* skill. The contract's enforcement is layered:
 
 1. **L1 — Blocking-and-visible instructions** in this doc (every skill loads it).
-2. **L2 — Mechanical injection (optional, environment-dependent)** — if your environment supports pre-tool hooks, one can inject a recall reminder automatically before the skill loads (coverage would extend to all ten cm-\* skills); otherwise the skill's own Step 1 satisfies this layer manually.
+2. **L2 — Mechanical injection (optional, environment-dependent)** — if your environment supports pre-tool hooks, one can inject a recall reminder automatically before the skill loads (coverage would extend to all eleven cm-\* skills); otherwise the skill's own Step 1 satisfies this layer manually.
 3. **L3 — Machine-checkable provenance shape** (the findings block's fixed shape is cross-checked by `/cm-review`'s evidence lens during adversarial review).
 
 No runtime hard block mid-run: the gated property is judgment, and a hard block would false-fire on legitimately-unverified hypothesis-stage claims.

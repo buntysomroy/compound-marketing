@@ -103,6 +103,10 @@ Show the doc path in chat. Render the "What the data shows" summary inline (top 
 
 Offer to proceed to `/cm-analyze` (Stage 2) with the audit doc as input. Surface any blockers (missing data, access gaps) that the insight stage should know about.
 
+## Close — session-wrap offer (R10)
+
+If this session settled a durable marketing decision, produced a CM artifact the user reworked before approving, or surfaced a methodology learning worth carrying forward, offer `/cm-session-review` as the wrap step: "This session settled something worth capturing — run `/cm-session-review` to mine the learnings and close the CM loop."
+
 ## Self-update directive
 
 When this run surfaces a new data source, a SOP gap, or a client context file that should exist but doesn't — note it in the audit doc under Gaps and surface it as a Spotted Improvement for you to act on.

@@ -83,6 +83,10 @@ Present the synthesis inline. Then:
 
 Never proceed to Stage 5 without an explicit Approve response.
 
+## Close — session-wrap offer (R10)
+
+If this session settled a durable marketing decision, produced a CM artifact the user reworked before approving, or surfaced a methodology learning worth carrying forward, offer `/cm-session-review` as the wrap step: "This session settled something worth capturing — run `/cm-session-review` to mine the learnings and close the CM loop."
+
 ## Self-update directive
 
 When this run catches a finding class the lenses missed (e.g., a spend-cap miscalculation, a missing pre-flight step), note it here as a future lens improvement. The review stage compounds: each run improves the review criteria.

@@ -65,6 +65,10 @@ Confirm the doc path in chat and render the bottom line + the "what to change" t
 
 The doc is the input to `/cm-plan`. Surface the single highest-leverage recommendation as the suggested next move, and offer to proceed to the plan stage.
 
+## Close — session-wrap offer (R10)
+
+If this session settled a durable marketing decision, produced a CM artifact the user reworked before approving, or surfaced a methodology learning worth carrying forward, offer `/cm-session-review` as the wrap step: "This session settled something worth capturing — run `/cm-session-review` to mine the learnings and close the CM loop."
+
 ## Self-update directive
 
 Compound Marketing compounds: when this run surfaces a reusable framework, a new channel specialist worth building, or a scoring rubric tweak, update this file (or propose the new specialist agent) before finishing — don't let the learning evaporate. As `/cm-audit`, `/cm-plan`, `/cm-review`, and `/cm-execute` come online, keep the hand-off pointers here accurate.

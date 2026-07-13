@@ -93,7 +93,7 @@ The flat **`Compound Marketing`** Drive folder IS the compounding memory. Every 
 - Stage 4 reads: the Stage 2 analysis doc + Stage 3 plan doc
 - Stage 5 reads: the approved Stage 3/4 plan doc
 
-The `cm-learnings-researcher` agent does the structured recall of past insights and winning angles across cycles, keyed to channel + client — ideally auto-dispatched before every `/cm-*` run by an environment hook; otherwise dispatch it manually before the stage work. Its write-side counterpart is `/cm-compound`. This is the marketing mirror of an engineering compound-learnings loop (write insights forward, recall them automatically on the next relevant run).
+The `cm-learnings-researcher` agent does the structured recall of past insights and winning angles across cycles, keyed to channel + client — ideally auto-dispatched before every `/cm-*` run by an environment hook; otherwise dispatch it manually before the stage work. Its write-side counterpart is `/cm-compound`. The trigger half is `/cm-session-review` — the session-wrap stage that mines the session for marketing learnings and routes them through `/cm-compound`. This is the marketing mirror of an engineering compound-learnings loop (write insights forward, recall them automatically on the next relevant run).
 
 ---
 
@@ -106,6 +106,7 @@ The `cm-learnings-researcher` agent does the structured recall of past insights 
 | `/cm-experiment`               | CM companion play for running a **measured marketing/PPC experiment** (incrementality / brand-bid-down, geo holdout, budget-split lift, Google Ads native experiment, creative/LP A/B) before or instead of a direct change (`reference/sop-cm-experiment.md`). Invoked from `/cm-plan` (an action is a test) or `/cm-execute` (run it under your marketing execution protocol). Reuses standard A/B-test statistical rigor; FEEDS `/cm-compound`. Not a numbered stage. |
 | Single-problem mode            | The reactive "one problem + evidence → hardened solution+execution" capability lives in `/cm-plan` single-problem mode + `/cm-review` (the locked full-merge). One pipeline, not two.                                                                                                                                                                                                  |
 | `cm-lens-*` agents             | The 4 `/cm-review` lenses (evidence, measurement, ownership, brand/client), channel-agnostic (ownership reads `reference/sop-cm-execution-owner-map.md`).                                                                                                                                                                                                                                                                                                             |
+| `/cm-session-review`           | The session-wrap trigger half of the CM compound loop. Mines the session for marketing learnings, routes them through `/cm-compound`, runs a produced-vs-actioned effectiveness pass, and notices due success signals from prior Learning docs. Invoked at wrap or via close-offer from any `/cm-*` pipeline skill.                                                                                             |
 | Your ad-platform MCP/data source | CM's paid-ads execution backend (e.g. a Google Ads / Meta Ads MCP). Stage 5 build plan names the specific tools for each paid action.                                                                                                                                                                                                                                                                                                                   |
 | CRM / email-platform tooling    | Stage 5 execution surface for CRM, email platform, and contact management actions.                                                                                                                                                                                                                                                                                                                                                                          |
 | Browser automation              | Stage 5 execution surface for platforms with no API (organic social, ad-platform creative-hub manual actions).                                                                                                                                                                                                                                                                                                                                   |
@@ -147,6 +148,7 @@ Stage 5 (`/cm-execute`) runs under your **marketing execution protocol** — a c
 | "Tracking is broken / conversions look off"   | `/cm` → `/cm-analytics-audit` (diagnostic) |
 | "Test this before we roll it out"             | `/cm` → `/cm-experiment` (companion)       |
 | "Capture this learning / mark this decision"  | `/cm-compound` (no dispatcher needed)      |
+| "Wrap the marketing session / what did we learn" | `/cm-session-review` (session-wrap trigger) |
 
 ## Running a full pipeline cycle
 
@@ -169,13 +171,13 @@ Every stage (including `/cm-audit`, `/cm-analytics-audit`, and `/cm-experiment`)
 4. **Handoff block** — emit inline after artifact write (What & why / Carried-over context / Don't-repeat / First step).
 5. **Decision-time logging** — append decisions to the per-engagement `Learning — Decisions — <Client>` Drive doc at the moment they're made.
 
-This contract is the cross-cutting requirement for all ten cm-\* skills. Read it before any stage run.
+This contract is the cross-cutting requirement for all eleven cm-\* skills. Read it before any stage run.
 
 ---
 
 ## What this plugin ships
 
-This plugin packages the 5-stage `/cm-*` pipeline described above, its front-door `/cm` dispatcher, the `cm-lens-*` review agents, `cm-learnings-researcher`, and this reference doc set (`reference/`). Install it, point it at your own Drive (or equivalent docs store) and ad-platform MCP, and the pipeline runs against your accounts. Agents and skills are updated independently by the plugin maintainer as the pipeline evolves.
+This plugin packages the 5-stage `/cm-*` pipeline described above, its front-door `/cm` dispatcher, the `cm-lens-*` review agents, `cm-learnings-researcher` (the recall half of the compound loop), `/cm-compound` (the write half), `/cm-session-review` (the trigger half — the session-wrap stage that mines learnings and routes them through `/cm-compound`), and this reference doc set (`reference/`). Install it, point it at your own Drive (or equivalent docs store) and ad-platform MCP, and the pipeline runs against your accounts. Agents and skills are updated independently by the plugin maintainer as the pipeline evolves.
 
 ---
 
