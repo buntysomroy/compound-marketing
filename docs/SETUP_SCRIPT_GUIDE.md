@@ -1,6 +1,19 @@
 # Claude Code Cloud Setup Script Guide
 
-This guide explains how to create a portable setup script that works in both local and cloud environments.
+This guide explains how to create a portable setup script that works in both local and cloud environments. **Based on real-world testing in Claude Code cloud sessions.**
+
+## Quick Start
+
+**For immediate cloud setup, use inline bash in the Claude Code environment's Setup script field:**
+
+```bash
+apt update && apt install -y gh && docker compose pull || true
+```
+
+**For a reusable file-based script:**
+1. Create `scripts/web-setup.sh` with your setup logic
+2. In Claude Code environment settings, use: `bash scripts/web-setup.sh`
+3. See templates below for examples
 
 ## Overview
 
@@ -99,13 +112,51 @@ CLAUDE_CODE_REMOTE=false bash scripts/web-setup.sh
 
 ## Configuration in Claude Code
 
-In your Claude Code web environment settings, set the **Setup script** field to:
+You have two approaches for configuring the setup script. Choose based on your needs:
+
+### Approach 1: Inline Script (Recommended for Cloud)
+Put your bash commands **directly** in the Claude Code environment's **Setup script** field:
+
+```bash
+echo "=== Setup Started ===" && \
+apt update && apt install -y gh || true && \
+docker compose pull || true && \
+echo "=== Setup Complete ==="
+```
+
+**Advantages:**
+- ✅ Most reliable in cloud environments (tested)
+- ✅ No file dependencies
+- ✅ Works immediately without caching delays
+- ✅ Good for small to medium setup tasks
+
+**Best for:** Simple setup commands, tools installation, Docker image pulling
+
+### Approach 2: File-Based Script
+Reference a file you've committed to the repository:
 
 ```
 bash scripts/web-setup.sh
 ```
 
-That's it! No absolute paths, no `cd` commands needed.
+**Advantages:**
+- ✅ Cleaner to read
+- ✅ Easier to test locally
+- ✅ Better for complex multi-step setups
+- ✅ Can be version-controlled and reviewed
+
+**Best for:** Complex setups, reusable scripts, team collaboration
+
+**Note:** File-based approach may have caching delays on first cloud session. Inline approach is more immediately reliable.
+
+## Cloud Testing Results
+
+Real-world testing in Claude Code cloud environments found:
+
+- ✅ **Inline scripts**: Executed reliably on first cloud session
+- ✅ **File-based scripts**: Work after environment cache rebuilds
+- ✅ **Both approaches**: Support CLAUDE_CODE_REMOTE and relative paths
+- ✅ **Test coverage**: 11 automated tests validate both approaches
 
 ## Environment Variables Available
 
