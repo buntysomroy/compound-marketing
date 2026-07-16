@@ -27,6 +27,7 @@ Plus supporting skills:
 - `/cm-analytics-audit` — deep analytics/measurement audit (web analytics + ad-platform data quality).
 - `/cm-handoff` — generate a session-close handoff prompt pointing at a real artifact (not the closing session's own proposed solution), for a fresh session to resume from.
 - `/cm-sound-like-me` — voice gate: match any outward email/Slack message to your workspace voice profile (read from your `Compound Marketing` Drive folder) before it's shown or sent. Draft-only, never sends.
+- `/cm-build-voice` — set up or update the voice profile `/cm-sound-like-me` reads: samples your writing (existing profile, pasted samples, or a connected source), interviews for hard rules, and writes the profile to your `Compound Marketing` Drive folder.
 
 ## Stage contract
 
