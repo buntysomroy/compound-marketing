@@ -41,6 +41,7 @@ Rules are the non-negotiables the gate enforces. Confirm each with the user (sho
 - **Emoji** — none / occasional / free.
 - **Register by audience** — DM vs public channel vs external; how formal each gets.
 - **Strategic-message mode** — should the gate, on a thinking/brainstorm message, surface the thesis + keep evidence + invite critique rather than compress to logistics? On/off toggle.
+- **Signature phrases** — the vocabulary, recurring phrases, and real hedges they actually use (pull these from the samples too). These are what the gate should PRESERVE and reach for, not just what to avoid.
 
 ## Step 4 — Synthesize the profile
 
@@ -57,10 +58,7 @@ Write this structure to `Compound Marketing/voice/voice-profile.md` (plain markd
 <a paragraph describing how this person writes: sentence length, rhythm, tone, greetings/sign-offs, delay-acknowledgement style>
 
 ## Hard rules
-- <the absolute rules from the interview>
-
-## Absolutely banned
-- <e.g. em dashes, en dashes>
+- <the rules from the interview, including absolute character bans like em/en dashes - keep them all in this one list, do not split into a separate "banned" section>
 
 ## Avoided language
 - <filler phrases, buzzwords>
@@ -78,6 +76,9 @@ Write this structure to `Compound Marketing/voice/voice-profile.md` (plain markd
 ## Toggles
 - strategic-message-mode: on | off
 - owner-self-channel: <a channel/DM id that skips the gate, or "none">
+
+## Signature phrases
+- <characteristic vocabulary, recurring phrases, and real hedges the person uses - to preserve and reach for, not strip>
 
 ## Examples
 - <2-4 real before/after or golden snippets>

@@ -31,7 +31,7 @@ Only once the content is verified true (to the level the message needs) do you r
 
 ### 2. Load the profile
 
-Read the Drive `voice-profile.md` resolved above. It carries: a prose voice description, hard rules / absolute bans, avoided language, good/bad anti-pattern pairs, register-by-audience, and any per-profile toggles (e.g. strategic-message mode). Load it every time — do not draft from memory of the voice.
+Read the Drive `voice-profile.md` resolved above. It carries: a prose voice description, hard rules (including absolute bans like em/en dashes), avoided language, good/bad anti-pattern pairs, register-by-audience, **signature phrases** (the vocabulary and hedges to reach for), and any per-profile toggles (e.g. strategic-message mode). Load it every time — do not draft from memory of the voice.
 
 ### 3. Draft against the rules
 
@@ -45,6 +45,8 @@ Write the message, then check it against the profile's hard rules. Apply exactly
 - No bold in casual/DM messages (bold section labels only in longer structured messages).
 - End on the substance, not a trailing offer to do more.
 - Register match: casual for DMs, clean and plain for public channels.
+
+Then reach for the profile's **signature phrases** where they fit naturally — the voice is not just the absence of anti-patterns, it is the presence of the person's real vocabulary and hedges. Don't force them; don't strip them when they belong.
 
 ### 4. Strategic / thinking-message mode (if the profile enables it)
 
