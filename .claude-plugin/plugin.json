@@ -1,6 +1,6 @@
 {
   "name": "compound-marketing",
-  "version": "0.3.0",
+  "version": "0.4.0",
   "description": "Compound Marketing — a staged, report-at-each-gate marketing workflow (audit → analyze → plan → review → execute) with an approval gate between stages, a /cm front-door dispatcher, a shared stage contract (recall/findings-confirmation/handoff/decision-logging), plus experiment, handoff, compounding-learning, and session-wrap-trigger skills. The CM compound loop: cm-learnings-researcher (recall) + cm-compound (write) + cm-session-review (trigger). Marketing adaptation of Compound Engineering.",
   "author": {
     "name": "Bunty Somroy / Red Pine Digital",

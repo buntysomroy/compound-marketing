@@ -26,6 +26,7 @@ Plus supporting skills:
 - `/cm-compound` — capture a solved marketing problem or durable decision so the next run inherits it.
 - `/cm-analytics-audit` — deep analytics/measurement audit (web analytics + ad-platform data quality).
 - `/cm-handoff` — generate a session-close handoff prompt pointing at a real artifact (not the closing session's own proposed solution), for a fresh session to resume from.
+- `/cm-sound-like-me` — voice gate: match any outward email/Slack message to your workspace voice profile (read from your `Compound Marketing` Drive folder) before it's shown or sent. Draft-only, never sends.
 
 ## Stage contract
 
