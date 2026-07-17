@@ -6,8 +6,7 @@
   },
   "metadata": {
     "description": "Compound Marketing \u2014 the marketing twin of Compound Engineering: a staged, report-at-each-gate marketing workflow with approval gates.",
-    "version": "0.5.0",
-    "repository": "https://github.com/buntysomroy/compound-marketing"
+    "version": "0.6.0"
   },
   "plugins": [
     {
