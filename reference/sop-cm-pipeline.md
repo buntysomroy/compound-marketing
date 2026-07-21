@@ -36,6 +36,8 @@ Each arrow = a durable doc artifact: a **user-friendly Google Doc** in a single 
 
 All CM artifacts are **Google Docs in a single flat Drive folder `Compound Marketing`** (resolve it once by searching/listing your Drive; create the folder if absent). Create the docs via your marketing docs store's write tools (create-document, or markdown → a markdown-to-Doc converter) — NOT as repo files.
 
+> **Exactly one folder — fail loud on duplicates.** Both the write side (`/cm-compound`) and the recall side (`cm-learnings-researcher`) resolve this folder **by name**, so a second folder named `Compound Marketing` silently splits the corpus — one side writes to it, the other recalls from the original, and neither errors. This actually happened (2026-07-11 → merged 2026-07-21: a session that couldn't see the original minted a duplicate via a different Drive connector scope). **If a name search ever returns >1 folder, STOP and surface the candidate IDs — never auto-pick one.** The canonical folder's in-folder `CLAUDE.md` breadcrumb self-identifies with its own ID; merge any duplicate into it and trash the duplicate.
+
 **Flat doc title format** — ordered **broad → detailed, left to right** (Type → Channel/Topic → Client → Date), so a flat alphabetical list groups by Type then Channel:
 
 ```

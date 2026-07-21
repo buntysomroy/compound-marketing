@@ -31,11 +31,15 @@ A `<work-context>` block from the caller:
 All `/cm*` artifacts live in ONE flat folder, **`Compound Marketing`**. CM-compound learning docs are titled `Learning — <topic> — <Client Display Name> — <YYYY-MM-DD>` (Type-first, broad → detailed). **Scope the search to that folder** (a bare full-text query also returns unrelated client docs — audits, meeting minutes — so resolve the folder ID first and list within it):
 
 ```
-# 1. Resolve the folder ID once
+# 1. Resolve the folder ID once — must land on EXACTLY ONE folder
 search_drive(query: "Compound Marketing", fileType: "folder")   # → folderId
-# 2. List its contents, keep only this client's "— Learning —" titles
-list_drive_files(folderId: "<id>", query: "<Client display name>")
+# 2. List the FULL folder, then filter client-side by title (see scale guard below)
+list_drive_files(folderId: "<id>")   # paginate via pageToken until exhausted
 ```
+
+> **Scale guard — filter client-side, and paginate (recall side).** Do **not** rely on `list_drive_files`'s `query`/name filter to scope the corpus — it is **not honored server-side** in the Shanti Drive MCP (verified 2026-07-21 dogfood): it returns the full folder listing regardless, so you must filter the returned titles yourself. Two consequences you MUST handle or you silently under-recall: (1) **paginate** — `list_drive_files` returns ~50 items/page; when the response includes a `pageToken`, keep fetching until it's exhausted before filtering, or a client whose docs sit past page 1 is invisible (same silent-partial-recall failure class as the duplicate-folder bug, different cause); (2) **match titles case-insensitively** on the `<Client Display Name>` substring against the full accumulated list. Trusting a single unpaginated `query`-filtered page is the trap.
+
+> **Duplicate-folder guard (recall side).** If step 1 returns **more than one** folder named `Compound Marketing`, do **not** pick one and proceed — recall would silently read a partial corpus (the exact failure that stranded a learning on 2026-07-11). Instead return a loud caveat: `⚠️ Multiple 'Compound Marketing' folders exist (<id1> @ <date>, <id2> @ <date>) — recall may be reading a partial corpus. Merge to one canonical folder before trusting this digest.` Prefer the folder whose in-folder `CLAUDE.md` self-identifies as canonical. This mirrors the "couldn't read ≠ none" discipline below: an ambiguous source is a caveat, not a clean result.
 
 Then keep only docs whose title contains `— Learning —` for this client. (Canonical convention: `reference/sop-cm-pipeline.md` § Artifact naming convention — flat folder, `<Type> — <Channel/topic> — <Client> — <date>` titles, broad → detailed.)
 

@@ -44,7 +44,10 @@ A special case of Step 1: when the purpose is to **log a decision at decision ti
 Write to the single flat **`Compound Marketing`** Drive folder — the shared parent for the whole `/cm*` suite (no per-client subfolders). Resolve it once at runtime:
 
 1. Search/list your Drive (or equivalent marketing-docs store) for a folder named `Compound Marketing`.
-2. If it doesn't exist yet, create it (top-level, flat inside).
+2. **Resolve to exactly ONE folder — never guess when it's ambiguous.**
+   - **0 matches:** create it (top-level, flat inside).
+   - **1 match:** use it.
+   - **>1 match (duplicate folders):** STOP. Do **not** silently pick one — a name search is nondeterministic and writing to the wrong copy silently splits the corpus (recall + write drift apart). Surface the ambiguity to the caller with the candidate folder IDs and modified dates, and ask which is canonical (or merge the duplicates into one first). The canonical folder's in-folder `CLAUDE.md` breadcrumb names its own ID — prefer the folder whose `CLAUDE.md` self-identifies as canonical.
 3. Never write to the repo or a local per-client working folder — write through your Drive / marketing-docs tooling, not a filesystem path that may be symlinked or sandbox-blocked. Canonical convention: `reference/sop-cm-pipeline.md` § Artifact naming convention.
 
 ## Step 3 — Write the doc (user-friendly)
