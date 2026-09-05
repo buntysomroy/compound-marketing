@@ -42,6 +42,24 @@ impact, %, $ recovered, lost opportunity):
 Where you can verify directly (re-run a query, HTTP-check a URL, recompute),
 DO IT — do not take the draft's word.
 
+**Current-state claims (live/not-live, built/not-built, launched/not-launched) get
+the same scrutiny as a number — flag an unverified one `unsupported`.** A CM
+Solution doc's Problem section once asserted that a client's sales channel
+"hasn't launched yet" — it had, and was already selling thousands of products.
+That claim was never quantitative, so the checks above never touched it, and it
+rode through drafting, this lens, and the approval gate unchallenged. For every
+current-state claim in the artifact:
+
+5. Check the Findings Confirmation block (`reference/protocol-cm-stage-contract.md`
+   Contract Step 2) for a `Live-platform verified` field on that claim. Missing,
+   blank, or "NOT STATED" → verdict = "unsupported", same as an untraceable
+   number. `⚠️ HYPOTHESIS — not yet verified`-tagged claims pass ONLY if the
+   Live-platform-verified field is still answered (e.g. "no — hypothesis, not
+   yet verified") — an unanswered field fails even inside a tagged hypothesis.
+6. A stated "yes" with no method ("yes" alone, no source/date/read) is as weak
+   as an untraceable number — verdict = "unsupported" until it names what was
+   read and when.
+
 Return ONLY a JSON array:
 
 ```json

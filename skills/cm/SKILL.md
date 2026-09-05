@@ -59,12 +59,16 @@ Use the intent→stage table to recommend ONE entry stage with a one-line reason
 | ------------------------------------------------------------------- | ------------------------------------- |
 | "What's happening with their marketing" / no prior artifacts        | `/cm-audit` (Stage 1)                 |
 | "What's working / what should we change" / audit doc exists         | `/cm-analyze` (Stage 2)               |
+| "Score/rank/prioritize these opportunities" / "RICE this" / a list of opportunities already surfaced (meeting history, backlog) | `/cm-analyze` (Stage 2, RICE Eval mode) |
 | "Build a marketing plan" / "fix this problem" / analysis doc exists | `/cm-plan` (Stage 3)                  |
 | "Review / pressure-test this plan" / plan doc exists                | `/cm-review` (Stage 4)                |
 | "Make the changes / execute the plan" / approved plan exists        | `/cm-execute` (Stage 5)               |
 | "Tracking is broken / conversions look off"                         | `/cm-analytics-audit` (diagnostic)    |
 | "Test this before we roll it out" / plan action is a measured test  | `/cm-experiment` (companion)          |
 | "Capture this learning / mark this decision"                        | `/cm-compound` (no dispatcher needed) |
+| "Pause/hand off this cm session" / "what's the state of this cm run" / session ending or forking mid-stage | `/cm-handoff` (no dispatcher needed) |
+| "Set up/update my voice profile" / "seed my voice from these samples" | `/cm-build-voice` (no dispatcher needed) |
+| Drafting/revising any outward client message — "sound like me" / "gate this draft" | `/cm-sound-like-me` (no dispatcher needed) |
 | "Wrap the marketing session / what did we learn"                    | `/cm-session-review` (session-wrap trigger) |
 
 **Never route silently on a coin-flip.** If the intent is ambiguous between two stages, ask one outcome-framed question (e.g., "Do you want to understand what's happening first (audit), or do you already have data and want to know what to change (analyze)?"). Then recommend.

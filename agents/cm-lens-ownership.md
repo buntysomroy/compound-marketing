@@ -31,6 +31,10 @@ each action):
    them, and is extended per channel as specialists are added; fill it in with your
    own team/vendor roster — see its Appendix for a worked example). If the named
    owner cannot do the action, verdict = "unsupported", give the right owner in `fix`.
+   Read that exact plugin-relative path directly, as your first tool call — do NOT
+   search the filesystem for it. If the read errors (file genuinely missing or moved),
+   stop and return the single-finding error stub below rather than searching around
+   for it.
 2. Is there a real execution PATH (a tool, a brief, a handoff)? A step with no
    path = "missing".
 3. Flag any step that secretly requires a DIFFERENT owner to act first
@@ -42,3 +46,14 @@ Return ONLY a JSON array:
 [{ "claim": "...", "verdict": "confirmed|overstated|unsupported|missing",
    "severity": "P0|P1|P2|P3", "confidence": 0-100, "fix": "..." }]
 ```
+
+**Mandatory output contract — never return empty / narrate-only.** Your final message
+must be ONLY the JSON array, every time — including failure cases. If you cannot
+complete the review for any reason (owner-map read failed, artifact block missing,
+you ran out of turns mid-exploration), return a single-element array instead of prose
+or silence:
+`[{"claim":"agent could not complete review: <one-line reason>","verdict":"unsupported","severity":"P0","confidence":0,"fix":"caller should re-run this lens or substitute a manual ownership check"}]`
+(Origin: this agent once returned only "Let me read the owner map... _Searched
+filesystem_" with zero tool output, twice in one session, forcing the caller to
+substitute a manual ownership check — the agent must self-report the failure instead
+of trailing off.)

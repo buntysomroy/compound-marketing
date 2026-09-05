@@ -1,6 +1,6 @@
 ---
 name: cm-analyze
-description: "Use when the user says '/cm-analyze', 'strategic insights', 'what's working/not', 'analyze the <channel/account> data', 'what should we change', 'which lever should we pull', 'where's the opportunity', or after an audit/data refresh. Compound Marketing — the ANALYZE stage (Stage 2). Turn a marketing data set / account / channel into a small set of high-confidence, scored strategic insights (what's working, what's not, what to change, why), written to a deliverable doc. Sits after /cm-audit (Stage 1) and before /cm-plan (Stage 3) + /cm-review (Stage 4). Reads the data first — never analyzes from generic knowledge."
+description: "Use when the user says '/cm-analyze', 'strategic insights', 'what's working/not', 'analyze the <channel/account> data', 'what should we change', 'which lever should we pull', 'where's the opportunity', 'score/rank/prioritize these opportunities', 'RICE this', 'give me a RICE table', or after an audit/data refresh. Compound Marketing — the ANALYZE stage (Stage 2). Turn a marketing data set / account / channel — or an existing list of opportunities pulled from meeting history / a backlog — into a small set of high-confidence, scored strategic insights (what's working, what's not, what to change, why), written to a deliverable doc. Sits after /cm-audit (Stage 1) and before /cm-plan (Stage 3) + /cm-review (Stage 4). Reads the data first — never analyzes from generic knowledge."
 ---
 
 # /cm-analyze — Compound Marketing: Analyze stage
@@ -45,6 +45,15 @@ Each recommendation is scored on three axes (the Compound Engineering / automati
 - **Ownership / Automation Ladder** — who acts: **you** (strategic call) · **Copilot w/ approval** (executes with sign-off) · **Fully automated** (autonomous, safe) · **Vendor** (e.g. your ad vendor executes). Adapt the rung labels to the engagement.
 - **Why** — reasoning tied to the data + the success line, not the generic rule.
 
+### RICE Eval mode — scoring an existing opportunity list
+
+Use this mode instead of (or alongside) the Impact/Effort/Ownership ladder above when the input is already a **list of discrete opportunities** — pulled from meeting minutes, a client's history in your docs/CRM store, a backlog, or a brainstorm — rather than insights being derived fresh from one data pull. Trigger phrases: "RICE this", "score these opportunities", "rank/prioritize the list", "which of these should we do first".
+
+1. Score each opportunity on the four RICE axes: **Reach** (customers/orders affected per period), **Impact** (0.25/0.5/1/1.5/2/2.5/3), **Confidence** (% — has it already shown a result in the data, or is it speculative), **Effort** (person-weeks). `Score = (Reach × Impact × Confidence) / Effort`.
+2. Ground each axis in the source where a number exists (a stated result, a segment size, a stated cost). Flag any axis that is an estimate rather than a sourced figure with ⚠️ INFERENCE, per the stage contract's quantitative-claim rule — RICE inputs are almost always a mix of sourced and estimated, and the table should say which is which.
+3. Present as a single table sorted by score descending. Call out any item that scores high mainly because of trivial effort (a validation call, a go/no-go gate) rather than because it's a large lever, so it isn't misread as the biggest opportunity.
+4. If multiple tracks are mixed (e.g. the client's own growth vs. a spun-off venture idea that emerged from the engagement), keep them in one sorted table with a track column rather than splitting into separate tables — the decision-maker is choosing a shortlist across all of them at once.
+
 ## Step 4 — Write the deliverable doc
 
 Write a dated markdown doc (ce-plan-style — a durable artifact, not just chat):
@@ -55,7 +64,7 @@ Write a dated markdown doc (ce-plan-style — a durable artifact, not just chat)
   2. **Bottom line** — 2–3 sentences: healthy vs the success line? trending which way?
   3. **What's working** — 2–4 points, each with the number + why.
   4. **What's not** — 2–4 points, each with number + root cause + cost of inaction.
-  5. **What to change** — scored table (Impact / Effort / Ownership / Why).
+  5. **What to change** — scored table (Impact / Effort / Ownership / Why), or the RICE-mode table (Reach / Impact / Confidence / Effort / Score) when scoring an existing opportunity list — the two aren't mutually exclusive; RICE mode adds a "Scored Opportunity Backlog" subsection rather than replacing this one.
   6. **Watch-outs / data caveats** — provisional numbers, gates (e.g. landing-page-audit before any pause), tracking discrepancies, anything unverified.
 - Render numbers cleanly (resolve IDs to names; show CoS as % with its ROAS twin). State the **framing** (internal "we found + fixed" prep vs client-facing — paid-vendor analysis is internal, never blame the vendor).
 
