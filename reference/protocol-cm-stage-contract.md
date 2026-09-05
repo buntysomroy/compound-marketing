@@ -12,6 +12,8 @@ This contract applies to every cm-\* stage skill: `/cm-audit`, `/cm-analyze`, `/
 
 **Legitimate bypass.** A stage may skip a contract step only when the step's own bypass note permits it. No other reason qualifies. If a step cannot fire (tool unavailable, data missing), the stage surfaces the failure loudly and carries the gap in its handoff block — it does not silently skip.
 
+**Live-platform execution routes through `/cm-execute`, never ad hoc.** Any action that changes state on a live client platform (a bid, a page edit, a status flip, a browser-driven click) routes through `/cm-execute`'s Manifest-Gate model — Action Cards → Manifest Gate → baseline → gate → act → read-back → receipt (your channel's marketing-execution protocol doc) — regardless of which stage is running or whether the plan is already approved. `/cm-plan` (Step 7) hands off to tactical skills and to your message-drafting skill for comms only; it never drives the live platform itself, even post-approval. This closes the gap that let a campaign build run ad hoc browser automation with no Manifest, no Action Cards, and no Effect Probe.
+
 ---
 
 ## Contract Step 1 — Decisions Recall (R4)
@@ -56,7 +58,12 @@ This contract applies to every cm-\* stage skill: `/cm-audit`, `/cm-analyze`, `/
 - **Source:** <what produced this — tool name, doc title, live system read>
 - **Denominator + coverage:** <what the rate/number is out of; what fraction of the full population was sampled>
 - **Proxy validity:** <is this metric a valid proxy for the claim, or an indirect measure? note if the metric measures something adjacent but not identical>
+- **Live-platform verified:** <yes/no + how — REQUIRED for any current-state claim (live/not-live, built/not-built, launched/not-launched); "N/A" for findings that assert no current-state fact>
 ```
+
+**Live-platform verified — why this field exists.** A CM Solution doc's Problem section asserted that a client's sales channel "hasn't launched yet" — it had, and was already selling thousands of products. Not caught by drafting, by any of the 4 adversarial review lenses, or by the approval gate — only found once live browser automation began, after approval closed. A current-state claim is not a quantitative claim (Step 3 doesn't cover it) and reads as settled fact unless something forces the stage to say how it knows. This field forces that: "yes — read the live channel admin, 2026-09-04" passes; "no — inferred from the last audit doc" fails and must be re-verified against the live platform before the finding stands.
+
+**Client estimates are hypotheses.** Treat a client's qualitative or numeric estimate as an unverified hypothesis until checked against the live platform over a comparable scope and time window. Before it enters a plan as confirmed evidence, record the original estimate, observed result, scope/window, and verification method/date in the finding. Record a material discrepancy as a signal to investigate; a greater-than-2x difference between comparable numeric values qualifies. Do not assign a numeric multiplier to vague language or mismatched scopes/windows, or infer the client's motive from the discrepancy. If verification is unavailable, retain the hypothesis tag under the bypass below.
 
 **Worked example (passes the gate):**
 
@@ -66,6 +73,16 @@ This contract applies to every cm-\* stage skill: `/cm-audit`, `/cm-analyze`, `/
 - **Source:** email-processing log (inbox pipeline record), 2026-07-09
 - **Denominator + coverage:** 4 bounces on 81 of 580 processed emails (14% coverage); full-segment bounce rate unknown
 - **Proxy validity:** Direct measure — hard bounces are observed, not inferred
+- **Live-platform verified:** N/A — not a current-state claim
+```
+
+```
+### Finding 2: The new sales channel has not launched yet
+
+- **Source:** live channel storefront, read via browser automation, 2026-09-04
+- **Denominator + coverage:** N/A — binary state claim
+- **Proxy validity:** N/A — binary state claim
+- **Live-platform verified:** yes — read the live storefront directly, 2026-09-04; thousands of products listed and purchasable
 ```
 
 **Worked example (fails the gate):**
@@ -76,11 +93,21 @@ This contract applies to every cm-\* stage skill: `/cm-audit`, `/cm-analyze`, `/
 - **Source:** ??? (no denominator stated)
 - **Denominator + coverage:** NOT STATED — headline rate without coverage
 - **Proxy validity:** Cannot assess without knowing what was measured
+- **Live-platform verified:** N/A
 ```
 
-The second example fails because the headline rate has no denominator, no coverage, and no source. The stage must restate it as "4 bounces on 81 of 580 processed (14% coverage)" before the gate passes.
+```
+### Finding 2: The new sales channel has not launched yet
 
-**Bypass:** Hypothesis-stage findings (explicitly marked as such by the stage — e.g., cm-audit data-gathering that flags items as "unverified hypothesis") may render the findings block with a `⚠️ HYPOTHESIS — not yet verified` tag and proceed without blocking. The tag must be present; untagged unverified claims fail the gate.
+- **Source:** last audit doc, 2026-06-01
+- **Denominator + coverage:** N/A — binary state claim
+- **Proxy validity:** N/A — binary state claim
+- **Live-platform verified:** NOT STATED — current-state claim with no verification method
+```
+
+The first example fails because the headline rate has no denominator, no coverage, and no source. The stage must restate it as "4 bounces on 81 of 580 processed (14% coverage)" before the gate passes. The second fails because it is a current-state claim (live/not-live) carrying no live-platform verification — the stage must read the live platform before the finding stands, not assert from a stale doc.
+
+**Bypass:** Hypothesis-stage findings (explicitly marked as such by the stage — e.g., cm-audit data-gathering that flags items as "unverified hypothesis") may render the findings block with a `⚠️ HYPOTHESIS — not yet verified` tag and proceed without blocking. The tag must be present; untagged unverified claims fail the gate. The Live-platform-verified field has no separate bypass — an untagged hypothesis-stage current-state claim still needs the field, answered `no — hypothesis, not yet verified` rather than omitted.
 
 ---
 
