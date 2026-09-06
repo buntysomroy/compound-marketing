@@ -95,7 +95,10 @@ It is a local Drive-mount file, so update it with a direct filesystem write (not
 
 ## Close — session-wrap offer (R10)
 
-If this session settled a durable marketing decision, produced a CM artifact the user reworked before approving, or surfaced a methodology learning worth carrying forward, offer `/cm-session-review` as the wrap step: "This session settled something worth capturing — run `/cm-session-review` to mine the learnings and close the CM loop."
+If this session settled a durable marketing decision, produced a CM artifact the user reworked before approving, or surfaced a methodology learning worth carrying forward, offer the wrap step:
+
+- **Your workspace already has a terminal wrap** (detect: `.claude/skills/session-wrap/SKILL.md` exists in the workspace) — say "learning captured; `/session-wrap` is the terminal step in this repo" and do **not** offer `/cm-session-review`. The host wrap owns closing the session; a second offer would just be a competing entry point.
+- **Otherwise**, offer `/cm-session-review` as the wrap step: "This session settled something worth capturing — run `/cm-session-review` to mine the learnings and close the CM loop."
 
 **Suppress this offer when `/cm-compound` was invoked by `/cm-session-review`** (i.e. running as the wrap's Step 4 capture sub-step, not standalone) — the wrap is already in progress, so re-offering it is redundant.
 
