@@ -17,18 +17,24 @@ A staged, data-grounded pipeline of marketing skills + agents that does for _mar
 ## The 5-stage pipeline
 
 ```
-Stage 1      Stage 2       Stage 3     Stage 4       Stage 5
-/cm-audit    /cm-analyze   /cm-plan    /cm-review    /cm-execute
-(Audit)      (Analyze)     (Plan)      (Review)      (Execute)
-    ↓            ↓             ↓            ↓             ↓
-audit.md     analysis.md   plan.md     plan.md       build-plan.md
-                                     (with Lens      (execution
-                                   Review Summary)     ready)
+Stage 1      Stage 2       Stage 3     Stage 4       Stage 5a          Stage 5b
+/cm-audit    /cm-analyze   /cm-plan    /cm-review    /cm-agent-plan    /cm-execute
+(Audit)      (Analyze)     (Plan)      (Review)      (Compile)         (Run)
+    ↓            ↓             ↓            ↓             ↓                 ↓
+audit.md     analysis.md   plan.md     plan.md       execution-        execution-log
+                                     (with Lens      manifest.md       (append-only
+                                   Review Summary)   + tracker.md       receipts)
 ```
+
+**Stage 5 is two skills, not one.** `/cm-agent-plan` (5a) compiles the approved plan into Action
+Cards + a gated Execution Manifest and stops — it never executes anything. `/cm-execute` (5b) runs
+that already-approved manifest card-by-card. This split (2026-09-12) mirrors Compound Engineering's
+`ce-plan` → `ce-work`: `/cm-execute` now works like `ce-work` — it can be invoked standalone, in a
+fresh session, against nothing but the manifest doc, and it never re-plans.
 
 Each arrow = a durable doc artifact: a **user-friendly Google Doc** in a single Drive parent folder named **`Compound Marketing`** (flat — no subfolders). Everything the `/cm*` suite writes (audit, analysis, plan, build-plan, and `/cm-compound` learnings) lands there, named so the client/type/channel/date are legible in a flat list. By convention: one `Compound Marketing` parent, flat, user-friendly Drive docs — not per-client repo markdown.
 
-> **Validated core vs candidate stages.** `cm-analyze → cm-plan → cm-review` is the proven 3-stage strategy chain (each consumes the prior). `cm-audit` (Stage 1) and `cm-execute` (Stage 5) are **candidate stages** — they're kept as working skills, but `cm-audit` is largely an extraction of `cm-analyze`'s own data-read. `cm-execute`'s full spec (your marketing execution protocol, if your workspace has adopted one) — Compile+Run with Action Cards, derived rungs, and the Effect Probe — earns validated-stage status after its first clean live run on a real account.
+> **Validated core vs candidate stages.** `cm-analyze → cm-plan → cm-review` is the proven 3-stage strategy chain (each consumes the prior). `cm-audit` (Stage 1) and `cm-agent-plan` + `cm-execute` (Stage 5a/5b) are **candidate stages** — they're kept as working skills, but `cm-audit` is largely an extraction of `cm-analyze`'s own data-read. The Stage 5 pair's full spec (your marketing execution protocol, if your workspace has adopted one) — Compile (`cm-agent-plan`) + Run (`cm-execute`) with Action Cards, derived rungs, and the Effect Probe — earns validated-stage status after its first clean live run on a real account.
 
 ---
 
@@ -53,11 +59,11 @@ e.g. `Learning — Channel Prioritization — Acme Hardware — 2026-06-29`
 | `Analysis`               | 2     | `/cm-analyze`                              |
 | `Plan`                   | 3     | `/cm-plan`                                 |
 | `Analytics Fix Document` | —     | `/cm-analytics-audit` (diagnostic sibling) |
-| `Execution Manifest`     | 5     | `/cm-execute` (Compile)                    |
-| `Execution Log`          | 5     | `/cm-execute` (Run — append-only receipts) |
+| `Execution Manifest`     | 5a    | `/cm-agent-plan` (Compile)                 |
+| `Execution Log`          | 5b    | `/cm-execute` (Run — append-only receipts) |
 | `Learning`               | —     | `/cm-compound`                             |
 
-Stage 4 (`/cm-review`) appends a `## Lens Review Summary` section to the Stage 3 `Plan` doc rather than producing a separate doc.
+Stage 4 (`/cm-review`) appends a `## Lens Review Summary` section to the Stage 3 `Plan` doc rather than producing a separate doc. Stage 5a (`/cm-agent-plan`) also creates the client-facing `Execution Tracker` doc (checklist format, no internal scaffolding) right after the Manifest Gate; Stage 5b (`/cm-execute`) keeps it updated as cards run.
 
 > **Authoring check:** When writing or updating a CM skill's artifact location, it MUST be a Google Doc in the flat `Compound Marketing` Drive folder with the title format above — **Type first (broadest), then Channel/Topic, then Client, then ISO date** (broad → detailed, left to right). Per-client subfolders and repo-committed `documents/clients/<slug>/marketing/*.md` paths are **not the pattern here** — the read-back (and `cm-learnings-researcher`) search the flat folder, filtering by `<Type>` + `<Client Display Name>` in the title.
 
@@ -93,7 +99,8 @@ The flat **`Compound Marketing`** Drive folder IS the compounding memory. Every 
 - Stage 2 reads: the Stage 1 audit doc + any prior analysis docs
 - Stage 3 reads: the Stage 2 analysis doc + prior plan docs (to avoid re-planning what's in flight)
 - Stage 4 reads: the Stage 2 analysis doc + Stage 3 plan doc
-- Stage 5 reads: the approved Stage 3/4 plan doc
+- Stage 5a (`/cm-agent-plan`) reads: the approved Stage 3/4 plan doc
+- Stage 5b (`/cm-execute`) reads: the approved Execution Manifest from Stage 5a — never the plan doc directly
 
 The `cm-learnings-researcher` agent does the structured recall of past insights and winning angles across cycles, keyed to channel + client — ideally auto-dispatched before every `/cm-*` run by an environment hook; otherwise dispatch it manually before the stage work. Its write-side counterpart is `/cm-compound`. The trigger half is `/cm-session-review` — the session-wrap stage that mines the session for marketing learnings and routes them through `/cm-compound`. This is the marketing mirror of an engineering compound-learnings loop (write insights forward, recall them automatically on the next relevant run).
 
@@ -105,7 +112,7 @@ The `cm-learnings-researcher` agent does the structured recall of past insights 
 | ------------------------------ | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | `marketing-skills:*`           | Tactical lenses CM invokes for specific craft tasks (copywriting, CRO, email). CM orchestrates; `marketing-skills` executes.                                                                                                                                                                                                                                                                                                                                |
 | `/sales-letter`                | CM-**style** asset-creation play for long-form sales letters/pages (`reference/sop-sales-letter.md`, if bundled in your setup). Follows the CM staged shape and FEEDS `/cm-compound`, but is NOT in the `/cm-*` pipeline and doesn't yet auto-recall via `cm-learnings-researcher` (future increment).                                                                                                                                                        |
-| `/cm-experiment`               | CM companion play for running a **measured marketing/PPC experiment** (incrementality / brand-bid-down, geo holdout, budget-split lift, Google Ads native experiment, creative/LP A/B) before or instead of a direct change (`reference/sop-cm-experiment.md`). Invoked from `/cm-plan` (an action is a test) or `/cm-execute` (run it under your marketing execution protocol). Reuses standard A/B-test statistical rigor; FEEDS `/cm-compound`. Not a numbered stage. |
+| `/cm-experiment`               | CM companion play for running a **measured marketing/PPC experiment** (incrementality / brand-bid-down, geo holdout, budget-split lift, Google Ads native experiment, creative/LP A/B) before or instead of a direct change (`reference/sop-cm-experiment.md`). Invoked from `/cm-plan` (an action is a test), `/cm-agent-plan` (compiling the test as a card), or `/cm-execute` (running it under your marketing execution protocol). Reuses standard A/B-test statistical rigor; FEEDS `/cm-compound`. Not a numbered stage. |
 | Single-problem mode            | The reactive "one problem + evidence → hardened solution+execution" capability lives in `/cm-plan` single-problem mode + `/cm-review` (the locked full-merge). One pipeline, not two.                                                                                                                                                                                                  |
 | `cm-lens-*` agents             | The 4 `/cm-review` lenses (evidence, measurement, ownership, brand/client), channel-agnostic (ownership reads `reference/sop-cm-execution-owner-map.md`).                                                                                                                                                                                                                                                                                                             |
 | `/cm-session-review`           | The session-wrap trigger half of the CM compound loop. Mines the session for marketing learnings, routes them through `/cm-compound`, runs a produced-vs-actioned effectiveness pass, and notices due success signals from prior Learning docs. Invoked at wrap or via close-offer from any `/cm-*` pipeline skill.                                                                                             |
@@ -117,7 +124,7 @@ The `cm-learnings-researcher` agent does the structured recall of past insights 
 
 ## Safety model
 
-Stage 5 (`/cm-execute`) runs under your **marketing execution protocol** — a canonical spec you maintain (or adopt/adapt from this plugin's guidance) for how automated actions are gated and verified. The load-bearing points:
+Stage 5 (`/cm-agent-plan` compiling + `/cm-execute` running) runs under your **marketing execution protocol** — a canonical spec you maintain (or adopt/adapt from this plugin's guidance) for how automated actions are gated and verified. The load-bearing points:
 
 1. **Action Cards with derived rungs** — every action's automation-ladder rung is computed from a 3-axis classification (reversibility × money × audience), never accepted from the plan. The floor invariant is a function: irreversible or money-moving ops can never derive to fully-auto (pauses/status-flips at $0 included).
 2. **Two-tier approval, co-pilot only** — one Manifest Gate (a blocking approval question) authorizes the run session-scoped; per-card gates fire on the risky subset (an explicit approval token for hard-irreversible/unbounded-money/comms actions). Fully-auto is behind a per-client graduation flag, default OFF.
@@ -146,7 +153,8 @@ Stage 5 (`/cm-execute`) runs under your **marketing execution protocol** — a c
 | "What should we change / which lever"         | `/cm` → `/cm-analyze` (Stage 2)            |
 | "Build a marketing plan" / "fix this problem" | `/cm` → `/cm-plan` (Stage 3)               |
 | "Review/pressure-test this plan"              | `/cm` → `/cm-review` (Stage 4)             |
-| "Make the changes / execute the plan"         | `/cm` → `/cm-execute` (Stage 5)            |
+| "Make the changes / execute the plan" (no manifest compiled yet) | `/cm` → `/cm-agent-plan` (Stage 5a) |
+| "Run/resume the approved manifest"            | `/cm` → `/cm-execute` (Stage 5b, direct invocation — works standalone, even in a fresh session) |
 | "Tracking is broken / conversions look off"   | `/cm` → `/cm-analytics-audit` (diagnostic) |
 | "Test this before we roll it out"             | `/cm` → `/cm-experiment` (companion)       |
 | "Capture this learning / mark this decision"  | `/cm-compound` (no dispatcher needed)      |
@@ -160,7 +168,8 @@ Stage 5 (`/cm-execute`) runs under your **marketing execution protocol** — a c
 2. /cm-analyze                  → reads audit doc + pulls additional live data → analysis doc
 3. /cm-plan                      → reads analysis doc → plan doc
 4. /cm-review                    → reads analysis + plan docs, dispatches 4 lens agents → lens review summary appended to plan doc + approval gate
-5. /cm-execute                   → Compile (plan → Action Cards → manifest + gate) → Run (gated, probed, receipted execution)
+5a. /cm-agent-plan                → Compile (plan → Action Cards → manifest + gate) — stops here
+5b. /cm-execute                   → Run (gated, probed, receipted execution against the approved manifest)
 ```
 
 ### Stage contract
@@ -173,13 +182,13 @@ Every stage (including `/cm-audit`, `/cm-analytics-audit`, and `/cm-experiment`)
 4. **Handoff block** — emit inline after artifact write (What & why / Carried-over context / Don't-repeat / First step).
 5. **Decision-time logging** — append decisions to the per-engagement `Learning — Decisions — <Client>` Drive doc at the moment they're made.
 
-This contract is the cross-cutting requirement for all eleven cm-\* skills. Read it before any stage run.
+This contract is the cross-cutting requirement for all twelve cm-\* skills. Read it before any stage run.
 
 ---
 
 ## What this plugin ships
 
-This plugin packages the 5-stage `/cm-*` pipeline described above, its front-door `/cm` dispatcher, the `cm-lens-*` review agents, `cm-learnings-researcher` (the recall half of the compound loop), `/cm-compound` (the write half), `/cm-session-review` (the trigger half — the session-wrap stage that mines learnings and routes them through `/cm-compound`), and this reference doc set (`reference/`). Install it, point it at your own Drive (or equivalent docs store) and ad-platform MCP, and the pipeline runs against your accounts. Agents and skills are updated independently by the plugin maintainer as the pipeline evolves.
+This plugin packages the 5-stage `/cm-*` pipeline described above (Stage 5 split into `/cm-agent-plan` Compile + `/cm-execute` Run), its front-door `/cm` dispatcher, the `cm-lens-*` review agents, `cm-learnings-researcher` (the recall half of the compound loop), `/cm-compound` (the write half), `/cm-session-review` (the trigger half — the session-wrap stage that mines learnings and routes them through `/cm-compound`), and this reference doc set (`reference/`). Install it, point it at your own Drive (or equivalent docs store) and ad-platform MCP, and the pipeline runs against your accounts. Agents and skills are updated independently by the plugin maintainer as the pipeline evolves.
 
 ---
 
@@ -192,4 +201,4 @@ This section documents how the pipeline maintainer (Red Pine Digital) wires the 
 - **Channel specialist agents:** `google-ads-analyst` and `meta-ads-analyst` are built and live; `email-lifecycle-analyst` is queued (one dogfood cycle observed, one more needed before the build is justified per the growth-path threshold above); `seo-analyst` and `cro-analyst` are deferred.
 - **cm-learnings-researcher auto-dispatch:** wired via an internal `pre-tool-skill-context-injector.sh` PreToolUse hook, so every `/cm-*` run gets prior-learnings recall for free without the operator remembering to invoke it.
 - **Manifest/card approval token:** an internal EA convention (`# BUNTY-APPROVED`) is the literal string scanned for at the per-card approval gate.
-- **A worked example client:** a hardware-retail account (internally "SSS") was the first account run end-to-end through Stage 5's Compile+Run flow, validating the Action Card / Effect Probe mechanics described in the Safety model section above.
+- **A worked example client:** a hardware-retail account (internally "SSS") was the first account run end-to-end through Stage 5's Compile+Run flow (pre-split, single fused `cm-execute` skill — the mechanics transfer unchanged onto the `cm-agent-plan` + `cm-execute` pair), validating the Action Card / Effect Probe mechanics described in the Safety model section above.

@@ -1,7 +1,7 @@
 ---
 name: cm
 description: >-
-  Use when the user says '/cm', "what should we do about <client>'s marketing", "need a marketing plan", "audit their ads", "analyze <client>", "check the marketing", "which lever should we pull", "marketing strategy for <client>", "offer decision", "which channel should we focus on", or any client-marketing question where you're not sure which entry stage to start from. /cm is the FRONT DOOR for Compound Marketing — performs symptom intake, runs decisions recall, checks for existing engagement artifacts, and recommends the right entry stage (cm-audit / cm-analyze / cm-plan / cm-review / cm-execute / cm-analytics-audit / cm-experiment) with a one-line reason, confirms with the user, then routes. Run this BEFORE any ce-* skill for client-marketing work.
+  Use when the user says '/cm', "what should we do about <client>'s marketing", "need a marketing plan", "audit their ads", "analyze <client>", "check the marketing", "which lever should we pull", "marketing strategy for <client>", "offer decision", "which channel should we focus on", or any client-marketing question where you're not sure which entry stage to start from. /cm is the FRONT DOOR for Compound Marketing — performs symptom intake, runs decisions recall, checks for existing engagement artifacts, and recommends the right entry stage (cm-audit / cm-analyze / cm-plan / cm-review / cm-agent-plan / cm-execute / cm-analytics-audit / cm-experiment) with a one-line reason, confirms with the user, then routes. Run this BEFORE any ce-* skill for client-marketing work.
 ---
 
 # /cm — Compound Marketing: Front-Door Dispatcher
@@ -45,7 +45,7 @@ List what exists:
 - `Analysis —` doc → Stage 2 complete
 - `Plan —` doc → Stage 3 complete
 - `Lens Review Summary` appended to plan → Stage 4 complete
-- `Execution Manifest —` or `Execution Tracker —` → Stage 5 in progress or complete
+- `Execution Manifest —` or `Execution Tracker —` → Stage 5a (`cm-agent-plan`) complete, Stage 5b (`cm-execute`) in progress or complete
 - `Learning —` docs → prior learnings exist (already surfaced in Step 0)
 - `Experiment —` doc → a measured test ran or is running
 
@@ -62,7 +62,8 @@ Use the intent→stage table to recommend ONE entry stage with a one-line reason
 | "Score/rank/prioritize these opportunities" / "RICE this" / a list of opportunities already surfaced (meeting history, backlog) | `/cm-analyze` (Stage 2, RICE Eval mode) |
 | "Build a marketing plan" / "fix this problem" / analysis doc exists | `/cm-plan` (Stage 3)                  |
 | "Review / pressure-test this plan" / plan doc exists                | `/cm-review` (Stage 4)                |
-| "Make the changes / execute the plan" / approved plan exists        | `/cm-execute` (Stage 5)               |
+| "Make the changes / execute the plan" / approved plan exists, no manifest yet | `/cm-agent-plan` (Stage 5a) |
+| "Run/resume the approved manifest" / an Execution Manifest already exists    | `/cm-execute` (Stage 5b — direct invocation, works standalone even in a fresh session) |
 | "Tracking is broken / conversions look off"                         | `/cm-analytics-audit` (diagnostic)    |
 | "Test this before we roll it out" / plan action is a measured test  | `/cm-experiment` (companion)          |
 | "Capture this learning / mark this decision"                        | `/cm-compound` (no dispatcher needed) |

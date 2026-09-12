@@ -41,7 +41,7 @@ When no config exists, the skill uses chat output for all routing and the plugin
 Scan the session for marketing activity. Use these signals:
 
 **Strong signals (any one → run the full wrap):**
-- Any `/cm-*` skill was invoked (cm-audit, cm-analyze, cm-plan, cm-review, cm-execute, cm-experiment, cm-compound, cm-analytics-audit)
+- Any `/cm-*` skill was invoked (cm-audit, cm-analyze, cm-plan, cm-review, cm-agent-plan, cm-execute, cm-experiment, cm-compound, cm-analytics-audit)
 - A CM artifact was created or modified (Audit, Analysis, Plan, Learning, Experiment doc)
 - An explicit client-strategy decision was made (e.g. "we decided channel X over channel Y because Z")
 

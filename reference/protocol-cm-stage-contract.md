@@ -8,11 +8,11 @@
 
 ## Scope
 
-This contract applies to every cm-\* stage skill: `/cm-audit`, `/cm-analyze`, `/cm-plan`, `/cm-review`, `/cm-execute`, `/cm-experiment`, `/cm-compound`, `/cm-analytics-audit`. The front-door dispatcher (`/cm`) and the standalone handoff skill (`/cm-handoff`) bind via their own Step 0, which loads this contract and runs its recall step once before routing. The session-wrap trigger (`/cm-session-review`) references this contract but is not itself a pipeline stage (it does not produce a Drive artifact; it invokes `/cm-compound` for the actual write).
+This contract applies to every cm-\* stage skill: `/cm-audit`, `/cm-analyze`, `/cm-plan`, `/cm-review`, `/cm-agent-plan`, `/cm-execute`, `/cm-experiment`, `/cm-compound`, `/cm-analytics-audit`. The front-door dispatcher (`/cm`) and the standalone handoff skill (`/cm-handoff`) bind via their own Step 0, which loads this contract and runs its recall step once before routing. The session-wrap trigger (`/cm-session-review`) references this contract but is not itself a pipeline stage (it does not produce a Drive artifact; it invokes `/cm-compound` for the actual write).
 
 **Legitimate bypass.** A stage may skip a contract step only when the step's own bypass note permits it. No other reason qualifies. If a step cannot fire (tool unavailable, data missing), the stage surfaces the failure loudly and carries the gap in its handoff block — it does not silently skip.
 
-**Live-platform execution routes through `/cm-execute`, never ad hoc.** Any action that changes state on a live client platform (a bid, a page edit, a status flip, a browser-driven click) routes through `/cm-execute`'s Manifest-Gate model — Action Cards → Manifest Gate → baseline → gate → act → read-back → receipt (your channel's marketing-execution protocol doc) — regardless of which stage is running or whether the plan is already approved. `/cm-plan` (Step 7) hands off to tactical skills and to your message-drafting skill for comms only; it never drives the live platform itself, even post-approval. This closes the gap that let a campaign build run ad hoc browser automation with no Manifest, no Action Cards, and no Effect Probe.
+**Live-platform execution routes through `/cm-agent-plan` → `/cm-execute`, never ad hoc.** Any action that changes state on a live client platform (a bid, a page edit, a status flip, a browser-driven click) routes through the Manifest-Gate model — Action Cards → Manifest Gate (`/cm-agent-plan`, Compile) → baseline → gate → act → read-back → receipt (`/cm-execute`, Run) — regardless of which stage is running or whether the plan is already approved. `/cm-plan` (Step 7) hands off to tactical skills and to your message-drafting skill for comms only; it never drives the live platform itself, even post-approval. This closes the gap that let a campaign build run ad hoc browser automation with no Manifest, no Action Cards, and no Effect Probe.
 
 ---
 
@@ -199,7 +199,7 @@ The following are internal scaffolding — strip them from any client-shared art
 - Provenance blocks (Step 2 findings)
 - Recall digests (Step 1)
 
-The one deliberately client-facing artifact is the **Execution Tracker** (produced by `/cm-execute` per the Marketing Execution Protocol). It has its own format and is shared with client approval.
+The one deliberately client-facing artifact is the **Execution Tracker** (created by `/cm-agent-plan` after the Manifest Gate, kept updated by `/cm-execute` as cards run, per the Marketing Execution Protocol). It has its own format and is shared with client approval.
 
 **Why this rule exists:** Internal QA scaffolding leaking into a client-shared doc is a known failure mode. The rule is explicit: if it's a contract step's output shape, it's internal unless the artifact's spec says otherwise.
 

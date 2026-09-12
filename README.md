@@ -3,7 +3,7 @@
 A staged, **report-at-each-gate** marketing workflow — the marketing adaptation of Compound Engineering. Each stage produces a reviewable artifact and stops at an approval gate before the next stage runs, so you always validate the work before it compounds.
 
 ```
-audit → analyze → plan → review → execute
+audit → analyze → plan → review → agent-plan (compile) → execute (run)
 ```
 
 ## Front door
@@ -18,7 +18,8 @@ audit → analyze → plan → review → execute
 | Analyze | `/cm-analyze` | Turn audited state into scored insights — what's working, what's not, what to change and why. |
 | Plan | `/cm-plan` | Sequence a marketing plan from an analysis (full-account mode) **or** from a single problem + evidence (single-problem mode). |
 | Review | `/cm-review` | Adversarial multi-lens review of any plan/analysis doc — four independent lenses (evidence, measurement, ownership, brand/client) inline-quote the artifact and challenge it before it ships. |
-| Execute | `/cm-execute` | Gated execution of an approved plan. |
+| Agent-Plan | `/cm-agent-plan` | Compile an approved plan into validated Action Cards + a gated Execution Manifest. Never executes. |
+| Execute | `/cm-execute` | Run an already-approved Execution Manifest, card by card, with Effect Probes and receipts — works like `ce-work`: resumable, in this session or a fresh one. |
 
 Plus supporting skills:
 
@@ -65,5 +66,5 @@ Or run `/plugin` for the interactive menu, add the `buntysomroy/compound-marketi
 ## Notes
 
 - **Channel-agnostic.** The skills were authored in the Red Pine Digital agency workspace and generalized for any workspace — data-source references (spreadsheet/analytics/ad-platform tools) are examples; the pipeline runs against whatever tools and data sources your workspace has. Concrete Red Pine setups, where kept, are labelled as optional reference examples.
-- **⚠️ Published derivative — do not edit these files directly.** This plugin is a genericized *published copy*; the source of truth lives in the Red Pine Digital repo, and edits here are overwritten on the next publish. To change a skill, edit it in the source repo and re-run the genericize-and-publish step (`protocols-and-sops/sop-cm-plugin-publish.md` there).
+- **This plugin is now the primary CM surface (updated 2026-09-12).** RPD's own local `.claude/skills/cm-*` copies were deleted 2026-09-05 (#3770) — `compound-marketing@0.7.0`+ is the only CM surface, including inside RPD itself. Edit skills/reference docs directly in this repo; there is no separate upstream to re-publish from for the `cm-*` pipeline skills. (The publish SOP referenced below predates that migration and is kept for historical context / for any future skill that does start life RPD-local.)
 - **Roadmap.** A future version folds in a *thinking layer* — a doctrine + judgment substrate that lets the pipeline reason toward your priorities and frameworks before the voice gate applies tone. Ships as part of this same plugin.

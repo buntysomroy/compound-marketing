@@ -3,6 +3,8 @@
 > **Status:** Durable north-star + requirements doc for the CM pipeline (originally shaped as a brainstorm output, then hardened through a structured doc review). Live operational reference: `reference/sop-cm-pipeline.md`.
 >
 > **Note.** The pipeline's five stages exist as skills under these locked names: `/cm-audit`, `/cm-analyze`, `/cm-plan`, `/cm-review`, `/cm-execute`. `cm-plan` supports both scope modes described below. The four review lenses are generalized and repointed to `/cm-review`. An earlier flat, single-problem workflow was folded into this pipeline as a deprecated alias, fully merged into the staged pipeline described here. `cm-audit` and `cm-execute` began as candidate stages but are kept as working skills rather than dropped — the validated core remains `cm-analyze → cm-plan → cm-review`. Authoritative pipeline reference: `reference/sop-cm-pipeline.md`.
+>
+> **2026-09-12 addendum — see below.** Stage 5 (`cm-execute`) split into two skills; the rest of this doc is historical and describes the pre-split single fused skill. Do not edit the historical decision rows above to match the split — the addendum below is the current state.
 
 ---
 
@@ -136,3 +138,18 @@ The design decisions above were developed and validated inside Red Pine Digital'
 - The first `cm-analyze` output was validated against a real Google Ads account for a client referred to internally as "SSS" (Sprinkler Supply Store), backed by a Google Ads specialist agent, producing a scored insight doc similar in shape to what `cm-analyze` produces today.
 - The `cm-execute` stage's tri-surface Effect Probe design was tested against a real feed-management action on that same account, exercising all three surface adapters (api / browser-ui / feed-cms) in one validation pass.
 - The earlier flat single-problem workflow that CM absorbed was an internal skill (`fcmo-solution`) with four review lenses; its methodology and lenses were folded into `cm-plan` (single-problem mode) and `cm-review` respectively, following the staged-deprecation sequence described above.
+
+## Addendum — 2026-09-12: Stage 5 split into `cm-agent-plan` (Compile) + `cm-execute` (Run)
+
+**What changed.** `cm-execute` was originally built as one fused skill covering both Compile (plan → validated Action Cards → gated Execution Manifest) and Run (per-card baseline → gate → act → read-back → receipt). That fusion collapsed two genuinely different moments — "prepare the plan for execution" and "actually run it, possibly in a different session on a different day" — into one invocation, which is exactly the ce-plan/ce-work split Compound Engineering already made for the analogous problem. The fused skill is now split:
+
+- **`/cm-agent-plan` (Stage 5a, Compile)** — reads the approved Stage 3/4 plan, classifies every action into an Action Card with a derived automation rung, builds the pre-flight checklist, declares the spend cap, writes the gated Execution Manifest, creates the client-facing Execution Tracker, and stops at the Manifest Gate. Never executes anything.
+- **`/cm-execute` (Stage 5b, Run)** — reads an already-approved Execution Manifest and runs it card-by-card against live platforms, appending receipts to the Execution Log and updating the Execution Tracker. Never compiles or re-plans; can be invoked cold in a fresh session with no prior chat context, exactly like `ce-work`.
+
+**Why.** Two failure modes motivated the split: (1) a fused skill makes "I'm about to execute" ambiguous right after an approval that was only ever meant to authorize *readiness*, not trigger a run; (2) resuming execution in a fresh session (a different day, a different person) requires the manifest to be fully self-sufficient — which is easier to guarantee when the skill that reads it back has no responsibility for having also written it.
+
+**What did not change.** The Action Card schema, the rung-derivation table, the Effect Probe, the floor invariant, the spend cap mechanics, and the adapter contract (api / chrome-ui / feed-cms / human) are unchanged — they moved with the Compile/Run split but were not altered. The floor invariant is now classified in `cm-agent-plan`'s safety rules and enforced in `cm-execute`'s safety rules (rule numbering shifted — see each skill's own SKILL.md for its current rule numbers; don't rely on a rule number cited in the historical sections above).
+
+**Cross-reference sweep.** Every `cm-*` skill, agent, and reference doc that named the old fused `cm-execute` as Stage 5 was updated the same day to reference `cm-agent-plan` (5a) + `cm-execute` (5b) — see `reference/sop-cm-pipeline.md` for the updated diagram and artifact table, and `reference/protocol-cm-stage-contract.md` for the updated Scope list (now twelve `cm-*` skills).
+
+**Historical note on this repo's status.** As of this same date, RPD's own local `.claude/skills/cm-*` shadow copies were confirmed deleted (issue #3770, closed 2026-09-05) — `compound-marketing@0.7.0`+ (now bumped to reflect this split) is the sole CM surface, including inside RPD. Edits to this plugin's skills and reference docs happen directly in `buntysomroy/compound-marketing`; there is no separate upstream this repo is published from.

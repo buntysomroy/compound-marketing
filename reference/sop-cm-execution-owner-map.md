@@ -2,7 +2,7 @@
 
 > **Read first:** the channel→owner mapping the `/cm-review` ownership lens (`cm-lens-ownership`) and the `/cm-plan` planner use to assign and verify the **right executor** for each action. Extracted from the old inline ownership-lens mapping so new channels can be added without editing the agent prompt.
 >
-> **Used by:** `cm-lens-ownership` (resolves the correct owner per action), `/cm-plan` (assigns owners when sequencing), `/cm-execute` (maps owner → execution surface).
+> **Used by:** `cm-lens-ownership` (resolves the correct owner per action), `/cm-plan` (assigns owners when sequencing), `/cm-agent-plan` (maps owner → execution surface + adapter while compiling Action Cards). `/cm-execute` just runs the surface/owner `/cm-agent-plan` already assigned — it doesn't consult this map itself.
 
 ---
 

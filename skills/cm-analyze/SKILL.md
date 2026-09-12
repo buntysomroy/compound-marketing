@@ -6,7 +6,7 @@ description: "Use when the user says '/cm-analyze', 'strategic insights', 'what'
 # /cm-analyze — Compound Marketing: Analyze stage
 
 > **Where this sits.** Compound Marketing mirrors Compound Engineering's "80% before building":
-> `/cm-audit` (Stage 1) → **`/cm-analyze` (this, Stage 2)** → `/cm-plan` (Stage 3) → `/cm-review` (Stage 4) → `/cm-execute` (Stage 5). This skill converts _what is_ (audit + data) into _what to do and why_, as a durable doc the plan stage consumes.
+> `/cm-audit` (Stage 1) → **`/cm-analyze` (this, Stage 2)** → `/cm-plan` (Stage 3) → `/cm-review` (Stage 4) → `/cm-agent-plan` (Stage 5a) → `/cm-execute` (Stage 5b). This skill converts _what is_ (audit + data) into _what to do and why_, as a durable doc the plan stage consumes.
 >
 > **Stage contract (read FIRST, every run):** `reference/protocol-cm-stage-contract.md` — the five contract steps (decisions recall, findings confirmation, quantitative-claim rule, handoff block, decision-time logging) are mandatory for this stage. This skill is the thin driver; do not improvise contract mechanics from memory.
 >
@@ -80,4 +80,4 @@ If this session settled a durable marketing decision, produced a CM artifact the
 
 ## Self-update directive
 
-Compound Marketing compounds: when this run surfaces a reusable framework, a new channel specialist worth building, or a scoring rubric tweak, update this file (or propose the new specialist agent) before finishing — don't let the learning evaporate. As `/cm-audit`, `/cm-plan`, `/cm-review`, and `/cm-execute` come online, keep the hand-off pointers here accurate.
+Compound Marketing compounds: when this run surfaces a reusable framework, a new channel specialist worth building, or a scoring rubric tweak, update this file (or propose the new specialist agent) before finishing — don't let the learning evaporate. As `/cm-audit`, `/cm-plan`, `/cm-review`, `/cm-agent-plan`, and `/cm-execute` come online, keep the hand-off pointers here accurate.

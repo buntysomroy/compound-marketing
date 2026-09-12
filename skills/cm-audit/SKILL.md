@@ -6,7 +6,7 @@ description: "Use when you say '/cm-audit', 'audit the account', 'pull the data 
 # /cm-audit — Compound Marketing: Audit stage
 
 > **Where this sits.**
-> **`/cm-audit` (this)** → `/cm-analyze` (Stage 2) → `/cm-plan` (Stage 3) → `/cm-review` (Stage 4) → `/cm-execute` (Stage 5).
+> **`/cm-audit` (this)** → `/cm-analyze` (Stage 2) → `/cm-plan` (Stage 3) → `/cm-review` (Stage 4) → `/cm-agent-plan` (Stage 5a) → `/cm-execute` (Stage 5b).
 >
 > **Stage contract (read FIRST, every run):** `reference/protocol-cm-stage-contract.md` — the five contract steps (decisions recall, findings confirmation, quantitative-claim rule, handoff block, decision-time logging) are mandatory for this stage. This skill is the thin driver; do not improvise contract mechanics from memory.
 >

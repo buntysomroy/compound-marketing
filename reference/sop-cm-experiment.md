@@ -6,7 +6,7 @@
 
 ## Where it fits
 
-Not a numbered CM stage. A **companion play** (like `/sales-letter`) invoked when a `/cm-plan` action is a _measured test_ rather than a direct change, or from `/cm-execute` to run that test under the Marketing Execution Protocol (`reference/sop-cm-pipeline.md` § "Marketing Execution Protocol"). Its output — an **Experiment doc** — feeds `/cm-compound` so proven/failed patterns accrue to CM memory.
+Not a numbered CM stage. A **companion play** (like `/sales-letter`) invoked when a `/cm-plan` action is a _measured test_ rather than a direct change, compiled as a card by `/cm-agent-plan`, or run via `/cm-execute` under the Marketing Execution Protocol (`reference/sop-cm-pipeline.md` § "Marketing Execution Protocol"). Its output — an **Experiment doc** — feeds `/cm-compound` so proven/failed patterns accrue to CM memory.
 
 ## Core discipline (non-negotiable)
 
@@ -53,7 +53,7 @@ Every experiment that touches a live paid account carries, in the doc:
 1. **Spend cap** — `MAX_SPEND_CHANGE` for the test window; no increase beyond it without explicit approval.
 2. **Revert trigger** — the exact guardrail threshold, **who reverts, and how fast**. This is the one condition that stops the test early.
 3. **Approval gate** — the design is rendered inline and approved (`AskUserQuestion`) before anything goes live; scheduled/unattended changes bake in an explicit approval marker at schedule time (define your own convention, e.g. a literal approval token in the command).
-4. **Irreversible-op floor** — pause / budget-zero / status-flip inside the experiment are **never auto-applied**, even at $0 delta (per-action approval always). See `cm-execute/SKILL.md` safety rule 5.
+4. **Irreversible-op floor** — pause / budget-zero / status-flip inside the experiment are **never auto-applied**, even at $0 delta (per-action approval always). Classified by `cm-agent-plan/SKILL.md` safety rule 3, enforced by `cm-execute/SKILL.md` safety rule 4.
 5. **Pre-flight (paid changes)** — LP live + conversion tag verified + tracking confirmed healthy before the change (if a client's LP-audit gate is un-run, that's a hard block). Name the owner of any tag fix explicitly.
 
 ## Experiment doc — template (grounded in a tracker format worth standardizing on)

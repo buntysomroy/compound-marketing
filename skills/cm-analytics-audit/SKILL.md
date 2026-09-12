@@ -7,7 +7,7 @@ description: >-
 # /cm-analytics-audit — Compound Marketing: analytics-debugging audit
 
 > **Where this sits.**
-> A diagnostic sibling of the CM pipeline (`/cm-audit` → `/cm-analyze` → `/cm-plan` → `/cm-review` → `/cm-execute`). It runs when a `/cm-plan` action is **hard-blocked behind a conversion-tracking gate** ("verify the canonical purchase action / gclid capture before pausing anything"). Its output feeds the blocked plan action, and its artifact is a `<!-- cm:solution -->` doc — the same shape `/cm-plan` single-problem mode emits.
+> A diagnostic sibling of the CM pipeline (`/cm-audit` → `/cm-analyze` → `/cm-plan` → `/cm-review` → `/cm-agent-plan` → `/cm-execute`). It runs when a `/cm-plan` action is **hard-blocked behind a conversion-tracking gate** ("verify the canonical purchase action / gclid capture before pausing anything"). Its output feeds the blocked plan action, and its artifact is a `<!-- cm:solution -->` doc — the same shape `/cm-plan` single-problem mode emits.
 >
 > **Stage contract (read FIRST, every run):** `reference/protocol-cm-stage-contract.md` — the five contract steps (decisions recall, findings confirmation, quantitative-claim rule, handoff block, decision-time logging) are mandatory for this stage. This skill is the thin driver; do not improvise contract mechanics from memory.
 >

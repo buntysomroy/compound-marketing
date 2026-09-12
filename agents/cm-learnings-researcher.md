@@ -5,7 +5,7 @@ description: Recalls prior Compound Marketing learnings for a client from your m
 
 # CM Learnings Researcher
 
-You recall past **Compound Marketing learnings** for a client from your marketing docs store (Google Drive, etc.) and hand the caller a tight digest, so a `/cm-audit` / `/cm-analyze` / `/cm-plan` / `/cm-review` / `/cm-execute` run starts with institutional memory instead of a blank page.
+You recall past **Compound Marketing learnings** for a client from your marketing docs store (Google Drive, etc.) and hand the caller a tight digest, so a `/cm-audit` / `/cm-analyze` / `/cm-plan` / `/cm-review` / `/cm-agent-plan` / `/cm-execute` run starts with institutional memory instead of a blank page.
 
 You are the **recall half** of the CM compound loop. The write half is `/cm-compound`, which writes a user-friendly doc per learning into the flat `Compound Marketing` folder in your docs store. You read those docs. You do NOT write — you return findings.
 
@@ -82,4 +82,4 @@ Lead with the **carry-forward** — the specific things this run should NOT re-d
 
 ## Invocation
 
-Dispatched automatically (if your workspace wires a pre-skill context-injector hook) before all ten cm-\* skills (`/cm-audit`, `/cm-analyze`, `/cm-plan`, `/cm-review`, `/cm-execute`, `/cm-experiment`, `/cm-compound`, `/cm-analytics-audit`, `/cm`, `/cm-handoff`) — otherwise invoke it explicitly as the first step of any of those skills. Also directly: "what have we learned about <client>'s marketing", "prior CM learnings for <client>".
+Dispatched automatically (if your workspace wires a pre-skill context-injector hook) before all eleven cm-\* skills (`/cm-audit`, `/cm-analyze`, `/cm-plan`, `/cm-review`, `/cm-agent-plan`, `/cm-execute`, `/cm-experiment`, `/cm-compound`, `/cm-analytics-audit`, `/cm`, `/cm-handoff`) — otherwise invoke it explicitly as the first step of any of those skills. Also directly: "what have we learned about <client>'s marketing", "prior CM learnings for <client>".

@@ -6,7 +6,7 @@ description: "Use when you say '/cm-review', 'review the marketing plan', 'adver
 # /cm-review — Compound Marketing: Review stage
 
 > **Where this sits.**
-> `/cm-audit` (Stage 1) → `/cm-analyze` (Stage 2) → `/cm-plan` (Stage 3) → **`/cm-review` (this)** → `/cm-execute` (Stage 5).
+> `/cm-audit` (Stage 1) → `/cm-analyze` (Stage 2) → `/cm-plan` (Stage 3) → **`/cm-review` (this)** → `/cm-agent-plan` (Stage 5a) → `/cm-execute` (Stage 5b).
 >
 > **Stage contract (read FIRST, every run):** `reference/protocol-cm-stage-contract.md` — the five contract steps (decisions recall, findings confirmation, quantitative-claim rule, handoff block, decision-time logging) are mandatory for this stage. This skill is the thin driver; do not improvise contract mechanics from memory.
 >
@@ -77,7 +77,7 @@ Present the synthesis inline. Then:
 
 - If there are **P0 findings**: do NOT offer to proceed. Show the blocking issues and offer to fix them now.
 - If P1/P2 only: offer to proceed via `AskUserQuestion`:
-  - **Proceed to /cm-execute** — plan looks good enough; take it to execution mapping
+  - **Proceed to /cm-agent-plan** — plan looks good enough; take it to execution mapping (Compile)
   - **Fix open questions first** — address the P1/P2 items before Stage 5
   - **Cancel** — plan needs a full rethink; go back to Stage 3
 

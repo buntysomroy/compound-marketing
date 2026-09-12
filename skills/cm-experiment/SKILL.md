@@ -7,13 +7,13 @@ description: >-
 # /cm-experiment — Compound Marketing: Experiment companion play
 
 > **Where this sits.**
-> NOT a numbered pipeline stage. A **companion play** invoked when a `/cm-plan` (Stage 3) action is a _measured test_ rather than a direct change, or from `/cm-execute` (Stage 5) to actually run that test under the Marketing Execution Protocol. It produces an **Experiment doc** and feeds `/cm-compound`.
+> NOT a numbered pipeline stage. A **companion play** invoked when a `/cm-plan` (Stage 3) action is a _measured test_ rather than a direct change, compiled as a card by `/cm-agent-plan` (Stage 5a), or from `/cm-execute` (Stage 5b) to actually run that test under the Marketing Execution Protocol. It produces an **Experiment doc** and feeds `/cm-compound`.
 >
 > **Stage contract (read FIRST, every run):** `reference/protocol-cm-stage-contract.md` — the five contract steps (decisions recall, findings confirmation, quantitative-claim rule, handoff block, decision-time logging) are mandatory for this stage. This skill is the thin driver; do not improvise contract mechanics from memory.
 >
 > Methodology + type decision-table + doc template: `reference/sop-cm-experiment.md`
 > Statistical rigor (reused, not duplicated): the `ab-test-setup` skill, if bundled in your workspace — otherwise apply standard A/B sample-size/duration methodology.
-> Safety model (spend cap / revert / approval / irreversible-op floor): the `cm-execute` skill + `reference/sop-cm-pipeline.md` § "Marketing Execution Protocol".
+> Safety model (spend cap / revert / approval / irreversible-op floor): the `cm-agent-plan` (Compile) + `cm-execute` (Run) skills + `reference/sop-cm-pipeline.md` § "Marketing Execution Protocol".
 
 An experiment with no **pre-registered success threshold, guardrail metric, and revert trigger** is just an unmonitored change. Pre-register all three; write the doc _before_ the test starts; don't peek and stop early.
 
