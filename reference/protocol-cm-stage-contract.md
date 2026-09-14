@@ -1,6 +1,6 @@
 # CM Stage Contract
 
-> **Cross-cutting behavioral contract for all cm-\* skills.** Every stage skill reads this FIRST, every run. The skill is the thin driver; this doc is the canonical spec for the five contract steps. Do not improvise contract mechanics from memory.
+> **Cross-cutting behavioral contract for all cm-\* skills.** Every stage skill reads this FIRST, every run. The skill is the thin driver; this doc is the canonical spec for the six contract steps. Do not improvise contract mechanics from memory.
 >
 > Pipeline reference (stage order, artifact naming, Drive mechanics): `reference/sop-cm-pipeline.md`. This doc does not restate pipeline mechanics — it defines the per-stage behavioral gates.
 
@@ -130,6 +130,8 @@ The first example fails because the headline rate has no denominator, no coverag
 
 **When:** After the stage writes its artifact. Every stage ends by emitting a handoff block inline in chat.
 
+**Be thin. Point at the document; do not restate it.** The handoff block is a pointer, not a second copy of the artifact. If the artifact carries a Step 6 Open Items section, the handoff block's Evidence field is a one-line pointer to the doc, not a restatement of every finding — findings live in the doc; open items live in the doc's Open Items section and are pulled into the block verbatim (same IDs, same wording), never re-derived or re-summarized into new prose. Re-typing what the doc already says is the failure mode this rule exists to stop — it's how a handoff drifts out of sync with the artifact it's supposed to point at.
+
 **Output shape:**
 
 ```
@@ -142,9 +144,12 @@ The first example fails because the headline rate has no denominator, no coverag
 - <artifact type> — <doc title> (Drive link or path)
 - ...
 
-**Evidence (with provenance):**
-- <finding> (Source: <source>; Denominator: <coverage>)
-- ...
+**Evidence:**
+- See <doc title> for full findings with provenance. <0-1 lines max of framing, only if the doc's scope needs a pointer sentence — no restated findings.>
+
+**Open items (from <doc title>):**
+- <OI-id> (blocking: yes/no) — <short description, verbatim from the doc>
+- ... (or "No open items — this artifact carries no unresolved gaps.")
 
 **Decisions made:**
 - <date> · <stage> · <decision> — <why>
@@ -156,9 +161,16 @@ The first example fails because the headline rate has no denominator, no coverag
 **Don't repeat (confirmed findings, closed questions):**
 - <what's settled and should not be re-opened>
 
-**First step (next stage entry prompt):**
-- `<next-stage-invocation>` — <one-line reason>
+**First step:**
+- `<literal, pastable command>` — <one-line reason>
 ```
+
+**The "First step" field is a command, not a description.** It must be something the user can paste as-is to continue — never a sentence describing what should happen next. Two cases:
+
+1. **Blocking open items remain on this stage's own artifact.** The first step is THIS stage's own resume invocation, addressed at the specific open items — never the next pipeline stage. Shape: `` `/cm-<stage> — resume open items: "<doc title>"` ``. This routes back into the same stage (see the stage's own Resume Mode, most stages should define one alongside their Step 4/5 artifact-writing step) to close the gaps, not forward into analysis/planning built on an artifact that admits it isn't finished.
+2. **No blocking open items (or none at all).** The first step is the next pipeline stage's normal invocation, as before.
+
+Never mix the two: if any Open Item is tagged blocking, the first step is the resume command, full stop — do not simultaneously suggest advancing to the next stage as an alternative in the same field. If the user wants to advance anyway despite open items, that's their call to make explicitly, not a default the handoff offers.
 
 **Rendering:** Inline in chat, always. A file copy is optional and never a replacement. The handoff block is internal scaffolding — strip it from any client-shared artifact (see Client-Facing Stripping Rule below).
 
@@ -191,6 +203,34 @@ The first example fails because the headline rate has no denominator, no coverag
 
 ---
 
+## Contract Step 6 — Open Items (R9)
+
+**When:** Whenever a stage's artifact carries an unresolved gap — a live tooling defect, a missing data source, an unreconciled discrepancy between two readings, a capability the stage needed and didn't have. This is the same material that used to get buried as freeform prose in a "Gaps" or "Open questions" section; Step 6 makes it a fixed, addressable, machine-checkable list instead.
+
+**Why this exists.** A `/cm-audit` run once wrote 5 flagged gaps as prose, then the handoff block (Step 4) restated them in its own words, and the next session's `/cm-handoff` invocation restated them again in a third form — three descriptions of the same 5 things, drifting slightly each time, with no single place that said which ones were actually closed. Step 6 makes the artifact itself the one place open items live; everything downstream (handoff blocks, resume invocations, the next stage) points at it instead of re-describing it.
+
+**What:** Any stage artifact with unresolved gaps ends with a fixed-shape `## Open Items` section:
+
+```
+## Open Items
+
+- **OI-1** — <one-line description of the gap>
+  - *Blocking:* yes/no — does this gap invalidate or cap the confidence of a finding elsewhere in this doc, or is it a parallel note that doesn't block downstream use of the rest of the doc?
+  - *Owner:* <what closes this — a tool/code fix, a user decision, a live-platform re-read, another team's action>
+  - *Closes when:* <the concrete condition that resolves it — not "investigate further," a testable condition>
+  - *Status:* open | closed (<date closed, one-line resolution>)
+
+- **OI-2** — ...
+```
+
+IDs are stable and local to the artifact (`OI-1`, `OI-2`, ...) — they do not need to be globally unique across documents, only unique within the doc that owns them. Every quantitative finding elsewhere in the doc that Step 2/3 tagged `⚠️ HYPOTHESIS` because of one of these gaps should reference the Open Item by ID (e.g., "see OI-1") rather than repeating the caveat inline — one statement of the caveat, referenced, not restated.
+
+**Resume mode.** A stage that produces a dated artifact (Audit, Analysis, Plan, etc.) should support being re-invoked specifically to close open items from its own prior artifact, without redoing the stage's full scope of work. This is the "resume" half of Step 4's resume-command rule: the stage reads the prior doc's Open Items list, does only the work needed to close the referenced items (verify a tool fix landed, pull the one missing data point, reconcile the one discrepancy), and writes a new dated artifact that explicitly states which Open Items it closes (updating their `Status` to closed with a one-line resolution), which it carries forward still open, and any new ones it found. It does not silently re-run the entire stage from scratch. Each stage skill defines its own Resume Mode step (see `/cm-audit`'s as the reference implementation); a stage with no Resume Mode yet should say so rather than silently lacking the capability.
+
+**Bypass:** A stage whose artifact has no unresolved gaps omits the Open Items section entirely, or states `## Open Items` — `None.` explicitly. Do not write an empty or placeholder Open Items section "just in case" — its presence is itself a signal that something is unresolved.
+
+---
+
 ## Client-Facing Stripping Rule
 
 The following are internal scaffolding — strip them from any client-shared artifact:
@@ -212,5 +252,6 @@ This doc reads standalone. A skill author can implement a compliant stage from i
 1. **L1 — Blocking-and-visible instructions** in this doc (every skill loads it).
 2. **L2 — Mechanical injection (optional, environment-dependent)** — if your environment supports pre-tool hooks, one can inject a recall reminder automatically before the skill loads (coverage would extend to all eleven cm-\* skills); otherwise the skill's own Step 1 satisfies this layer manually.
 3. **L3 — Machine-checkable provenance shape** (the findings block's fixed shape is cross-checked by `/cm-review`'s evidence lens during adversarial review).
+4. **L4 — Open Items as the single source of truth** (Step 6's fixed shape is what `/cm-handoff` and every stage's own handoff block read from — a handoff that lists an open item not present in the artifact's Open Items section, or restates findings instead of pointing at the doc, is out of compliance with Step 4).
 
 No runtime hard block mid-run: the gated property is judgment, and a hard block would false-fire on legitimately-unverified hypothesis-stage claims.

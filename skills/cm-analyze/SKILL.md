@@ -8,7 +8,7 @@ description: "Use when the user says '/cm-analyze', 'strategic insights', 'what'
 > **Where this sits.** Compound Marketing mirrors Compound Engineering's "80% before building":
 > `/cm-audit` (Stage 1) → **`/cm-analyze` (this, Stage 2)** → `/cm-plan` (Stage 3) → `/cm-review` (Stage 4) → `/cm-agent-plan` (Stage 5a) → `/cm-execute` (Stage 5b). This skill converts _what is_ (audit + data) into _what to do and why_, as a durable doc the plan stage consumes.
 >
-> **Stage contract (read FIRST, every run):** `reference/protocol-cm-stage-contract.md` — the five contract steps (decisions recall, findings confirmation, quantitative-claim rule, handoff block, decision-time logging) are mandatory for this stage. This skill is the thin driver; do not improvise contract mechanics from memory.
+> **Stage contract (read FIRST, every run):** `reference/protocol-cm-stage-contract.md` — the six contract steps (decisions recall, findings confirmation, quantitative-claim rule, handoff block, decision-time logging, open items) are mandatory for this stage. This skill is the thin driver; do not improvise contract mechanics from memory.
 >
 > Full pipeline reference: `reference/sop-cm-pipeline.md`
 

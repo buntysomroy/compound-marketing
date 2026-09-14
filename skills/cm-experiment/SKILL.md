@@ -9,7 +9,7 @@ description: >-
 > **Where this sits.**
 > NOT a numbered pipeline stage. A **companion play** invoked when a `/cm-plan` (Stage 3) action is a _measured test_ rather than a direct change, compiled as a card by `/cm-agent-plan` (Stage 5a), or from `/cm-execute` (Stage 5b) to actually run that test under the Marketing Execution Protocol. It produces an **Experiment doc** and feeds `/cm-compound`.
 >
-> **Stage contract (read FIRST, every run):** `reference/protocol-cm-stage-contract.md` — the five contract steps (decisions recall, findings confirmation, quantitative-claim rule, handoff block, decision-time logging) are mandatory for this stage. This skill is the thin driver; do not improvise contract mechanics from memory.
+> **Stage contract (read FIRST, every run):** `reference/protocol-cm-stage-contract.md` — the six contract steps (decisions recall, findings confirmation, quantitative-claim rule, handoff block, decision-time logging, open items) are mandatory for this stage. This skill is the thin driver; do not improvise contract mechanics from memory.
 >
 > Methodology + type decision-table + doc template: `reference/sop-cm-experiment.md`
 > Statistical rigor (reused, not duplicated): the `ab-test-setup` skill, if bundled in your workspace — otherwise apply standard A/B sample-size/duration methodology.

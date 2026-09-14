@@ -10,7 +10,7 @@ description: >-
 >
 > **Split from the former fused `/cm-execute` (2026-09-12).** `/cm-execute` used to Compile AND Run in one skill. It now only Runs — modeled after Compound Engineering's `ce-work`: it takes an already-compiled, already-approved artifact and executes it, in this session or a fresh one, without re-planning. `/cm-agent-plan` is the new home for the Compile half: read the approved plan, classify every action, derive its rung, and write the gated Execution Manifest `/cm-execute` will run.
 >
-> **Stage contract (read FIRST, every run):** `reference/protocol-cm-stage-contract.md` — the five contract steps (decisions recall, findings confirmation, quantitative-claim rule, handoff block, decision-time logging) are mandatory for this stage. This skill is the thin driver; do not improvise contract mechanics from memory.
+> **Stage contract (read FIRST, every run):** `reference/protocol-cm-stage-contract.md` — the six contract steps (decisions recall, findings confirmation, quantitative-claim rule, handoff block, decision-time logging, open items) are mandatory for this stage. This skill is the thin driver; do not improvise contract mechanics from memory.
 >
 > **Canonical spec (read FIRST, every run):** your channel's marketing-execution protocol doc — the Action Card schema, rung-derivation table, gate bindings, Effect Probe, adapter contract, and artifact formats should all live there. This skill is the thin driver; do not improvise safety mechanics from memory. (Red Pine's own copy: `protocol-marketing-execution.md` — see Appendix.)
 > Pipeline reference: `reference/sop-cm-pipeline.md`. Companion: `/cm-experiment` compiles + runs a plan action as a measured experiment on the same machinery (+ success metric + revert trigger).

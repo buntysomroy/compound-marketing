@@ -8,7 +8,7 @@ description: "Use when you say '/cm-audit', 'audit the account', 'pull the data 
 > **Where this sits.**
 > **`/cm-audit` (this)** → `/cm-analyze` (Stage 2) → `/cm-plan` (Stage 3) → `/cm-review` (Stage 4) → `/cm-agent-plan` (Stage 5a) → `/cm-execute` (Stage 5b).
 >
-> **Stage contract (read FIRST, every run):** `reference/protocol-cm-stage-contract.md` — the five contract steps (decisions recall, findings confirmation, quantitative-claim rule, handoff block, decision-time logging) are mandatory for this stage. This skill is the thin driver; do not improvise contract mechanics from memory.
+> **Stage contract (read FIRST, every run):** `reference/protocol-cm-stage-contract.md` — the six contract steps (decisions recall, findings confirmation, quantitative-claim rule, handoff block, decision-time logging, open items) are mandatory for this stage. This skill is the thin driver; do not improvise contract mechanics from memory.
 >
 > Full pipeline reference: `reference/sop-cm-pipeline.md`
 
@@ -90,19 +90,36 @@ Write a dated markdown doc — findings only, no recommendations yet:
 ### [Category 2 — e.g., Conversion Performance]
 - ...
 
-## Gaps + data quality
-- <What's missing or provisional>
-- <Discrepancies between sources (e.g., web analytics vs platform conversions)>
-
 ## Context from meetings / prior analysis
 - <Key known issues from last meeting or prior CM doc>
+
+## Open Items
+[Contract Step 6 shape — every unresolved gap this audit couldn't close: a live tooling defect, missing data, an unreconciled discrepancy between sources, a capability gap. Omit this heading entirely, or write "None." under it, if the audit closed clean.]
+
+- **OI-1** — <one-line description>
+  - *Blocking:* yes/no
+  - *Owner:* <tool/code fix | user decision | live-platform re-read | other>
+  - *Closes when:* <concrete, testable condition>
+  - *Status:* open
+- **OI-2** — ...
 ```
 
-Show the doc path in chat. Render the "What the data shows" summary inline (top 5 most significant findings, one line each) so you can see if the data is usable before the insight stage runs.
+Show the doc path in chat. Render the "What the data shows" summary inline (top 5 most significant findings, one line each) so you can see if the data is usable before the insight stage runs. Any finding tagged `⚠️ HYPOTHESIS` in "What the data shows" because of an unresolved gap should reference the Open Item by ID ("see OI-1") rather than restating the caveat inline.
 
-## Step 5 — Hand off
+## Step 5 — Resume mode (re-invoking `/cm-audit` to close open items)
 
-Offer to proceed to `/cm-analyze` (Stage 2) with the audit doc as input. Surface any blockers (missing data, access gaps) that the insight stage should know about.
+`/cm-audit` is not only a fresh-start stage — it can be re-invoked scoped at a prior Audit doc's Open Items instead of running a full new audit. Recognize this mode when the invocation names a prior Audit doc, says "resume open items," or is itself the literal `` `/cm-audit — resume open items: "<doc title>"` `` command a handoff block emitted per the stage contract's Step 4.
+
+In this mode:
+
+1. Read the referenced Audit doc's Open Items section in full — this is the scope of work, not a fresh Step 1–3 pass over everything.
+2. For each open item, do only the work its `Closes when` condition requires (verify a tool fix actually landed and re-call the affected tool; pull the one missing data point; reconcile the one flagged discrepancy against a live re-read). Do not silently re-run the full account pull from scratch — that duplicates work Step 3 already did and risks masking whether the SPECIFIC gap actually closed.
+3. Write a new dated Audit doc (same naming convention, new `<YYYY-MM-DD>`) whose Context section notes it resumes the prior doc, and whose own Open Items section marks each addressed item's `Status` as `closed (<date>, <one-line resolution>)`, carries forward anything still open, and adds any new items this pass surfaced. Do not edit the prior dated doc in place — dated artifacts are immutable snapshots; the resume produces a new one that supersedes it for open-items purposes.
+4. If closing an item surfaces new findings (e.g., a previously-blended metric can now be read cleanly), fold them into "What the data shows" as normal — this is still an audit doc, findings only, no recommendations.
+
+## Step 6 — Hand off
+
+If Step 5 (Resume mode) doesn't apply — this was a fresh audit — offer to proceed to `/cm-analyze` (Stage 2) with the audit doc as input, UNLESS the doc's own Open Items include a blocking item, in which case the handoff's first step is this stage's own resume command (per contract Step 4), not `/cm-analyze`. Surface any blockers (missing data, access gaps) that the next step should know about — by pointing at the Open Items section, not restating it.
 
 ## Close — session-wrap offer (R10)
 
@@ -110,4 +127,4 @@ If this session settled a durable marketing decision, produced a CM artifact the
 
 ## Self-update directive
 
-When this run surfaces a new data source, a SOP gap, or a client context file that should exist but doesn't — note it in the audit doc under Gaps and surface it as a Spotted Improvement for you to act on.
+When this run surfaces a new data source, a SOP gap, or a client context file that should exist but doesn't — note it in the audit doc's Open Items section and surface it as a Spotted Improvement for you to act on.

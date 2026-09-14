@@ -10,7 +10,7 @@ description: >-
 >
 > **Split from the former fused `/cm-execute` (2026-09-12).** This skill now works like Compound Engineering's `ce-work`: given an already-approved Execution Manifest, it runs it — it does not compile a plan into one. If you're handed a plan doc with no manifest yet, or asked to "execute the plan" with nothing compiled, the right first step is `/cm-agent-plan`, not this skill.
 >
-> **Stage contract (read FIRST, every run):** `reference/protocol-cm-stage-contract.md` — the five contract steps are mandatory for this stage. This skill is the thin driver; do not improvise contract mechanics from memory.
+> **Stage contract (read FIRST, every run):** `reference/protocol-cm-stage-contract.md` — the six contract steps are mandatory for this stage. This skill is the thin driver; do not improvise contract mechanics from memory.
 >
 > **Canonical spec (read FIRST, every run):** your channel's marketing-execution protocol doc — the Effect Probe, adapter contract, and receipt/artifact formats should all live there. (Red Pine's own copy: `protocol-marketing-execution.md` — see Appendix.)
 > Pipeline reference: `reference/sop-cm-pipeline.md`. Companion: `/cm-experiment` runs a compiled test card on this same machinery (+ success metric + revert trigger).

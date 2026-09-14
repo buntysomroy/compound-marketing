@@ -8,7 +8,7 @@ description: >-
 
 > **Where this sits.** This is the **front door** for the entire CM suite. Run it BEFORE any ce-\* skill for client-marketing work. It performs symptom intake, runs decisions recall, checks for existing engagement artifacts, and recommends the right entry stage.
 >
-> **Stage contract (read FIRST, every run):** `reference/protocol-cm-stage-contract.md` — the five contract steps (decisions recall, findings confirmation, quantitative-claim rule, handoff block, decision-time logging) are mandatory for every cm-\* stage. This dispatcher runs Step 1 (recall) once and passes results down so the routed stage doesn't re-dispatch.
+> **Stage contract (read FIRST, every run):** `reference/protocol-cm-stage-contract.md` — the six contract steps (decisions recall, findings confirmation, quantitative-claim rule, handoff block, decision-time logging, open items) are mandatory for every cm-\* stage. This dispatcher runs Step 1 (recall) once and passes results down so the routed stage doesn't re-dispatch.
 >
 > Pipeline reference: `reference/sop-cm-pipeline.md`.
 

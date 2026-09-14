@@ -5,7 +5,7 @@ description: "Use when you say '/cm-compound', 'capture this marketing learning'
 
 # /cm-compound — Compound Marketing: capture a learning
 
-> **Stage contract (read FIRST, every run):** `reference/protocol-cm-stage-contract.md` — the five contract steps (decisions recall, findings confirmation, quantitative-claim rule, handoff block, decision-time logging) are mandatory for this stage. This skill is the thin driver; do not improvise contract mechanics from memory.
+> **Stage contract (read FIRST, every run):** `reference/protocol-cm-stage-contract.md` — the six contract steps (decisions recall, findings confirmation, quantitative-claim rule, handoff block, decision-time logging, open items) are mandatory for this stage. This skill is the thin driver; do not improvise contract mechanics from memory.
 >
 > Pipeline reference: `reference/sop-cm-pipeline.md`.
 
