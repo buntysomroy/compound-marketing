@@ -55,6 +55,7 @@ e.g. `Learning — Channel Prioritization — Acme Hardware — 2026-06-29`
 
 | Type                     | Stage | Produced by                                |
 | ------------------------ | ----- | ------------------------------------------ |
+| `Client Context`         | —     | `/cm-channel-discovery` (setup companion, non-dated, perpetual — updated in place) |
 | `Audit`                  | 1     | `/cm-audit`                                |
 | `Analysis`               | 2     | `/cm-analyze`                              |
 | `Plan`                   | 3     | `/cm-plan`                                 |
@@ -64,6 +65,8 @@ e.g. `Learning — Channel Prioritization — Acme Hardware — 2026-06-29`
 | `Learning`               | —     | `/cm-compound`                             |
 
 Stage 4 (`/cm-review`) appends a `## Lens Review Summary` section to the Stage 3 `Plan` doc rather than producing a separate doc. Stage 5a (`/cm-agent-plan`) also creates the client-facing `Execution Tracker` doc (checklist format, no internal scaffolding) right after the Manifest Gate; Stage 5b (`/cm-execute`) keeps it updated as cards run.
+
+> **`Client Context` is the one non-dated type.** Titled `Client Context — <Channel> — <Client Display Name>` (no date), same perpetual-doc pattern as `Learning — Decisions — <Client>` (Stage Contract Step 5) — it holds the channel's success line (target CAC/CPA, ROAS/CoS, CPL, etc.) and is updated in place, not re-created per cycle, because "what counts as good" doesn't expire on a schedule the way a dated snapshot does. `/cm-audit` Step 1 reads it (via `/cm-channel-discovery` if it doesn't exist yet) before assuming any success line.
 
 > **Authoring check:** When writing or updating a CM skill's artifact location, it MUST be a Google Doc in the flat `Compound Marketing` Drive folder with the title format above — **Type first (broadest), then Channel/Topic, then Client, then ISO date** (broad → detailed, left to right). Per-client subfolders and repo-committed `documents/clients/<slug>/marketing/*.md` paths are **not the pattern here** — the read-back (and `cm-learnings-researcher`) search the flat folder, filtering by `<Type>` + `<Client Display Name>` in the title.
 
@@ -116,6 +119,7 @@ The `cm-learnings-researcher` agent does the structured recall of past insights 
 | Single-problem mode            | The reactive "one problem + evidence → hardened solution+execution" capability lives in `/cm-plan` single-problem mode + `/cm-review` (the locked full-merge). One pipeline, not two.                                                                                                                                                                                                  |
 | `cm-lens-*` agents             | The 4 `/cm-review` lenses (evidence, measurement, ownership, brand/client), channel-agnostic (ownership reads `reference/sop-cm-execution-owner-map.md`).                                                                                                                                                                                                                                                                                                             |
 | `/cm-session-review`           | The session-wrap trigger half of the CM compound loop. Mines the session for marketing learnings, routes them through `/cm-compound`, runs a produced-vs-actioned effectiveness pass, and notices due success signals from prior Learning docs. Invoked at wrap or via close-offer from any `/cm-*` pipeline skill.                                                                                             |
+| `/cm-channel-discovery`        | Setup companion to `/cm-audit`, the way `/cm-build-voice` is a setup companion to `/cm-sound-like-me`. Discovers and persists a channel's success line (target CAC/CPA, ROAS/CoS, CPL, revenue-per-send, etc.) as a `Client Context —` doc so `/cm-audit` never has to invent a generic benchmark or ask ad hoc and lose the answer at session end. Invoked from `/cm-audit` Step 1 when no `Client Context` doc exists yet, or standalone.                                                                                             |
 | Your ad-platform MCP/data source | CM's paid-ads execution backend (e.g. a Google Ads / Meta Ads MCP). Stage 5 build plan names the specific tools for each paid action.                                                                                                                                                                                                                                                                                                                   |
 | CRM / email-platform tooling    | Stage 5 execution surface for CRM, email platform, and contact management actions.                                                                                                                                                                                                                                                                                                                                                                          |
 | Browser automation              | Stage 5 execution surface for platforms with no API (organic social, ad-platform creative-hub manual actions).                                                                                                                                                                                                                                                                                                                                   |
@@ -158,6 +162,7 @@ Stage 5 (`/cm-agent-plan` compiling + `/cm-execute` running) runs under your **m
 | "Tracking is broken / conversions look off"   | `/cm` → `/cm-analytics-audit` (diagnostic) |
 | "Test this before we roll it out"             | `/cm` → `/cm-experiment` (companion)       |
 | "Capture this learning / mark this decision"  | `/cm-compound` (no dispatcher needed)      |
+| "What's our target CAC/ROAS/CPL for this channel" / no `Client Context` doc yet | `/cm-channel-discovery` (no dispatcher needed) |
 | "Wrap the marketing session / what did we learn" | `/cm-session-review` (session-wrap trigger) |
 
 ## Running a full pipeline cycle

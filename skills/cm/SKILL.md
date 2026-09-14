@@ -48,6 +48,7 @@ List what exists:
 - `Execution Manifest —` or `Execution Tracker —` → Stage 5a (`cm-agent-plan`) complete, Stage 5b (`cm-execute`) in progress or complete
 - `Learning —` docs → prior learnings exist (already surfaced in Step 0)
 - `Experiment —` doc → a measured test ran or is running
+- `Client Context —` doc → the channel's success line is already discovered/persisted; no need to route through `/cm-channel-discovery`
 
 Mark completed stages. Route past them rather than re-running (R3).
 
@@ -67,6 +68,7 @@ Use the intent→stage table to recommend ONE entry stage with a one-line reason
 | "Tracking is broken / conversions look off"                         | `/cm-analytics-audit` (diagnostic)    |
 | "Test this before we roll it out" / plan action is a measured test  | `/cm-experiment` (companion)          |
 | "Capture this learning / mark this decision"                        | `/cm-compound` (no dispatcher needed) |
+| "What's our target CAC/ROAS/CPL for this channel" / no `Client Context` doc yet / cm-audit blocked on the success line | `/cm-channel-discovery` (no dispatcher needed) |
 | "Pause/hand off this cm session" / "what's the state of this cm run" / session ending or forking mid-stage | `/cm-handoff` (no dispatcher needed) |
 | "Set up/update my voice profile" / "seed my voice from these samples" | `/cm-build-voice` (no dispatcher needed) |
 | Drafting/revising any outward client message — "sound like me" / "gate this draft" | `/cm-sound-like-me` (no dispatcher needed) |

@@ -21,22 +21,23 @@ Establish:
 - **Client identifier** — maps to your client/account folder
 - **Channel(s) in scope** — paid search, paid social, email/lifecycle, organic/SEO, CRO, full-funnel
 - **Time horizon** — default last 30 days + trend over 90 days; adjust if recency matters (e.g., post-launch)
-- **The success line** — what "good" means for this client (ROAS/CoS for ecom paid, CAC:LTV for SaaS, CPL for lead-gen, revenue-per-send for email). Pull from client context, never assume a generic benchmark.
+- **The success line** — what "good" means for this client (ROAS/CoS for ecom paid, CAC:LTV for SaaS, CPL for lead-gen, revenue-per-send for email). Pull from the `Client Context — <Channel> — <Client Display Name>` doc (see Step 2) — never assume a generic benchmark.
 
-If any of these is unclear after reading client context in Step 2, ask ONE outcome-framed question, then proceed.
+If the success line doesn't exist yet (no `Client Context` doc for this client+channel) or is stale, invoke **`/cm-channel-discovery`** to resolve and persist it before proceeding — don't ask an ad hoc question yourself and let the answer evaporate at session end. Any other framing gap (client identifier, channel, time horizon) still gets ONE outcome-framed question directly.
 
 ## Step 2 — Read client context (MANDATORY, before pulling live data)
 
 Read in this order — stop when you have enough context; don't load everything blindly:
 
-1. **Client directory:** your client/account folder's routing doc (e.g. a `CLAUDE.md` or README at `clients/<slug>/`)
-2. **Prior CM artifacts:** search the flat `Compound Marketing` Drive folder for this client's most recent `Analysis` / `Plan` docs to understand what was already found. This is the compounding read-back.
-3. **Channel-specific SOP:** your channel's audit SOP / account-intelligence doc, if you maintain one — e.g.:
+1. **Client Context doc:** search the flat `Compound Marketing` Drive folder for `Client Context — <Channel> — <Client Display Name>` — this is where the success line (Step 1) and any other standing channel context lives. Missing or stale → invoke `/cm-channel-discovery`, per Step 1.
+2. **Client directory:** your client/account folder's routing doc (e.g. a `CLAUDE.md` or README at `clients/<slug>/`)
+3. **Prior CM artifacts:** search the flat `Compound Marketing` Drive folder for this client's most recent `Analysis` / `Plan` docs to understand what was already found. This is the compounding read-back.
+4. **Channel-specific SOP:** your channel's audit SOP / account-intelligence doc, if you maintain one — e.g.:
    - Paid search: your Google Ads audit SOP + daily-analysis-questions reference
    - Paid social: your Meta Ads audit SOP (when it exists)
    - Email: email platform SOP (when it exists)
-4. **Recent meeting context:** check the client/account folder for meeting notes or transcripts from the last 30 days that surface known issues or priorities.
-5. **Account intelligence:** your paid-channel account-intelligence doc (account economics, CoS/ROAS breakeven) for paid channels.
+5. **Recent meeting context:** check the client/account folder for meeting notes or transcripts from the last 30 days that surface known issues or priorities.
+6. **Account intelligence:** your paid-channel account-intelligence doc (account economics, CoS/ROAS breakeven) for paid channels.
 
 ## Step 3 — Pull live data by channel
 
