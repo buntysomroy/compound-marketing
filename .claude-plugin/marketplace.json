@@ -6,7 +6,7 @@
   },
   "metadata": {
     "description": "Compound Marketing — the marketing twin of Compound Engineering: a staged, report-at-each-gate marketing workflow with approval gates.",
-    "version": "0.10.0"
+    "version": "0.10.1"
   },
   "plugins": [
     {

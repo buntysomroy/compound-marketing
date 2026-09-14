@@ -172,7 +172,7 @@ The first example fails because the headline rate has no denominator, no coverag
 
 Never mix the two: if any Open Item is tagged blocking, the first step is the resume command, full stop — do not simultaneously suggest advancing to the next stage as an alternative in the same field. If the user wants to advance anyway despite open items, that's their call to make explicitly, not a default the handoff offers.
 
-**Rendering:** Inline in chat, always. A file copy is optional and never a replacement. The handoff block is internal scaffolding — strip it from any client-shared artifact (see Client-Facing Stripping Rule below).
+**Rendering:** Inline in chat, always, wrapped in a single fenced code block (triple backticks around the whole block, from `## Handoff —` through the last `First step` line) — never bare chat markdown. This is so the block is copyable in one click and pasteable in a second, which is the entire point of a literal, pastable "First step" command (see above): a command that can't be one-click-copied isn't actually thin, it's just short. A file copy is optional and never a replacement. The handoff block is internal scaffolding — strip it from any client-shared artifact (see Client-Facing Stripping Rule below).
 
 **Bypass:** None. Every stage emits a handoff block, even if the stage produced no artifact (e.g., cm-compound invoked with nothing to capture → handoff block says "no learning captured this run").
 

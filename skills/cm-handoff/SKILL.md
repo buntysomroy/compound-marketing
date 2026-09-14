@@ -31,7 +31,7 @@ Deliberately absent from this list: a step to restate findings or evidence. That
 
 ## Step 2 — Emit Handoff Block
 
-Render the handoff block inline in chat using the contract Step 4 format:
+Render the handoff block inline in chat using the contract Step 4 format, wrapped in a single fenced code block (the whole block, from `## Handoff —` through the `First step` line, inside one set of triple backticks) so it is copyable in one click and pasteable in a second — never as bare chat markdown:
 
 ```
 ## Handoff — <Stage or "CM session"> complete
