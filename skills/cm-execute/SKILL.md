@@ -28,6 +28,7 @@ description: >-
 5. **Spend cap, enforced cumulatively.** Track running spend impact against the manifest's `MAX_SPEND_CHANGE` and `APPROVAL_REQUIRED_ABOVE` — never let the total cross the cap even if each card looked small enough alone.
 6. **Effect Probe on every card, every rung.** Baseline before acting (skip if already at `target_state`); read back after (prefer a different modality than the act); verdict CONFIRMED / PENDING(t) / FAILED. **FAILED halts the run** — rollback if safe, surface to the user, never retry blind.
 7. **Credential posture.** All API calls run through MCP-brokered client auth; browser automation acts only inside an already-authenticated client session and never accepts, stores, or echoes raw credentials. Missing access = `🔴 ACTION REQUIRED`, stop.
+8. **Context before the ask, always.** Whenever this flow needs the user to decide, judge, or verify something — approve a card, confirm an anomaly's real cause, say whether an analysis or a proposed solution is correct — render the evidence behind that judgment call in the same message, before the question. A bare status line ("waiting on you," "needs your review") is a placeholder for a gate, not the gate itself. Established 2026-09-15.
 
 ## Step 1 — Read the manifest in full
 
@@ -43,7 +44,7 @@ For every card you're about to touch, re-pull its live state first via that card
 
 For each card: `baseline → (skip if ALREADY-CONVERGED) → gate(s) → act → read-back → receipt`.
 
-- **Copilot-with-approval cards:** render baseline evidence + exact change + probe plan + rollback inline, then `AskUserQuestion` (EA-class cards: include your workspace's approval token, e.g. `# APPROVED`, in the executing command if your gate checks for one). Batch same-shape cards into one gate with a per-item evidence table.
+- **Copilot-with-approval cards:** render baseline evidence + exact change + probe plan + rollback inline (rule 8), then `AskUserQuestion` (EA-class cards: include your workspace's approval token, e.g. `# APPROVED`, in the executing command if your gate checks for one). Batch same-shape cards into one gate with a per-item evidence table.
 - **Vendor/human cards:** generate the brief with baseline evidence embedded; EA gate on dispatch; still probe the human's change afterward.
 - **Append every receipt to the Execution Log doc as it lands** (protocol §7) — never batch receipts to the end.
 
