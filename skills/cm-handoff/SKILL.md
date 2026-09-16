@@ -29,7 +29,7 @@ description: >-
 A handoff is **one fenced code block** the next session pastes as its first message. Line 1 is a
 skill invocation; the payload is a durable path at the Drive root (`CE Artifacts/…`, a project
 folder, a CM stage doc). An optional last line is the tracker pointer. Nothing else goes in the
-block — no grounding prose, no step restatement, no summary of this session's conclusions. Everything
+block — no orientation prose, no step restatement, no summary of this session's conclusions. Everything
 the next session needs is either ON the artifact or ON the tracker item; the block only points.
 
 Two layers, always:
@@ -78,7 +78,7 @@ Rules:
   `cm-<next stage>` for a CM stage doc with no blocking Open Items, `cm-<same stage> — resume open
   items:` when the artifact's Open Items include a blocking one (contract Step 4 rule).
 - Line 2 is the tracker pointer when one exists (`Work Board item: <id>` in ZenMaid; the issue URL
-  in RPD). Grounding fires on it; hydration reads it.
+  in RPD). `/gut-check` fires on it; hydration reads it.
 - Scope a unit range only when the plan itself defines units and the next session should stop
   partway (`… — U1–U8 only`). Otherwise the plan's own sequencing governs.
 
@@ -175,6 +175,6 @@ handoff format instead of pointing here, that is the defect this skill exists to
 - **2026-09-16 (0.10.4)** — Became the single owner of handoff format for all workspaces (Bunty).
   Added the principle (invocation + durable Drive-root path), Modes A and B, the retirement of the
   bare tracker-pointer block, and the two-layer setup/block contract that lived in ZenMaid
-  `CLAUDE.md` and the (since retired) Cowork grounding skill. Mode C is the prior 0.10.1 behaviour, unchanged.
+  `CLAUDE.md` and the (since retired) Cowork pickup skill. Mode C is the prior 0.10.1 behaviour, unchanged.
 - **0.10.1** — Handoff block wrapped in a fenced code block for one-click copy.
 - **Contract Step 6** — Open Items made the handoff a thin pointer, not a restatement.

@@ -24,7 +24,7 @@ Establish, briefly:
 
 - **Domain / channel** — paid ads (Google/Meta), SEO, email/lifecycle, CRO, content, social, full-funnel. This selects the framework + the specialist (Step 3).
 - **The profitability / success line** — what "good" means for THIS client account (ROAS / CoS for ecom paid; CAC:LTV; pipeline/CPL for lead-gen; open/click/revenue-per-send for email). Confirm from client context, never assume a generic benchmark.
-- **Inputs available** — the audit output (`/cm-audit` if it ran), the live data source, and the grounding docs (Step 2).
+- **Inputs available** — the audit output (`/cm-audit` if it ran), the live data source, and the context docs (Step 2).
 
 If the domain or success line is genuinely unclear, ask ONE outcome-framed question, then proceed.
 

@@ -129,7 +129,7 @@ Sweep all references to the old solver in the same PR per your skill-deprecation
 
 - **Mechanical compatibility of the 4 old-solver lens agents is verified** (they take an inline artifact + verbatim-quote guard). But **review efficacy on the new doc type is NOT verified**: the lenses were tuned to critique a single-problem solution doc; a full-account sequenced plan has different failure modes (sequencing/dependency errors, cross-campaign budget allocation) the existing lenses may not probe. Plan to dogfood the repointed lenses on one real `cm-plan` output and check whether a plan-specific lens is missing.
 - **`cm-analyze` rename is a doc-only sweep** (verify: the skill, the vision doc, and this requirements doc — and confirm there are no code/hook/settings references).
-- **Depends on** existing surfaces unchanged: your ad-platform data source (Google + Meta Ads, via MCP or API), GA4 (web analytics) tools, your CRM's MCP/API, your marketing-docs store, your browser-automation tool; your ad-platform daily-analysis methodology + account-economics as the methodology spine. If that methodology shifts, `cm-analyze`'s grounding shifts under the whole chain.
+- **Depends on** existing surfaces unchanged: your ad-platform data source (Google + Meta Ads, via MCP or API), GA4 (web analytics) tools, your CRM's MCP/API, your marketing-docs store, your browser-automation tool; your ad-platform daily-analysis methodology + account-economics as the methodology spine. If that methodology shifts, `cm-analyze`'s evidence base shifts under the whole chain.
 
 ## Appendix — Red Pine reference implementation (optional)
 
