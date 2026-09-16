@@ -17,7 +17,7 @@ description: >-
 
 > **Where this sits.** This is the central source of truth for handoff format across every workspace
 > that installs this plugin (ruled by Bunty 2026-09-16). Workspace instruction files (`CLAUDE.md`,
-> the `grounding` skill's §Handoff) POINT here; they do not carry a format of their own. CM stage
+> the Cowork Work Board pickup pointer skill) POINT here; they do not carry a format of their own. CM stage
 > skills emit their end-of-stage block per the stage contract Step 4; that block's `First step` line
 > IS a Mode A invocation, so the two never disagree.
 >
@@ -175,6 +175,6 @@ handoff format instead of pointing here, that is the defect this skill exists to
 - **2026-09-16 (0.10.4)** — Became the single owner of handoff format for all workspaces (Bunty).
   Added the principle (invocation + durable Drive-root path), Modes A and B, the retirement of the
   bare tracker-pointer block, and the two-layer setup/block contract that lived in ZenMaid
-  `CLAUDE.md` and the `grounding` skill. Mode C is the prior 0.10.1 behaviour, unchanged.
+  `CLAUDE.md` and the (since retired) Cowork grounding skill. Mode C is the prior 0.10.1 behaviour, unchanged.
 - **0.10.1** — Handoff block wrapped in a fenced code block for one-click copy.
 - **Contract Step 6** — Open Items made the handoff a thin pointer, not a restatement.
