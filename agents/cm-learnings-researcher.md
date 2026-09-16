@@ -21,14 +21,14 @@ A `<work-context>` block from the caller:
 
 ## What to do
 
-> 🚨 **Content access is STRICTLY via your docs-store tooling — NEVER the raw filesystem.** These learnings are typically Google Docs (or your equivalent). A Google Doc has **no readable bytes on disk** — a local Drive mount typically stores only a small `.gdoc` JSON stub (`{"doc_id": "..."}`), not the text. So `Read`/`cat`/`grep`/`Glob` on a `.gdoc` returns the stub and **silently "succeeds"** (exit 0, bytes returned) while delivering ZERO content — a cold session that trusts that would wrongly conclude the doc is empty. (Also: local `find` under a Drive mount can miss the folder because `My Drive` is often a symlink it won't follow.) Therefore:
+> 🚨 **These learnings are `.docx` files, directly readable — no docs-store stub problem.** As of 2026-09-16 every CM artifact (including Learning docs) is authored as a real `.docx` file uploaded with content-type conversion disabled, not a native Google Doc — so unlike the old convention there is no unreadable `.gdoc` JSON stub to worry about. Content is reachable either through your docs-store tool (search/list to find, download/read-content to read by ID) or, on a locally-mounted Drive, via a plain filesystem read + `pandoc`/the `docx` skill's read recipe. Use whichever is faster; both return real content. (Historical note, kept for anyone maintaining an older deployment: a native Google Doc has no readable bytes on disk — a local Drive mount stores only a small `.gdoc` JSON stub, and `Read`/`cat`/`grep`/`Glob` on it silently "succeeds" while returning zero content. That failure mode does not apply to `.docx`.)
 >
-> - **Discovery + content both go through your docs-store tool** (search/list to find, read-document to read by ID). Never read a `.gdoc` stub from disk for content.
-> - If you somehow only have a filesystem path, extract the `doc_id` from the stub and pass it to your read-document tool — the stub is a pointer, never the answer.
+> - **Discovery** still goes through your docs-store tool (search/list by title) — that part is unchanged.
+> - Also note: local `find` under a Drive mount can miss the folder because `My Drive` is often a symlink it won't follow — resolve the folder by search, not a blind filesystem walk.
 
 ### 1. Locate the client's CM-learnings docs in your docs store
 
-All `/cm*` artifacts live in ONE flat folder, **`Compound Marketing`**. CM-compound learning docs are titled `Learning — <topic> — <Client Display Name> — <YYYY-MM-DD>` (Type-first, broad → detailed). **Scope the search to that folder** (a bare full-text query also returns unrelated client docs — audits, meeting minutes — so resolve the folder ID first and list within it):
+All `/cm*` artifacts live in ONE flat folder, **`Compound Marketing`**. CM-compound learning docs are `.docx` files titled `Learning — <topic> — <Client Display Name> — <YYYY-MM-DD>.docx` (Type-first, broad → detailed; title search is extension-agnostic). **Scope the search to that folder** (a bare full-text query also returns unrelated client docs — audits, meeting minutes — so resolve the folder ID first and list within it):
 
 ```
 # 1. Resolve the folder ID once — must land on EXACTLY ONE folder
@@ -43,7 +43,7 @@ list_drive_files(folderId: "<id>")   # paginate via pageToken until exhausted
 
 Then keep only docs whose title contains `— Learning —` for this client. (Canonical convention: `reference/sop-cm-pipeline.md` § Artifact naming convention — flat folder, `<Type> — <Channel/topic> — <Client> — <date>` titles, broad → detailed.)
 
-**Decisions doc gets priority.** If a doc titled `Learning — Decisions — <Client Display Name>` exists for this client, read it FIRST — its carry-forward items lead the digest. This doc accumulates one-line decisions at decision time (per the stage contract R8), so it is the most current settled-decision surface. List its decisions as the top carry-forward items before any topic-specific learnings.
+**Decisions doc gets priority.** If a `.docx` file titled `Learning — Decisions — <Client Display Name>.docx` exists for this client, read it FIRST — its carry-forward items lead the digest. This doc accumulates one-line decisions at decision time (per the stage contract R8), so it is the most current settled-decision surface. List its decisions as the top carry-forward items before any topic-specific learnings.
 
 **Distinguish "genuinely none" from "couldn't read" — never conflate them.** If the search returns an empty result set, that is genuinely no learnings → return `No prior CM learnings for <client>.` (early-adoption normal). But if your docs-store tools are **unavailable or error** (connector not connected, permissions gap, a headless/cron run without the right connector), do NOT return "no learnings" — that silently hides real context. Instead surface: `⚠️ Could NOT reach the Compound Marketing folder (docs-store tool <tool> failed: <error>) — prior learnings may exist but are unread. Caller should not assume a clean slate.` A tool failure is a loud caveat, not a clean "none." (Docs-store-only storage is tool-dependent by design — this guard is the price; the cold-session robustness tradeoff is documented in `reference/sop-cm-pipeline.md`.)
 

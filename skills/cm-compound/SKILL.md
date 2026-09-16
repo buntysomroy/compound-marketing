@@ -1,6 +1,6 @@
 ---
 name: cm-compound
-description: "Use when you say '/cm-compound', 'capture this marketing learning', 'save the CM decision', 'document why we chose X channel', 'compound this learning', 'write a learning doc for <client>', or after a /cm-plan / strategic-marketing decision worth remembering. Capture a solved marketing problem, a durable client-strategy decision, or a Compound Marketing methodology learning as a user-friendly Google Doc in a flat `Compound Marketing` Drive folder — so a future /cm-* run recalls it (via cm-learnings-researcher) instead of re-deriving it. The marketing mirror of /ce-compound (which writes engineering solutions-*.md to the repo); this writes to Drive because marketing docs belong where the client + team can read them."
+description: "Use when you say '/cm-compound', 'capture this marketing learning', 'save the CM decision', 'document why we chose X channel', 'compound this learning', 'write a learning doc for <client>', or after a /cm-plan / strategic-marketing decision worth remembering. Capture a solved marketing problem, a durable client-strategy decision, or a Compound Marketing methodology learning as a user-friendly `.docx` file in a flat `Compound Marketing` Drive folder — so a future /cm-* run recalls it (via cm-learnings-researcher) instead of re-deriving it. The marketing mirror of /ce-compound (which writes engineering solutions-*.md to the repo); this writes to Drive because marketing docs belong where the client + team can read them."
 ---
 
 # /cm-compound — Compound Marketing: capture a learning
@@ -9,7 +9,7 @@ description: "Use when you say '/cm-compound', 'capture this marketing learning'
 >
 > Pipeline reference: `reference/sop-cm-pipeline.md`.
 
-The **write half** of the CM compound loop. `cm-learnings-researcher` is the recall half. Together they mirror the engineering loop (`/ce-compound` writes `protocols-and-sops/solutions-*.md`; `ce-learnings-researcher` recalls them) — except marketing learnings are written as **user-friendly Google Docs in Drive**, not repo markdown, because the client and team read them.
+The **write half** of the CM compound loop. `cm-learnings-researcher` is the recall half. Together they mirror the engineering loop (`/ce-compound` writes `protocols-and-sops/solutions-*.md`; `ce-learnings-researcher` recalls them) — except marketing learnings are written as **user-friendly `.docx` files in Drive**, not repo markdown, because the client and team read them.
 
 ## When a learning qualifies
 
@@ -52,9 +52,9 @@ Write to the single flat **`Compound Marketing`** Drive folder — the shared pa
 
 ## Step 3 — Write the doc (user-friendly)
 
-Title convention (broad → detailed, left to right; so `cm-learnings-researcher` + the stages find it): **`Learning — <topic> — <Client Display Name> — <YYYY-MM-DD>`** (e.g. "Learning — Channel Prioritization — Acme Retail — 2026-06-29"). See `reference/sop-cm-pipeline.md` § Artifact naming convention.
+Title convention (broad → detailed, left to right; so `cm-learnings-researcher` + the stages find it): **`Learning — <topic> — <Client Display Name> — <YYYY-MM-DD>.docx`** (e.g. "Learning — Channel Prioritization — Acme Retail — 2026-06-29.docx"). See `reference/sop-cm-pipeline.md` § Artifact naming convention.
 
-Create it as a formatted Google Doc (via your Drive tooling, or build markdown then convert it to a doc). Keep it skimmable — this is read by you and potentially the client, not a dev. Structure:
+Create it as a `.docx` file: build via the `docx` skill, then upload to the `Compound Marketing` Drive folder with content-type conversion disabled (see `reference/sop-cm-pipeline.md` § Storage tradeoff & access) — so it stays a real, directly-editable file rather than a native Google Doc. Keep it skimmable — this is read by you and potentially the client, not a dev. Structure:
 
 ```
 # Learning — <topic> — <Client Display Name> — <YYYY-MM-DD>
@@ -83,9 +83,9 @@ Render the doc title + Drive link in chat. Note that `cm-learnings-researcher` w
 
 ## Step 5 — Update the folder's `CLAUDE.md` index (the cold-session breadcrumb)
 
-The `Compound Marketing` folder contains a plain-text **`CLAUDE.md`** (real bytes, NOT a Google Doc — so it's readable on a plain `ls`/`Read`, unlike the `.gdoc` learnings). It's the breadcrumb a cold session reads when it lands in the folder: empirically (2026-06-29 test) a fresh agent orienting in the folder reads `CLAUDE.md` on its own and follows its "`.gdoc` is a pointer → read it via your Drive-doc-reading tool" recipe. **After writing a new Learning doc, append its title to the `## Index of Learning docs` list in `CLAUDE.md`** so the breadcrumb stays current.
+The `Compound Marketing` folder contains a plain-text **`CLAUDE.md`** (real bytes, same as every artifact in the folder now that learnings are `.docx` files, not native Google Docs). It's the breadcrumb a cold session reads when it lands in the folder: empirically (2026-06-29 test) a fresh agent orienting in the folder reads `CLAUDE.md` on its own and follows its recipe for finding artifacts by title. **After writing a new Learning doc, append its title to the `## Index of Learning docs` list in `CLAUDE.md`** so the breadcrumb stays current. (Historical note: this breadcrumb mattered more when learnings were native Google Docs — an unreadable `.gdoc` stub via plain filesystem access. With `.docx` the content itself is directly readable, so the index is now a convenience for locating the right file by title rather than a workaround for an unreadable format.)
 
-It is a local Drive-mount file, so update it with a direct filesystem write (not a Drive-API doc-editing tool): your local Drive-mount path for the `Compound Marketing` folder (e.g. `~/My Drive/Compound Marketing/CLAUDE.md`). If it's missing, recreate it from the template (the read-recipe + title convention + the index). Keep it plain markdown — its whole value is that it survives a filesystem read where the Google Docs cannot.
+It is a local Drive-mount file, so update it with a direct filesystem write: your local Drive-mount path for the `Compound Marketing` folder (e.g. `~/My Drive/Compound Marketing/CLAUDE.md`). If it's missing, recreate it from the template (the read-recipe + title convention + the index). Keep it plain markdown.
 
 ## Relationship to the rest
 
@@ -108,4 +108,4 @@ When a capture surfaces a better doc structure, a Drive-folder convention change
 
 ## Appendix — Red Pine reference implementation (optional)
 
-Red Pine Digital's own deployment of this skill uses Shanti MCP (`shanti_search_drive`, `shanti_list_drive_files`, `shanti_create_drive_folder`, `shanti_create_drive_document`) as its Drive/marketing-docs tooling, the `/format-gdoc` skill to convert markdown to a formatted doc, `pre-tool-skill-context-injector.sh` to auto-dispatch `cm-learnings-researcher` before every `/cm-*` run, and `/learn` category 13 (its engineering-learning capture step) as the trigger to offer `/cm-compound`. A worked title example from that deployment: "Learning — Channel Prioritization — Sprinkler Supply Store — 2026-06-29". Red Pine also runs a distinct autonomous-copilot learning extractor (`/cmo-copilot-learn`) that writes `copilot-playbooks.ts` + `case-*.md` for its CMO copilot — unrelated to this skill's Drive output, run both when both apply.
+Red Pine Digital's own deployment of this skill uses Shanti MCP (`shanti_search_drive`, `shanti_list_drive_files`, `shanti_create_drive_folder`, `shanti_create_drive_document`) as its Drive/marketing-docs tooling, the `docx` skill + a Drive-upload tool with content-type conversion disabled to produce and place the `.docx` file (superseding the older `/format-gdoc` native-Google-Doc path — see `reference/sop-cm-pipeline.md` § Storage tradeoff & access for why), `pre-tool-skill-context-injector.sh` to auto-dispatch `cm-learnings-researcher` before every `/cm-*` run, and `/learn` category 13 (its engineering-learning capture step) as the trigger to offer `/cm-compound`. A worked title example from that deployment: "Learning — Channel Prioritization — Sprinkler Supply Store — 2026-06-29.docx". Red Pine also runs a distinct autonomous-copilot learning extractor (`/cmo-copilot-learn`) that writes `copilot-playbooks.ts` + `case-*.md` for its CMO copilot — unrelated to this skill's Drive output, run both when both apply.

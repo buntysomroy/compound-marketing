@@ -58,7 +58,7 @@ Every experiment that touches a live paid account carries, in the doc:
 
 ## Experiment doc — template (grounded in a tracker format worth standardizing on)
 
-Save as a **Google Doc in a flat `Compound Marketing` Drive folder** (via your Drive MCP tools / `/format-gdoc`, **NOT** repo markdown — per `reference/sop-cm-pipeline.md` § "Artifact naming convention"). Title **Type-first, broad→detailed**: `Experiment — <Channel / Topic> — <Client Display Name> — <YYYY-MM-DD>` (e.g. `Experiment — Google Ads Brand-Bid-Down — Client X — 2026-07-02`).
+Save as a **`.docx` file in a flat `Compound Marketing` Drive folder** (build via the `docx` skill, upload with content-type conversion disabled — **NOT** repo markdown, **NOT** a native Google Doc — per `reference/sop-cm-pipeline.md` § "Artifact naming convention" and § "Storage tradeoff & access"). Title **Type-first, broad→detailed**: `Experiment — <Channel / Topic> — <Client Display Name> — <YYYY-MM-DD>.docx` (e.g. `Experiment — Google Ads Brand-Bid-Down — Client X — 2026-07-02.docx`).
 
 ```markdown
 # <Client> — <Channel> Experiment: <name> — <YYYY-MM-DD>

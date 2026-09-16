@@ -182,7 +182,7 @@ Never mix the two: if any Open Item is tagged blocking, the first step is the re
 
 **When:** At the moment a decision is made — during AskUserQuestion answers, chat confirmations, or any explicit choice the user makes.
 
-**What:** Append the decision to the per-engagement `Learning — Decisions — <Client Display Name>` Google Doc in the Compound Marketing folder. One line per decision:
+**What:** Append the decision to the per-engagement `Learning — Decisions — <Client Display Name>.docx` file in the Compound Marketing folder. One line per decision:
 
 ```
 | <YYYY-MM-DD> | <Stage> | <Decision> | <Why / rationale> |
@@ -190,7 +190,7 @@ Never mix the two: if any Open Item is tagged blocking, the first step is the re
 
 **Format:**
 
-- Find or create the `Learning — Decisions — <Client Display Name>` doc. If it exists, append a new row; if not, create it (no date in the title — this doc is perpetual, one per client).
+- Find or create the `Learning — Decisions — <Client Display Name>.docx` file (build/edit via the `docx` skill; upload with content-type conversion disabled). If it exists, append a new row (download → edit locally → trash old → reupload under the identical title, per `reference/sop-cm-pipeline.md` § "Storage tradeoff & access"); if not, create it (no date in the title — this doc is perpetual, one per client).
 - After appending, update the folder's `CLAUDE.md` index if this is a new doc.
 
 **Error path:** If the Drive tools are unreachable or the append fails, surface the failure loudly (never skip silently) and carry the unlogged decision verbatim in the session's handoff block as a pending-log item:

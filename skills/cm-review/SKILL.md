@@ -20,8 +20,8 @@ The 4 lens agents (`cm-lens-*`) are `/cm-review`'s lenses — generalized to be 
 
 **Required inputs:**
 
-1. **The plan doc** — the `<Client> — Plan — <Channel> — <date>` Google Doc in the flat `Compound Marketing` Drive folder (Stage 3 output; find by searching your marketing docs store — Google Drive, etc.)
-2. **The insights doc** — the `<Client> — Analysis — <Channel> — <date>` Google Doc in the same folder (Stage 2 output) — the plan flows from it; reviewers need both.
+1. **The plan doc** — the `<Client> — Plan — <Channel> — <date>.docx` file in the flat `Compound Marketing` Drive folder (Stage 3 output; find by title search in your marketing docs store — Google Drive, etc. — extension-agnostic; read directly via `pandoc`/filesystem)
+2. **The insights doc** — the `<Client> — Analysis — <Channel> — <date>.docx` file in the same folder (Stage 2 output) — the plan flows from it; reviewers need both.
 
 Read both docs fully. Then compose a single merged artifact block combining the key sections (Success line, Action plan table, Budget impact, What this plan doesn't address) from the plan doc with the "What to change" table and Watch-outs from the insights doc.
 

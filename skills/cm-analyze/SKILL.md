@@ -58,7 +58,7 @@ Use this mode instead of (or alongside) the Impact/Effort/Ownership ladder above
 
 Write a dated markdown doc (ce-plan-style — a durable artifact, not just chat):
 
-- **Location:** a doc in your marketing docs store (e.g. a flat `Compound Marketing` Drive folder), titled `Analysis — <Channel> — <Client Display Name> — <YYYY-MM-DD>` (create via your docs tool of choice — e.g. `/format-gdoc`). See `reference/sop-cm-pipeline.md` § Artifact naming convention.
+- **Location:** a `.docx` file in your marketing docs store (e.g. a flat `Compound Marketing` Drive folder), titled `Analysis — <Channel> — <Client Display Name> — <YYYY-MM-DD>.docx` (build via the `docx` skill, then upload with content-type conversion disabled — not `/format-gdoc`, which produces a native Google Doc; see `reference/sop-cm-pipeline.md` § Artifact naming convention).
 - **Structure:**
   1. **Header** — account/scope, period, success line, sources (sheet IDs, SOPs, meeting docs), prepared-by + date.
   2. **Bottom line** — 2–3 sentences: healthy vs the success line? trending which way?

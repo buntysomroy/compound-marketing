@@ -50,7 +50,7 @@ A client problem/opportunity (from an investigation, a brief, a meeting, or an a
 
 ### Artifact location + template
 
-**Location:** a Google Doc in the flat `Compound Marketing` Drive folder, titled `Solution — <Problem/Channel> — <Client Display Name> — <YYYY-MM-DD>` (per `sop-cm-pipeline.md` § Artifact naming convention — Type first, then Channel/Topic, then Client, then ISO date). Earlier single-problem docs wrote to a per-client repo subfolder; that repo path is **retired** — the read-back and `cm-learnings-researcher` search the flat Drive folder by title.
+**Location:** a `.docx` file in the flat `Compound Marketing` Drive folder, titled `Solution — <Problem/Channel> — <Client Display Name> — <YYYY-MM-DD>.docx` (per `sop-cm-pipeline.md` § Artifact naming convention — Type first, then Channel/Topic, then Client, then ISO date; build via the `docx` skill, upload with content-type conversion disabled). Earlier single-problem docs wrote to a per-client repo subfolder; that repo path is **retired** — the read-back and `cm-learnings-researcher` search the flat Drive folder by title.
 
 ```
 <!-- cm:solution -->
@@ -108,7 +108,7 @@ P0/P1 findings MUST be resolved (revise the doc) or surfaced in Open questions b
 
 Read:
 
-1. **The insights doc** — the `<Client> — Analysis — <Channel> — <date>` Google Doc in the flat `Compound Marketing` Drive folder (find by searching your marketing docs store — Google Drive, etc.). Read it fully; extract the "What to change" scored table as the primary raw material.
+1. **The insights doc** — the `<Client> — Analysis — <Channel> — <date>.docx` file in the flat `Compound Marketing` Drive folder (find by title search in your marketing docs store — Google Drive, etc. — extension-agnostic). Read it fully (directly, via `pandoc`/filesystem — no Docs-API stub problem); extract the "What to change" scored table as the primary raw material.
 2. **Prior plan docs** — search the `Compound Marketing` folder for this client's prior `Plan` docs to see what was planned before and the delta. Don't plan what's already in flight.
 3. **Client context** — your client/account folder's context doc for owner map, vendor relationships, and execution constraints (e.g., the ad vendor's scope, platform integration, your vs vendor authority).
 4. **Business context** — any upcoming launches, seasonality, budget cycles, or known constraints from recent meeting notes.
@@ -126,7 +126,7 @@ Convert the "What to change" table from the insights doc into a prioritized plan
 
 ## Step 3 — Write the plan doc
 
-**Location:** a Google Doc in the flat `Compound Marketing` Drive folder, titled `Plan — <Channel> — <Client Display Name> — <YYYY-MM-DD>` (create via your Drive/docs tools, or `/format-gdoc` if bundled in your workspace). See `reference/sop-cm-pipeline.md` § Artifact naming convention. (Not a per-client repo folder path — the flat Drive folder is canonical.)
+**Location:** a `.docx` file in the flat `Compound Marketing` Drive folder, titled `Plan — <Channel> — <Client Display Name> — <YYYY-MM-DD>.docx` (build via the `docx` skill, upload with content-type conversion disabled — see `reference/sop-cm-pipeline.md` § Artifact naming convention and § Storage tradeoff & access). (Not a per-client repo folder path — the flat Drive folder is canonical.)
 
 **Structure:**
 

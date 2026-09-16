@@ -27,7 +27,7 @@ This is the **Compile half** of the execution bridge — the marketing analogue 
 
 ## Step 1 — Read the approved plan
 
-**Required input:** the approved `<Client> — Plan — <Channel> — <date>` doc (Google Doc in the flat Compound Marketing Drive folder, or the equivalent dated file in the client's own project folder), with the Lens Review Summary appended (Stage 4 output).
+**Required input:** the approved `<Client> — Plan — <Channel> — <date>.docx` file (in the flat Compound Marketing Drive folder, or the equivalent dated file in the client's own project folder), with the Lens Review Summary appended (Stage 4 output).
 
 Also read:
 
@@ -45,7 +45,7 @@ Every card has all required fields; no card's rung exceeds its derived max; mani
 
 ## Step 4 — Write the Execution Manifest
 
-`Execution Manifest — <Client> — <Channel> — <YYYY-MM-DD>` Google Doc in the flat Compound Marketing Drive folder (protocol §7 format: card table, spend block, pre-flight results). Render the card table inline in chat.
+`Execution Manifest — <Client> — <Channel> — <YYYY-MM-DD>.docx` file in the flat Compound Marketing Drive folder (build via the `docx` skill, upload with content-type conversion disabled; protocol §7 format: card table, spend block, pre-flight results). Render the card table inline in chat.
 
 ## Step 5 — Manifest Gate (non-negotiable)
 

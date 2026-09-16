@@ -67,7 +67,7 @@ Note the data freshness and any gaps (e.g., "Meta ROAS unavailable — no ad-pla
 
 Write a dated markdown doc — findings only, no recommendations yet:
 
-**Location:** a Google Doc in the flat `Compound Marketing` Drive folder, titled `Audit — <Channel> — <Client Display Name> — <YYYY-MM-DD>` (create via your doc-creation tool of choice). See `reference/sop-cm-pipeline.md` § Artifact naming convention.
+**Location:** a `.docx` file in the flat `Compound Marketing` Drive folder, titled `Audit — <Channel> — <Client Display Name> — <YYYY-MM-DD>.docx` (build via the `docx` skill, then upload with content-type conversion disabled — see `reference/sop-cm-pipeline.md` § Artifact naming convention for the mechanics and why it's `.docx`, not a Google Doc, as of 2026-09-16).
 
 **Structure:**
 
