@@ -27,7 +27,7 @@ This is the **Compile half** of the execution bridge — the marketing analogue 
 
 ## Step 1 — Read the approved plan
 
-**Required input:** the approved `<Client> — Plan — <Channel> — <date>.docx` file (in the flat Compound Marketing Drive folder, or the equivalent dated file in the client's own project folder), with the Lens Review Summary appended (Stage 4 output).
+**Required input:** the approved plan from the resolved artifact workspace plus its exact Stage 4 review receipt. In project-local mode, read `<project-slug>-<run-id>-...-plan.md` and the matching `review.md`; in shared-Drive mode, read the Plan `.docx` with its Lens Review Summary. Refuse a plan revision that was not the one reviewed.
 
 Also read:
 
@@ -45,7 +45,7 @@ Every card has all required fields; no card's rung exceeds its derived max; mani
 
 ## Step 4 — Write the Execution Manifest
 
-`Execution Manifest — <Client> — <Channel> — <YYYY-MM-DD>.docx` file in the flat Compound Marketing Drive folder (build via the `docx` skill, upload with content-type conversion disabled; protocol §7 format: card table, spend block, pre-flight results). Render the card table inline in chat.
+Write the manifest to the same profile and run. Project-local: `CM Artifacts/<project-slug>-<run-id>-<YYYY-MM-DD>-execution-manifest.md`. Shared Drive: `Execution Manifest — <Client> — <Channel> — <YYYY-MM-DD>.docx`. Render the card table inline in chat.
 
 ## Step 5 — Manifest Gate (non-negotiable)
 
@@ -60,7 +60,7 @@ On Modify/Cancel: execute nothing; update the manifest and re-present.
 Once the manifest is approved, create a client-facing **Execution Tracker** doc:
 
 - **Title:** `Execution Tracker — <Plan topic> — <Client> — <YYYY-MM-DD>`
-- **Location:** flat Compound Marketing Drive folder
+- **Location:** the selected workspace's client-facing delivery surface. The internal manifest remains in the resolved artifact profile; do not expose its scaffolding merely because the tracker is shared.
 - **Format:** plan actions as a checklist with owner (from the channel→owner map in `reference/sop-cm-execution-owner-map.md`), status, and date. This is the client-facing view — no internal scaffolding (no provenance blocks, no handoff blocks, no recall digests — per the stage contract's client-facing stripping rule).
 - **Shared:** with your approval, share via your Drive-sharing tools with the team and client.
 

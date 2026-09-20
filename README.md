@@ -6,6 +6,8 @@ A staged, **report-at-each-gate** marketing workflow — the marketing adaptatio
 audit → analyze → plan → review → agent-plan (compile) → execute (run)
 ```
 
+Internal artifacts can use either of two deterministic profiles: an agent-native, project-local flat `CM Artifacts` directory (Markdown stages, stable cross-date run IDs, CSV decision log), or the existing flat shared-Drive `Compound Marketing` folder (`.docx` fallback). A cycle resolves one profile once and never silently splits across both.
+
 ## Front door
 
 `/cm` — symptom intake, decisions recall, and an artifact check across your engagement docs, then a one-line recommendation for which stage to enter (with an alternative and a direct-bypass option). Run this before any numbered stage when you're not sure where to start; direct invocation of a stage skill is always still available.
@@ -26,7 +28,7 @@ Plus supporting skills:
 - `/cm-experiment` — design and track a marketing experiment against the execution owner-map.
 - `/cm-compound` — capture a solved marketing problem or durable decision so the next run inherits it.
 - `/cm-analytics-audit` — deep analytics/measurement audit (web analytics + ad-platform data quality).
-- `/cm-handoff` — the single owner of handoff format across workspaces (0.10.4): a pastable block whose first line is a skill invocation and whose payload is a durable Drive-root path. Mode A routes to an artifact with the owning CE/CM skill; Mode B falls back to `/ce-handoff` written to `CE Artifacts/handoffs/`; Mode C is the CM stage-completion block. Never a bare tracker pointer, never restated conclusions.
+- `/cm-handoff` — the single owner of handoff format across workspaces: a pastable block whose first line is a skill invocation and whose payload points to the authoritative artifact workspace. Mode A routes to an artifact with the owning CE/CM skill; Mode B falls back to `/ce-handoff`; Mode C is the CM stage-completion block. Never a bare tracker pointer, never restated conclusions.
 - `/cm-sound-like-me` — voice gate: match any outward email/Slack message to your workspace voice profile (read from your `Compound Marketing` Drive folder) before it's shown or sent. Draft-only, never sends.
 - `/cm-build-voice` — set up or update the voice profile `/cm-sound-like-me` reads: samples your writing (existing profile, pasted samples, or a connected source), interviews for hard rules, and writes the profile to your `Compound Marketing` Drive folder.
 
@@ -38,7 +40,7 @@ Every stage skill above (plus `/cm` and `/cm-handoff`) binds to one shared behav
 
 Bundled review + recall agents the skills dispatch:
 
-- `cm-learnings-researcher` — recalls prior marketing learnings from your docs store before a run, so a new audit/analysis/plan inherits past decisions and evidence gaps.
+- `cm-learnings-researcher` — recalls prior marketing learnings from the resolved project-local or shared-Drive workspace before a run, so a new audit/analysis/plan inherits past decisions and evidence gaps.
 - `cm-lens-evidence` — challenges every quantitative claim (full pull vs sample? does the math hold?).
 - `cm-lens-measurement` — every recommended action must name a success signal and where it's observed.
 - `cm-lens-ownership` — every execution step must have an owner who can actually do it (resolved against the owner-map).

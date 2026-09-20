@@ -8,7 +8,7 @@
 
 ## Scope
 
-This contract applies to every cm-\* stage skill: `/cm-audit`, `/cm-analyze`, `/cm-plan`, `/cm-review`, `/cm-agent-plan`, `/cm-execute`, `/cm-experiment`, `/cm-compound`, `/cm-analytics-audit`. The front-door dispatcher (`/cm`) and the standalone handoff skill (`/cm-handoff`) bind via their own Step 0, which loads this contract and runs its recall step once before routing. The session-wrap trigger (`/cm-session-review`) references this contract but is not itself a pipeline stage (it does not produce a Drive artifact; it invokes `/cm-compound` for the actual write).
+This contract applies to every cm-\* stage skill: `/cm-audit`, `/cm-analyze`, `/cm-plan`, `/cm-review`, `/cm-agent-plan`, `/cm-execute`, `/cm-experiment`, `/cm-compound`, `/cm-analytics-audit`. The front-door dispatcher (`/cm`) and the standalone handoff skill (`/cm-handoff`) bind via their own Step 0, which loads this contract and runs its recall step once before routing. The session-wrap trigger (`/cm-session-review`) references this contract but is not itself a pipeline stage (it does not produce a pipeline artifact; it invokes `/cm-compound` for the actual write).
 
 **Legitimate bypass.** A stage may skip a contract step only when the step's own bypass note permits it. No other reason qualifies. If a step cannot fire (tool unavailable, data missing), the stage surfaces the failure loudly and carries the gap in its handoff block — it does not silently skip.
 
@@ -182,24 +182,27 @@ Never mix the two: if any Open Item is tagged blocking, the first step is the re
 
 **When:** At the moment a decision is made — during AskUserQuestion answers, chat confirmations, or any explicit choice the user makes.
 
-**What:** Append the decision to the per-engagement `Learning — Decisions — <Client Display Name>.docx` file in the Compound Marketing folder. One line per decision:
+**What:** Append the accepted decision to the decision log in the artifact workspace profile resolved under `reference/sop-cm-pipeline.md`. A proposal, recommendation, or draft does not become a decision merely because it appears in the log format.
 
-```
-| <YYYY-MM-DD> | <Stage> | <Decision> | <Why / rationale> |
-```
+**Project-local profile:**
 
-**Format:**
+- Find or create `<project-slug>-decisions.csv` in the flat `CM Artifacts` directory.
+- Use this exact header: `decision_id,project,run_id,stage,decided_on,decision,rationale,status,source`.
+- Allocate a stable, unique decision ID; quote CSV fields correctly; append exactly one row at decision time; then parse the complete CSV to verify column count and round-trip safety for commas, quotes, and multiline text.
+- `run_id` identifies the pipeline cycle; `source` points to the artifact, live receipt, or URL that carries the decision's evidence. Use `active`, `superseded`, or `reversed` status rather than deleting history.
 
-- Find or create the `Learning — Decisions — <Client Display Name>.docx` file (build/edit via the `docx` skill; upload with content-type conversion disabled). If it exists, append a new row (download → edit locally → trash old → reupload under the identical title, per `reference/sop-cm-pipeline.md` § "Storage tradeoff & access"); if not, create it (no date in the title — this doc is perpetual, one per client).
-- After appending, update the folder's `CLAUDE.md` index if this is a new doc.
+**Shared-Drive profile:**
 
-**Error path:** If the Drive tools are unreachable or the append fails, surface the failure loudly (never skip silently) and carry the unlogged decision verbatim in the session's handoff block as a pending-log item:
+- Find or create `Learning — Decisions — <Client Display Name>.docx` in the canonical `Compound Marketing` folder. Append one row as `| <YYYY-MM-DD> | <Stage> | <Decision> | <Why / rationale> |`.
+- Update by download → local edit → trash old → re-upload under the identical title. Update the folder's manual index when creating the doc.
+
+**Error path:** If the selected log is unavailable, unwritable, ambiguous, or fails validation, surface the failure loudly and carry the unlogged decision verbatim in the session's handoff block. Never redirect to the other profile:
 
 ```
 **PENDING DECISION LOG:** <date> · <stage> · <decision> · <why>
 ```
 
-**Bypass:** None. Decisions are logged at decision time, not at session wrap. The decisions doc is inside the recall surface (Step 1 reads it first), closing the loop for the next stage.
+**Bypass:** None. Decisions are logged at decision time, not at session wrap. The selected decision log is the first recall surface Step 1 reads on the next run.
 
 ---
 

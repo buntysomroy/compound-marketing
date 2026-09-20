@@ -20,10 +20,10 @@ The 4 lens agents (`cm-lens-*`) are `/cm-review`'s lenses — generalized to be 
 
 **Required inputs:**
 
-1. **The plan doc** — the `<Client> — Plan — <Channel> — <date>.docx` file in the flat `Compound Marketing` Drive folder (Stage 3 output; find by title search in your marketing docs store — Google Drive, etc. — extension-agnostic; read directly via `pandoc`/filesystem)
-2. **The insights doc** — the `<Client> — Analysis — <Channel> — <date>.docx` file in the same folder (Stage 2 output) — the plan flows from it; reviewers need both.
+1. **The plan artifact** — the Stage 3 plan from the resolved workspace and run.
+2. **The insights artifact** — the Stage 2 analysis from that same workspace and run.
 
-Read both docs fully. Then compose a single merged artifact block combining the key sections (Success line, Action plan table, Budget impact, What this plan doesn't address) from the plan doc with the "What to change" table and Watch-outs from the insights doc.
+Read both artifacts fully. Then compose a single merged artifact block combining the key sections (Success line, Action plan table, Budget impact, What this plan doesn't address) from the plan artifact with the "What to change" table and Watch-outs from the insights artifact.
 
 ## Step 2 — Dispatch all 4 lens agents IN PARALLEL
 
@@ -69,7 +69,7 @@ After all 4 agents return:
 - [P1/P2 items that need a human decision rather than a mechanical fix]
 ```
 
-Apply confirmed fixes directly to the plan doc. List unresolved items as Open questions.
+Apply confirmed fixes directly to the plan. In project-local mode, also write `<project-slug>-<run-id>-<YYYY-MM-DD>-review.md` identifying the exact reviewed plan revision and preserving findings, dispositions, and Open Items. In shared-Drive mode, append the Lens Review Summary to the Plan `.docx`. List unresolved items as Open Items under the stage contract; a later plan revision is not reviewed automatically.
 
 ## Step 4 — Approval gate
 

@@ -6,7 +6,7 @@ description: >-
   is Compound Engineering, Compound Marketing, or plain workspace work tracked on a board or an
   issue. Also on "hand this off", "give me the handoff", "pause this", "what's the state of this
   run", or any request for a resume/starter block. A handoff is a pastable fenced block whose first
-  line is a SKILL INVOCATION and whose payload is a DURABLE PATH at the Drive root — never a bare
+  line is a SKILL INVOCATION and whose payload is a DURABLE ARTIFACT PATH or cloud title — never a bare
   tracker pointer, never restated conclusions, never a description of what to do next. Three
   modes: (A) route to a durable artifact with the owning CE or CM skill, (B) fallback that adapts
   CE's `/ce-handoff` to a Drive-root destination when no artifact owns the next step, (C) the CM
@@ -27,8 +27,8 @@ description: >-
 ## The principle
 
 A handoff is **one fenced code block** the next session pastes as its first message. Line 1 is a
-skill invocation; the payload is a durable path at the Drive root (`CE Artifacts/…`, a project
-folder, a CM stage doc). An optional last line is the tracker pointer. Nothing else goes in the
+skill invocation; the payload is a durable local path or cloud title (`CE Artifacts/…`, a project
+folder's `CM Artifacts/…`, or a shared-Drive CM stage doc). An optional last line is the tracker pointer. Nothing else goes in the
 block — no orientation prose, no step restatement, no summary of this session's conclusions. Everything
 the next session needs is either ON the artifact or ON the tracker item; the block only points.
 
@@ -71,8 +71,9 @@ Work Board item: <id>
 
 Rules:
 - The path is **absolute for machine-local files** (so it is clickable and unambiguous) and lives
-  under the Drive root — `CE Artifacts/plans/`, `CE Artifacts/brainstorms/`, a project folder's
-  stage doc. A plan is a CE artifact; it never lives inside a tracker item's fields.
+  in the resolved artifact workspace — `CE Artifacts/plans/`, `CE Artifacts/brainstorms/`, a project
+  folder's `CM Artifacts/` stage artifact, or the selected shared-Drive corpus. A plan is a CE
+  artifact; it never lives inside a tracker item's fields.
 - The skill is the one that OWNS the next step: `ce-work` for an implementation-ready plan,
   `ce-plan` for a brainstorm/requirements doc, `ce-doc-review` for a plan awaiting review,
   `cm-<next stage>` for a CM stage doc with no blocking Open Items, `cm-<same stage> — resume open
@@ -137,10 +138,7 @@ say so in `Start in:`.
 
 ## Step 3 — Decision logging (if needed)
 
-Decisions from Step 1 not yet logged per contract Step 5: append them to the
-`Learning — Decisions — <Client Display Name>` doc. If the Drive tools are unreachable, surface it
-loudly and carry them in the block as `PENDING DECISION LOG` items (Mode C) or in the `ce-handoff`
-document (Mode B).
+Decisions from Step 1 not yet logged per contract Step 5: append them to the selected artifact profile's decision log (`<project-slug>-decisions.csv` locally; `Learning — Decisions — <Client Display Name>` in shared Drive). If that selected log is unreachable or invalid, surface it loudly and carry them in the block as `PENDING DECISION LOG` items (Mode C) or in the `ce-handoff` document (Mode B). Never redirect to the other profile silently.
 
 ## Step 4 — Offer a file copy (Mode C only, optional)
 

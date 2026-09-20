@@ -79,7 +79,7 @@ Fold confirmed findings in; unresolved ones become Open questions. **No live GTM
 
 ### Phase 6 — Write the artifact + gate + hand off
 
-Write the `<!-- cm:solution -->` doc (template below). Render the verified findings + fix inline in chat first (Report-Findings-Before-Output). Present the apply/defer decision via `AskUserQuestion` (Apply / Document-only), recommending the reversible root-cause fix. Hand off deferred items as tracked tasks.
+Write the `<!-- cm:solution -->` artifact (template below) in the resolved artifact workspace and stable run. Project-local uses `CM Artifacts/<project-slug>-<run-id>-<YYYY-MM-DD>-analytics-fix.md`; shared Drive uses the Type-first `.docx` naming convention. Render the verified findings + fix inline in chat first (Report-Findings-Before-Output). Present the apply/defer decision via `AskUserQuestion` (Apply / Document-only), recommending the reversible root-cause fix. Hand off deferred items as tracked tasks.
 
 ### Artifact template
 

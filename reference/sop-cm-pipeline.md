@@ -32,28 +32,42 @@ that already-approved manifest card-by-card. This split (2026-09-12) mirrors Com
 `ce-plan` → `ce-work`: `/cm-execute` now works like `ce-work` — it can be invoked standalone, in a
 fresh session, against nothing but the manifest doc, and it never re-plans.
 
-Each arrow = a durable doc artifact: a **`.docx` file** in a single Drive parent folder named **`Compound Marketing`** (flat — no subfolders). Everything the `/cm*` suite writes (audit, analysis, plan, build-plan, and `/cm-compound` learnings) lands there, named so the client/type/channel/date are legible in a flat list. By convention: one `Compound Marketing` parent, flat, `.docx` files — not per-client repo markdown, and (as of 2026-09-16) not native Google Docs either — see the Storage tradeoff note below for why.
+Each arrow = a durable internal artifact. Before the first read or write, resolve the engagement's **artifact workspace profile** below and keep it fixed for the entire pipeline cycle. A project-local profile uses flat Markdown artifacts in `CM Artifacts`; the shared-Drive fallback retains the flat `.docx` convention. Storage format changes mechanics, not stage prerequisites, approval boundaries, or evidence requirements.
 
 > **Validated core vs candidate stages.** `cm-analyze → cm-plan → cm-review` is the proven 3-stage strategy chain (each consumes the prior). `cm-audit` (Stage 1) and `cm-agent-plan` + `cm-execute` (Stage 5a/5b) are **candidate stages** — they're kept as working skills, but `cm-audit` is largely an extraction of `cm-analyze`'s own data-read. The Stage 5 pair's full spec (your marketing execution protocol, if your workspace has adopted one) — Compile (`cm-agent-plan`) + Run (`cm-execute`) with Action Cards, derived rungs, and the Effect Probe — earns validated-stage status after its first clean live run on a real account.
 
 ---
 
-## Artifact naming convention
+## Artifact workspace profiles
 
-All CM artifacts are **`.docx` files in a single flat Drive folder `Compound Marketing`** (resolve it once by searching/listing your Drive; create the folder if absent). Build content with the `docx` skill (or your workspace's equivalent docx-authoring tool), then upload it via your Drive tool's file-upload capability — **explicitly disabling any auto-conversion to a native Google Doc** (e.g. the Drive API's `files.create` with a `media` upload and no MIME conversion; a wrapper tool typically exposes this as something like `disableConversionToGoogleType: true`). NOT as repo files, and not as native Google Docs — see the Storage tradeoff note below for why that changed.
+| Profile | Choose when | Root and format | Durable identity |
+| --- | --- | --- | --- |
+| **Project-local** (preferred for agent-native projects) | The user/project contract names it, or an established project root already contains `CM Artifacts` or prior `<project-slug>-<run-id>-...` artifacts | One flat `<project-root>/CM Artifacts` directory; internal pipeline artifacts are Markdown; the decision log is CSV | `<project-slug>-<run-id>-<YYYY-MM-DD>-<artifact-type>.md` and `<project-slug>-decisions.csv` |
+| **Shared Drive** (portable fallback) | No project-local profile is established, or the team intentionally needs a cross-project human-facing corpus | One flat Drive folder named `Compound Marketing`; artifacts remain `.docx` files uploaded without Google-Doc conversion | `<Type> — <Channel / Topic> — <Client Display Name> — <YYYY-MM-DD>.docx` and `Learning — Decisions — <Client Display Name>.docx` |
 
-> **Exactly one folder — fail loud on duplicates.** Both the write side (`/cm-compound`) and the recall side (`cm-learnings-researcher`) resolve this folder **by name**, so a second folder named `Compound Marketing` silently splits the corpus — one side writes to it, the other recalls from the original, and neither errors. This actually happened (2026-07-11 → merged 2026-07-21: a session that couldn't see the original minted a duplicate via a different Drive connector scope). **If a name search ever returns >1 folder, STOP and surface the candidate IDs — never auto-pick one.** The canonical folder's in-folder `CLAUDE.md` breadcrumb self-identifies with its own ID; merge any duplicate into it and trash the duplicate.
+### Resolve once, then fail closed
 
-**Flat doc title format** — ordered **broad → detailed, left to right** (Type → Channel/Topic → Client → Date), so a flat alphabetical list groups by Type then Channel:
+1. Honor an explicit user or project instruction first.
+2. Otherwise continue the workspace used by the named upstream artifact or prior run. An ordinary working directory alone does **not** select project-local mode.
+3. If an established project root contains `CM Artifacts`, use project-local mode. Otherwise use shared Drive.
+4. Record the chosen profile, root, `project_slug`, and `run_id` in the first artifact or handoff. Reuse them through audit → analyze → plan → review → agent-plan → execute, even when the cycle spans dates or sessions.
+5. If both profiles contain plausible continuation artifacts, or the selected workspace is unavailable/unwritable, stop and surface the candidates. Never silently redirect, duplicate, migrate, merge, or synchronize artifacts between profiles.
 
-```
-<Type> — <Channel / Topic> — <Client Display Name> — <YYYY-MM-DD>.docx
-```
+### Project-local identity and naming
 
-e.g. `Plan — Google Ads — Acme Hardware — 2026-06-29.docx`
-e.g. `Learning — Channel Prioritization — Acme Hardware — 2026-06-29.docx`
+- Keep `CM Artifacts` flat. Do not create stage subfolders.
+- `project_slug` is the stable lowercase kebab-case project/channel identity (for example `google-ads`).
+- Allocate `run_id` once per new pipeline cycle by scanning existing filenames and choosing the next unused zero-padded integer (`001` is minimum padding, not a maximum). Reuse it across dates and stages. A new date or session does not create a new run.
+- Continue an existing run only when an upstream artifact, handoff, or explicit user choice identifies it. Detect filename collisions and stop rather than overwrite a different artifact.
+- The filename date is the artifact's original creation date. Ordinary revisions keep the filename and record revision date/status inside the artifact.
+- Naming shape: `<project-slug>-<run-id>-<YYYY-MM-DD>-<artifact-type>.md`. Examples: `google-ads-001-2026-09-18-audit.md`, `google-ads-001-2026-09-19-plan.md`, `google-ads-001-2026-09-20-review.md`, `google-ads-001-2026-09-21-execution-manifest.md`.
+- The perpetual decision log is `<project-slug>-decisions.csv`; its schema and append rules live in the Stage Contract's Decision-Time Logging step.
 
-(The one non-dated type, `Client Context`, has no date segment — see below. `.docx` added 2026-09-16; a title search by `<Type>`/`<Client Display Name>` still matches regardless of the trailing extension.)
+### Shared-Drive identity and naming
+
+Resolve exactly one `Compound Marketing` folder. If a name search returns more than one, stop and surface the candidate IDs; never auto-pick. Build `.docx` artifacts with the document-authoring skill and upload with content-type conversion disabled.
+
+Flat title shape: `<Type> — <Channel / Topic> — <Client Display Name> — <YYYY-MM-DD>.docx` (for example `Plan — Google Ads — Acme Hardware — 2026-06-29.docx`). The one non-dated type, `Client Context`, has no date segment.
 
 | Type                     | Stage | Produced by                                |
 | ------------------------ | ----- | ------------------------------------------ |
@@ -66,15 +80,13 @@ e.g. `Learning — Channel Prioritization — Acme Hardware — 2026-06-29.docx`
 | `Execution Log`          | 5b    | `/cm-execute` (Run — append-only receipts) |
 | `Learning`               | —     | `/cm-compound`                             |
 
-Stage 4 (`/cm-review`) appends a `## Lens Review Summary` section to the Stage 3 `Plan` doc rather than producing a separate doc. Stage 5a (`/cm-agent-plan`) also creates the client-facing `Execution Tracker` doc (checklist format, no internal scaffolding) right after the Manifest Gate; Stage 5b (`/cm-execute`) keeps it updated as cards run.
+In project-local mode, Stage 4 writes a separate `review.md` artifact that identifies the exact plan revision reviewed and preserves every finding/disposition; confirmed fixes also update the plan. In shared-Drive mode, Stage 4 may continue appending the Lens Review Summary to the Plan doc. A later plan edit is not reviewed merely because an earlier revision passed. Stage 5a also creates the client-facing Execution Tracker after the Manifest Gate; client-facing format is chosen separately from the internal artifact profile.
 
-> **`Client Context` is the one non-dated type.** Titled `Client Context — <Channel> — <Client Display Name>` (no date), same perpetual-doc pattern as `Learning — Decisions — <Client>` (Stage Contract Step 5) — it holds the channel's success line (target CAC/CPA, ROAS/CoS, CPL, etc.) and is updated in place, not re-created per cycle, because "what counts as good" doesn't expire on a schedule the way a dated snapshot does. `/cm-audit` Step 1 reads it (via `/cm-channel-discovery` if it doesn't exist yet) before assuming any success line.
+`Client Context` remains a non-dated current business contract. In project-local mode, use the existing project-designated context document (it may live at the project root and may be Markdown or `.docx`); do not copy it into `CM Artifacts` merely to satisfy the pipeline. In shared-Drive mode, retain `Client Context — <Channel> — <Client Display Name>`.
 
-> **Authoring check:** When writing or updating a CM skill's artifact location, it MUST be a `.docx` file in the flat `Compound Marketing` Drive folder with the title format above — **Type first (broadest), then Channel/Topic, then Client, then ISO date** (broad → detailed, left to right). Per-client subfolders and repo-committed `documents/clients/<slug>/marketing/*.md` paths are **not the pattern here** — the read-back (and `cm-learnings-researcher`) search the flat folder, filtering by `<Type>` + `<Client Display Name>` in the title.
-
-> **Storage tradeoff & access — `.docx` in Drive, by design (changed 2026-09-16; was native Google Docs).** These are real `.docx` files in Drive, NOT repo markdown, and — as of this change — not native Google Docs either. **Why the switch:** a native Google Doc has no readable/writable bytes of its own. Proven empirically, twice: a cold-session subagent test showed a local Drive mount holds only a `.gdoc` JSON pointer, so a plain file read returns a stub and silently "succeeds" with zero content; separately, a live session hit the same wall from the API side — trying to update a "non-dated, perpetual, update-in-place" doc (`Client Context`, `Learning — Decisions`) with nothing but generic Drive file tools failed outright, because updating a Google Doc's *content* needs a dedicated Docs-content-edit capability (a `batchUpdate`-style call) that a generic Drive-file-metadata tool doesn't provide — only title/parent-folder edits go through that path. A `.docx` has neither problem. On a **locally-mounted Drive folder**, it is a real binary file on disk: any session can read it directly (`pandoc -t markdown file.docx`, per the `docx` skill) or edit it directly (unzip → edit `word/document.xml` → rezip, same skill) with zero dependency on any docs-store connector. On an **API-only deployment** (no local mount), it's still just a binary blob to move around — download it, edit it the same way locally, re-upload it; no batchUpdate-equivalent mechanics needed on either read or write. **Updating an existing `.docx` in place:** most Drive-file-update tools patch metadata (title, parent folder) but not content, so the safe, universal update sequence is: download/read the current bytes → edit locally (docx skill's "Editing existing documents" recipe) → **trash the old file, upload the new version under the identical title** (Drive's trash preserves history for recovery; title-based search still finds exactly one live copy going forward). **Human-friendliness is not lost:** Drive still previews `.docx` in-browser, and a client or teammate can open it directly in Google Docs ("Open with Google Docs") or Word/Pages to read or comment whenever they actually want that — it's one click away, it's just no longer the file's native, load-bearing format, so an agent session is never blocked on it.
+> **Shared-Drive storage tradeoff.** Keep its artifacts as real `.docx` files, not native Google Docs: a mounted `.gdoc` is only a JSON pointer, and generic Drive tools cannot edit Google-Doc content. On a local mount, read `.docx` via the document skill/pandoc; API-only deployments download, edit, and re-upload the bytes. Replace an existing `.docx` by trashing the old file and uploading the new version under the identical title. This constraint does not apply to project-local Markdown.
 >
-> **Cold-session breadcrumb — `CLAUDE.md` in the folder.** The folder also holds a plain-text **`CLAUDE.md`** that documents the read-recipe + title convention + a live index of Learning docs. This is less load-bearing than it was under the old Google-Doc convention (a `.docx` needs no special read recipe at all on a locally-mounted folder — it's just a file), but still worth keeping: it orients a cold session fast, and an API-only deployment still benefits from an explicit "download it and pandoc it" reminder rather than re-deriving that each time. A fresh agent orienting in the folder reliably **reads the in-folder guide first, on its own**. Placement matters: a `CLAUDE.md` in the **parent** Drive directory is skipped; only the one placed **directly in the working folder** gets picked up — **location matters (in-folder is read, parent is skipped), not the filename**. Nothing auto-loads from a Drive path outside the repo tree, so this is read by agent instinct, not the harness. `CLAUDE.md` is the chosen convention (matches this repo's CLAUDE.md-everywhere pattern). It is the filesystem safety net for a cold session that lands in the folder WITHOUT a dedicated learnings-recall agent; `/cm-compound` keeps its `## Index of Learning docs` current (Step 5). **Do NOT symlink the folder into the repo to try to auto-load this `CLAUDE.md`** — reading a file through a repo symlink that points OUTSIDE the repo does NOT trigger directory-CLAUDE.md auto-load in most harnesses (it isn't treated as a repo-tree instruction file). The breadcrumb is read by agent instinct on orientation, not by auto-load — a symlink adds only bare discoverability at the cost of gitignore + setup-script maintenance, so it's usually not worth doing.
+> **Cold-session breadcrumb.** Keep the selected profile and artifact-root contract in the project's real instruction/routing file. A shared-Drive `CLAUDE.md` remains a useful manual index, but it is not guaranteed harness context. Do not create symlinks to simulate instruction loading; Codex and Claude must each use their supported project instruction surface.
 
 ---
 
@@ -98,7 +110,7 @@ If your workspace provides a channel specialist agent for the relevant channel, 
 
 ## Compounding mechanism
 
-The flat **`Compound Marketing`** Drive folder IS the compounding memory. Every stage searches it for this client's prior docs (by `<Client Display Name>` in the title) before producing its output. Stages 1-5 read the prior artifacts directly; in addition, the `cm-learnings-researcher` agent surfaces prior `Learning` docs written by `/cm-compound`. Your environment may auto-dispatch this agent before every `/cm-*` run (e.g. via a pre-tool hook) — if it doesn't, dispatch it manually as Step 0 of any stage:
+The selected artifact workspace is the cycle's compounding memory. In project-local mode, search the flat `CM Artifacts` directory by `project_slug` and `run_id`, reading `<project-slug>-decisions.csv` first. In shared-Drive mode, preserve title-based recall inside the canonical `Compound Marketing` folder. `cm-learnings-researcher` must resolve the same profile before recall; it may not silently fall back to the other profile.
 
 - Stage 1 reads: prior analysis + plan docs (to know what was already found)
 - Stage 2 reads: the Stage 1 audit doc + any prior analysis docs
@@ -145,7 +157,7 @@ Stage 5 (`/cm-agent-plan` compiling + `/cm-execute` running) runs under your **m
 **`/cm` is the documented default entry point.** Before invoking any stage directly, run `/cm`:
 
 1. **Intake** — classify the signal source (Slack message / report / commitment / prior artifact / pasted handoff block) and trace how the symptom arose.
-2. **Artifact check** — list existing engagement docs in the Compound Marketing folder, mark completed stages, route past them.
+2. **Artifact check** — resolve the artifact workspace profile, list existing engagement artifacts there, mark completed stages, and route past them.
 3. **Decisions recall** — dispatch `cm-learnings-researcher` for prior learnings.
 4. **Recommend** — recommend ONE entry stage with a one-line reason; user confirms before routing.
 
@@ -174,7 +186,7 @@ Stage 5 (`/cm-agent-plan` compiling + `/cm-execute` running) runs under your **m
 1. /cm-audit <client> <channel>  → produces audit doc
 2. /cm-analyze                  → reads audit doc + pulls additional live data → analysis doc
 3. /cm-plan                      → reads analysis doc → plan doc
-4. /cm-review                    → reads analysis + plan docs, dispatches 4 lens agents → lens review summary appended to plan doc + approval gate
+4. /cm-review                    → reads analysis + plan docs, dispatches 4 lens agents → review artifact/summary + confirmed plan fixes + approval gate
 5a. /cm-agent-plan                → Compile (plan → Action Cards → manifest + gate) — stops here
 5b. /cm-execute                   → Run (gated, probed, receipted execution against the approved manifest)
 ```
@@ -187,7 +199,7 @@ Every stage (including `/cm-audit`, `/cm-analytics-audit`, and `/cm-experiment`)
 2. **Findings confirmation** — before artifact write, render findings with provenance (claim → source → denominator/coverage → proxy-validity note), then block for user confirmation.
 3. **Quantitative-claim rule** — every headline rate carries its denominator and coverage; "6.67% bounce" without "81 of 580 processed (14% coverage)" fails the gate.
 4. **Handoff block** — emit inline after artifact write (What & why / Carried-over context / Don't-repeat / First step).
-5. **Decision-time logging** — append decisions to the per-engagement `Learning — Decisions — <Client>` Drive doc at the moment they're made.
+5. **Decision-time logging** — append decisions to the selected profile's decision log at the moment they're made (`<project-slug>-decisions.csv` locally; `Learning — Decisions — <Client>` in shared Drive).
 
 This contract is the cross-cutting requirement for all twelve cm-\* skills. Read it before any stage run.
 
@@ -195,7 +207,7 @@ This contract is the cross-cutting requirement for all twelve cm-\* skills. Read
 
 ## What this plugin ships
 
-This plugin packages the 5-stage `/cm-*` pipeline described above (Stage 5 split into `/cm-agent-plan` Compile + `/cm-execute` Run), its front-door `/cm` dispatcher, the `cm-lens-*` review agents, `cm-learnings-researcher` (the recall half of the compound loop), `/cm-compound` (the write half), `/cm-session-review` (the trigger half — the session-wrap stage that mines learnings and routes them through `/cm-compound`), and this reference doc set (`reference/`). Install it, point it at your own Drive (or equivalent docs store) and ad-platform MCP, and the pipeline runs against your accounts. Agents and skills are updated independently by the plugin maintainer as the pipeline evolves.
+This plugin packages the 5-stage `/cm-*` pipeline described above (Stage 5 split into `/cm-agent-plan` Compile + `/cm-execute` Run), its front-door `/cm` dispatcher, the `cm-lens-*` review agents, `cm-learnings-researcher` (the recall half of the compound loop), `/cm-compound` (the write half), `/cm-session-review` (the trigger half — the session-wrap stage that mines learnings and routes them through `/cm-compound`), and this reference doc set (`reference/`). Install it, point it at your project root or shared Drive (or equivalent docs store) and ad-platform MCP, and the pipeline runs against your accounts. Agents and skills are updated independently by the plugin maintainer as the pipeline evolves.
 
 ---
 

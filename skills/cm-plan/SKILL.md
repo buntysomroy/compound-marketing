@@ -1,6 +1,6 @@
 ---
 name: cm-plan
-description: "Use when you say '/cm-plan', 'build the marketing plan', 'turn the insights into a plan', 'sequence the recommendations', 'solution + execution plan for <client>', 'marketing DD', 'fix this one problem for <client>', 'what should we do about <problem>', 'marketing plan', or after /cm-analyze produces an analysis doc. Compound Marketing — the PLAN stage (Stage 3). Two input modes: FULL-ACCOUNT (consume a /cm-analyze doc → a sequenced multi-initiative plan) or SINGLE-PROBLEM (a stated problem + cited evidence → a hardened solution+execution doc — the single-problem solution capability)."
+description: "Use when you say '/cm-plan', 'build the marketing plan', 'turn the insights into a plan', 'sequence the recommendations', 'solution + execution plan for this client', 'marketing DD', 'fix this one problem for the client', 'what should we do about this problem', 'marketing plan', or after /cm-analyze produces an analysis doc. Compound Marketing — the PLAN stage (Stage 3). Two input modes: FULL-ACCOUNT (consume a /cm-analyze doc → a sequenced multi-initiative plan) or SINGLE-PROBLEM (a stated problem + cited evidence → a hardened solution+execution doc — the single-problem solution capability)."
 ---
 
 # /cm-plan — Compound Marketing: Plan stage
@@ -50,7 +50,7 @@ A client problem/opportunity (from an investigation, a brief, a meeting, or an a
 
 ### Artifact location + template
 
-**Location:** a `.docx` file in the flat `Compound Marketing` Drive folder, titled `Solution — <Problem/Channel> — <Client Display Name> — <YYYY-MM-DD>.docx` (per `sop-cm-pipeline.md` § Artifact naming convention — Type first, then Channel/Topic, then Client, then ISO date; build via the `docx` skill, upload with content-type conversion disabled). Earlier single-problem docs wrote to a per-client repo subfolder; that repo path is **retired** — the read-back and `cm-learnings-researcher` search the flat Drive folder by title.
+**Location:** use the resolved artifact profile. Project-local: `CM Artifacts/<project-slug>-<run-id>-<YYYY-MM-DD>-solution.md`. Shared Drive: `Solution — <Problem/Channel> — <Client Display Name> — <YYYY-MM-DD>.docx`.
 
 ```
 <!-- cm:solution -->
@@ -108,8 +108,8 @@ P0/P1 findings MUST be resolved (revise the doc) or surfaced in Open questions b
 
 Read:
 
-1. **The insights doc** — the `<Client> — Analysis — <Channel> — <date>.docx` file in the flat `Compound Marketing` Drive folder (find by title search in your marketing docs store — Google Drive, etc. — extension-agnostic). Read it fully (directly, via `pandoc`/filesystem — no Docs-API stub problem); extract the "What to change" scored table as the primary raw material.
-2. **Prior plan docs** — search the `Compound Marketing` folder for this client's prior `Plan` docs to see what was planned before and the delta. Don't plan what's already in flight.
+1. **The insights artifact** — read the complete Stage 2 artifact from the resolved workspace and same run; extract the "What to change" scored table as the primary raw material.
+2. **Prior plan artifacts** — search the selected workspace for this project/client's prior plans to see what is already in flight. Do not merge a second storage profile implicitly.
 3. **Client context** — your client/account folder's context doc for owner map, vendor relationships, and execution constraints (e.g., the ad vendor's scope, platform integration, your vs vendor authority).
 4. **Business context** — any upcoming launches, seasonality, budget cycles, or known constraints from recent meeting notes.
 
@@ -126,7 +126,7 @@ Convert the "What to change" table from the insights doc into a prioritized plan
 
 ## Step 3 — Write the plan doc
 
-**Location:** a `.docx` file in the flat `Compound Marketing` Drive folder, titled `Plan — <Channel> — <Client Display Name> — <YYYY-MM-DD>.docx` (build via the `docx` skill, upload with content-type conversion disabled — see `reference/sop-cm-pipeline.md` § Artifact naming convention and § Storage tradeoff & access). (Not a per-client repo folder path — the flat Drive folder is canonical.)
+**Location:** use the analysis artifact's profile and stable run ID. Project-local: `CM Artifacts/<project-slug>-<run-id>-<YYYY-MM-DD>-plan.md`. Shared Drive: `Plan — <Channel> — <Client Display Name> — <YYYY-MM-DD>.docx`.
 
 **Structure:**
 

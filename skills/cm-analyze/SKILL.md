@@ -1,6 +1,6 @@
 ---
 name: cm-analyze
-description: "Use when the user says '/cm-analyze', 'strategic insights', 'what's working/not', 'analyze the <channel/account> data', 'what should we change', 'which lever should we pull', 'where's the opportunity', 'score/rank/prioritize these opportunities', 'RICE this', 'give me a RICE table', or after an audit/data refresh. Compound Marketing — the ANALYZE stage (Stage 2). Turn a marketing data set / account / channel — or an existing list of opportunities pulled from meeting history / a backlog — into a small set of high-confidence, scored strategic insights (what's working, what's not, what to change, why), written to a deliverable doc. Sits after /cm-audit (Stage 1) and before /cm-plan (Stage 3) + /cm-review (Stage 4). Reads the data first — never analyzes from generic knowledge."
+description: "Use when the user says '/cm-analyze', 'strategic insights', 'what's working/not', 'analyze the channel or account data', 'what should we change', 'which lever should we pull', 'where's the opportunity', 'score/rank/prioritize these opportunities', 'RICE this', 'give me a RICE table', or after an audit/data refresh. Compound Marketing — the ANALYZE stage (Stage 2). Turn a marketing data set / account / channel — or an existing list of opportunities pulled from meeting history / a backlog — into a small set of high-confidence, scored strategic insights (what's working, what's not, what to change, why), written to a deliverable doc. Sits after /cm-audit (Stage 1) and before /cm-plan (Stage 3) + /cm-review (Stage 4). Reads the data first — never analyzes from generic knowledge."
 ---
 
 # /cm-analyze — Compound Marketing: Analyze stage
@@ -58,7 +58,7 @@ Use this mode instead of (or alongside) the Impact/Effort/Ownership ladder above
 
 Write a dated markdown doc (ce-plan-style — a durable artifact, not just chat):
 
-- **Location:** a `.docx` file in your marketing docs store (e.g. a flat `Compound Marketing` Drive folder), titled `Analysis — <Channel> — <Client Display Name> — <YYYY-MM-DD>.docx` (build via the `docx` skill, then upload with content-type conversion disabled — not `/format-gdoc`, which produces a native Google Doc; see `reference/sop-cm-pipeline.md` § Artifact naming convention).
+- **Location:** use the audit's resolved artifact profile and stable run ID. Project-local: `CM Artifacts/<project-slug>-<run-id>-<YYYY-MM-DD>-analysis.md`. Shared Drive: `Analysis — <Channel> — <Client Display Name> — <YYYY-MM-DD>.docx`.
 - **Structure:**
   1. **Header** — account/scope, period, success line, sources (sheet IDs, SOPs, meeting docs), prepared-by + date.
   2. **Bottom line** — 2–3 sentences: healthy vs the success line? trending which way?

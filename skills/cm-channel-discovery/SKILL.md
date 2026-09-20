@@ -1,6 +1,6 @@
 ---
 name: cm-channel-discovery
-description: "Use when a CM stage (most often /cm-audit Step 1, the success line) needs what good means for a client's channel: banded action thresholds (cutoff/maintain/scale) on a metric like CAC/CPA, ROAS/CoS, CPL, or revenue-per-send, plus a sustained-signal window before acting, and it isn't documented yet. Also use directly: what's our target CAC for X, set the success line for a channel, discover the success metric for a client. Channel-aware (SaaS asks CAC:LTV/CPA, ecom asks ROAS/CoS, email asks revenue-per-send, SEO asks traffic/ranking, CRO asks conversion lift) but one generic skill. Captures three bands, not one target, plus how many days or how much volume a metric must hold past a threshold before it's signal, not noise. Checks for an existing Client Context doc first. Writes a durable, non-dated doc to the flat Compound Marketing Drive folder so every future cycle reads it instead of re-asking. Companion to cm-audit the way cm-build-voice is a companion to cm-sound-like-me."
+description: "Use when a CM stage (most often /cm-audit Step 1, the success line) needs what good means for a client's channel: banded action thresholds (cutoff/maintain/scale) on a metric like CAC/CPA, ROAS/CoS, CPL, or revenue-per-send, plus a sustained-signal window before acting, and it isn't documented yet. Also use directly: what's our target CAC for X, set the success line for a channel, discover the success metric for a client. Channel-aware (SaaS asks CAC:LTV/CPA, ecom asks ROAS/CoS, email asks revenue-per-send, SEO asks traffic/ranking, CRO asks conversion lift) but one generic skill. Captures three bands, not one target, plus how many days or how much volume a metric must hold past a threshold before it's signal, not noise. Checks for an existing Client Context document first and updates the current project-designated context surface. Companion to cm-audit the way cm-build-voice is a companion to cm-sound-like-me."
 ---
 
 # /cm-channel-discovery — discover and persist a channel's success line
@@ -15,7 +15,7 @@ Generic and workspace-agnostic: no hardcoded client names or channel assumptions
 
 Never re-interview a client/channel pair that already has an answer.
 
-1. Search the flat **`Compound Marketing`** Drive folder for a doc titled `Client Context — <Channel> — <Client Display Name>` (create the folder if it genuinely doesn't exist yet — see `reference/sop-cm-pipeline.md` § Artifact naming convention for the folder-resolution mechanics; this skill uses the same folder, not a new one).
+1. Resolve the artifact workspace profile. In project-local mode, locate the project's designated current context document; in shared-Drive mode, search for `Client Context — <Channel> — <Client Display Name>`.
 2. If found: read it, confirm with the user it's still current ("Last set <date>: cutoff <X>, maintain <X–Y>, scale <Z>, <N>-day window. Still right?"), and skip straight to Step 4 if they confirm as-is.
 3. If not found, or the user says it's stale: proceed to Step 2.
 
@@ -46,7 +46,7 @@ Read the bands + window back along with the "why" (e.g. "cutoff $100/trial, scal
 
 ## Step 4 — Write the Client Context doc
 
-**Location:** `Client Context — <Channel> — <Client Display Name>` in the flat `Compound Marketing` Drive folder. **Non-dated, perpetual** — like `Learning — Decisions — <Client>`, this doc is overwritten/updated in place, not re-created per cycle, because "what does good mean" doesn't expire the way a dated audit snapshot does. Update it in place whenever the bands change; don't accumulate dated duplicates.
+**Location:** the project-designated current context document in project-local mode, or `Client Context — <Channel> — <Client Display Name>` in shared Drive. It is **non-dated and perpetual**: update it in place whenever the bands change; do not accumulate dated duplicates or copy it into `CM Artifacts` merely to satisfy the pipeline.
 
 ```
 # Client Context — <Channel> — <Client Display Name>

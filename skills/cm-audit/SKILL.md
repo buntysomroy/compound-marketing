@@ -1,6 +1,6 @@
 ---
 name: cm-audit
-description: "Use when you say '/cm-audit', 'audit the account', 'pull the data before analysis', 'gather client context', 'what data do we have on <client/channel>?', 'show me the numbers', 'what's happening with their marketing', or as the first step of a full CM pipeline run. Compound Marketing — the AUDIT stage (Stage 1). Gather the real state of a client's marketing: pull live data, read client context + SOPs, and produce a structured audit doc that feeds /cm-analyze."
+description: "Use when you say '/cm-audit', 'audit the account', 'pull the data before analysis', 'gather client context', 'what data do we have on this client or channel?', 'show me the numbers', 'what's happening with their marketing', or as the first step of a full CM pipeline run. Compound Marketing — the AUDIT stage (Stage 1). Gather the real state of a client's marketing: pull live data, read client context + SOPs, and produce a structured audit doc that feeds /cm-analyze."
 ---
 
 # /cm-audit — Compound Marketing: Audit stage
@@ -29,9 +29,9 @@ If the success line doesn't exist yet (no `Client Context` doc for this client+c
 
 Read in this order — stop when you have enough context; don't load everything blindly:
 
-1. **Client Context doc:** search the flat `Compound Marketing` Drive folder for `Client Context — <Channel> — <Client Display Name>` — this is where the success line (Step 1) and any other standing channel context lives. Missing or stale → invoke `/cm-channel-discovery`, per Step 1.
+1. **Client Context doc:** read the project-designated current context document in project-local mode, or search shared Drive for `Client Context — <Channel> — <Client Display Name>`. Missing or stale → invoke `/cm-channel-discovery`, per Step 1.
 2. **Client directory:** your client/account folder's routing doc (e.g. a `CLAUDE.md` or README at `clients/<slug>/`)
-3. **Prior CM artifacts:** search the flat `Compound Marketing` Drive folder for this client's most recent `Analysis` / `Plan` docs to understand what was already found. This is the compounding read-back.
+3. **Prior CM artifacts:** resolve the artifact workspace profile and search that workspace for this project's most recent Analysis/Plan artifacts. Continue the named stable run; do not merge local and shared histories implicitly.
 4. **Channel-specific SOP:** your channel's audit SOP / account-intelligence doc, if you maintain one — e.g.:
    - Paid search: your Google Ads audit SOP + daily-analysis-questions reference
    - Paid social: your Meta Ads audit SOP (when it exists)
@@ -67,7 +67,7 @@ Note the data freshness and any gaps (e.g., "Meta ROAS unavailable — no ad-pla
 
 Write a dated markdown doc — findings only, no recommendations yet:
 
-**Location:** a `.docx` file in the flat `Compound Marketing` Drive folder, titled `Audit — <Channel> — <Client Display Name> — <YYYY-MM-DD>.docx` (build via the `docx` skill, then upload with content-type conversion disabled — see `reference/sop-cm-pipeline.md` § Artifact naming convention for the mechanics and why it's `.docx`, not a Google Doc, as of 2026-09-16).
+**Location:** use the resolved artifact profile. Project-local: `CM Artifacts/<project-slug>-<run-id>-<YYYY-MM-DD>-audit.md`. Shared Drive: `Audit — <Channel> — <Client Display Name> — <YYYY-MM-DD>.docx`. Allocate the run ID once and reuse it downstream.
 
 **Structure:**
 
@@ -114,7 +114,7 @@ In this mode:
 
 1. Read the referenced Audit doc's Open Items section in full — this is the scope of work, not a fresh Step 1–3 pass over everything.
 2. For each open item, do only the work its `Closes when` condition requires (verify a tool fix actually landed and re-call the affected tool; pull the one missing data point; reconcile the one flagged discrepancy against a live re-read). Do not silently re-run the full account pull from scratch — that duplicates work Step 3 already did and risks masking whether the SPECIFIC gap actually closed.
-3. Write a new dated Audit doc (same naming convention, new `<YYYY-MM-DD>`) whose Context section notes it resumes the prior doc, and whose own Open Items section marks each addressed item's `Status` as `closed (<date>, <one-line resolution>)`, carries forward anything still open, and adds any new items this pass surfaced. Do not edit the prior dated doc in place — dated artifacts are immutable snapshots; the resume produces a new one that supersedes it for open-items purposes.
+3. Write a new dated Audit artifact using the same resolved profile and stable run ID (same naming convention, new `<YYYY-MM-DD>`). Its Context section notes it resumes the prior artifact, and its own Open Items section marks each addressed item's `Status` as `closed (<date>, <one-line resolution>)`, carries forward anything still open, and adds any new items this pass surfaced. Do not edit the prior dated artifact in place — dated artifacts are immutable snapshots; the resume produces a new one that supersedes it for open-items purposes.
 4. If closing an item surfaces new findings (e.g., a previously-blended metric can now be read cleanly), fold them into "What the data shows" as normal — this is still an audit doc, findings only, no recommendations.
 
 ## Step 6 — Hand off
