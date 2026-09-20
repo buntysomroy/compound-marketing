@@ -1,7 +1,7 @@
 ---
 name: cm
 description: >-
-  Use when the user says '/cm', "what should we do about <client>'s marketing", "need a marketing plan", "audit their ads", "analyze <client>", "check the marketing", "which lever should we pull", "marketing strategy for <client>", "offer decision", "which channel should we focus on", or any client-marketing question where you're not sure which entry stage to start from. /cm is the FRONT DOOR for Compound Marketing — performs symptom intake, runs decisions recall, checks for existing engagement artifacts, and recommends the right entry stage (cm-audit / cm-analyze / cm-plan / cm-review / cm-agent-plan / cm-execute / cm-analytics-audit / cm-experiment) with a one-line reason, confirms with the user, then routes. Run this BEFORE any ce-* skill for client-marketing work.
+  Use when the user says '/cm', "what should we do about this client's marketing", "need a marketing plan", "audit their ads", "analyze this client", "check the marketing", "which lever should we pull", "marketing strategy for this client", "offer decision", "which channel should we focus on", or any client-marketing question where you're not sure which entry stage to start from. /cm is the FRONT DOOR for Compound Marketing — performs symptom intake, runs decisions recall, checks for existing engagement artifacts, and recommends the right entry stage (cm-audit / cm-analyze / cm-plan / cm-review / cm-agent-plan / cm-execute / cm-analytics-audit / cm-experiment) with a one-line reason, confirms with the user, then routes. Run this BEFORE any ce-* skill for client-marketing work.
 ---
 
 # /cm — Compound Marketing: Front-Door Dispatcher
@@ -37,17 +37,17 @@ Trace how the symptom arose — what triggered it, what data or conversation led
 
 ## Step 2 — Artifact Check
 
-Search your marketing docs store (Google Drive, etc.) for existing engagement docs for this client — the Compound Marketing folder for this account, filtered to the client's display name.
+Resolve the engagement's artifact workspace profile per `reference/sop-cm-pipeline.md`, then search only that authoritative workspace. In project-local mode, list the flat `CM Artifacts` directory and group by `project_slug` + stable `run_id`; in shared-Drive mode, list the canonical `Compound Marketing` folder and filter by client display name. If both contain plausible continuations, stop and ask which is authoritative rather than merging them.
 
 List what exists:
 
-- `Audit —` doc → Stage 1 complete
-- `Analysis —` doc → Stage 2 complete
-- `Plan —` doc → Stage 3 complete
-- `Lens Review Summary` appended to plan → Stage 4 complete
-- `Execution Manifest —` or `Execution Tracker —` → Stage 5a (`cm-agent-plan`) complete, Stage 5b (`cm-execute`) in progress or complete
-- `Learning —` docs → prior learnings exist (already surfaced in Step 0)
-- `Experiment —` doc → a measured test ran or is running
+- project-local `audit.md`, or shared-Drive `Audit —` doc → Stage 1 complete
+- project-local `analysis.md`, or shared-Drive `Analysis —` doc → Stage 2 complete
+- project-local `plan.md`, or shared-Drive `Plan —` doc → Stage 3 complete
+- project-local `review.md`, or a shared-Drive `Lens Review Summary` appended to plan → Stage 4 complete
+- project-local `execution-manifest.md`, or shared-Drive `Execution Manifest —` / `Execution Tracker —` → Stage 5a (`cm-agent-plan`) complete, Stage 5b (`cm-execute`) in progress or complete
+- project-local `learning-*.md`, or shared-Drive `Learning —` docs → prior learnings exist (already surfaced in Step 0)
+- project-local `experiment.md`, or shared-Drive `Experiment —` doc → a measured test ran or is running
 - `Client Context —` doc → the channel's success line is already discovered/persisted; no need to route through `/cm-channel-discovery`
 
 Mark completed stages. Route past them rather than re-running (R3).

@@ -34,6 +34,8 @@ description: >-
 
 Read the entire Execution Manifest doc named or handed to you. Confirm it cleared its Manifest Gate (Approved, not Modify/Cancel) and carries: a card table, a spend-cap block, and pre-flight results. If any of those are missing, or the gate never passed, stop and direct the user to `/cm-agent-plan` rather than guessing at safety rules the manifest never stated.
 
+Use the manifest's recorded artifact workspace profile and stable run ID for its Execution Log and receipts. If the manifest omits them or points to an unavailable/ambiguous workspace, stop; never redirect the run to another profile.
+
 If the manifest (or its paired Execution Log) shows which cards already ran, treat that as current state, not a hint — a card marked done or CONFIRMED is done; don't re-run it.
 
 ## Step 2 — Re-verify before acting, never re-plan

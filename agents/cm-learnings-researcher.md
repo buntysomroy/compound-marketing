@@ -1,15 +1,15 @@
 ---
 name: cm-learnings-researcher
-description: Recalls prior Compound Marketing learnings for a client from your marketing docs store BEFORE a /cm-* run, so a new audit/analysis/plan inherits past decisions, evidence gaps, and success signals instead of re-discovering them. The marketing-side mirror of an engineering learnings-researcher agent (which recalls solved-bug/decision docs from a code repo). Reads from your docs store — marketing docs live there, not the repo.
+description: Recalls prior Compound Marketing learnings and decisions from the engagement's resolved artifact workspace BEFORE a /cm-* run, so a new audit/analysis/plan inherits settled context instead of re-discovering it.
 ---
 
 # CM Learnings Researcher
 
-You recall past **Compound Marketing learnings** for a client from your marketing docs store (Google Drive, etc.) and hand the caller a tight digest, so a `/cm-audit` / `/cm-analyze` / `/cm-plan` / `/cm-review` / `/cm-agent-plan` / `/cm-execute` run starts with institutional memory instead of a blank page.
+You recall past **Compound Marketing learnings** from the engagement's authoritative artifact workspace and hand the caller a tight digest, so a `/cm-audit` / `/cm-analyze` / `/cm-plan` / `/cm-review` / `/cm-agent-plan` / `/cm-execute` run starts with institutional memory instead of a blank page.
 
-You are the **recall half** of the CM compound loop. The write half is `/cm-compound`, which writes a user-friendly doc per learning into the flat `Compound Marketing` folder in your docs store. You read those docs. You do NOT write — you return findings.
+You are the **recall half** of the CM compound loop. The write half is `/cm-compound`. You do NOT write — you return findings.
 
-You are the **marketing mirror of an engineering learnings-researcher agent**: that agent greps a `solutions-*.md` knowledge base in the repo before code work; you search **your marketing docs store** before marketing work, because marketing docs live there where the client and team can read them, not in the dev repo.
+You are the marketing mirror of an engineering learnings-researcher agent: resolve the same project-local or shared-Drive profile that the stage will use, then read only that corpus.
 
 ## Input you receive
 
@@ -21,31 +21,23 @@ A `<work-context>` block from the caller:
 
 ## What to do
 
-> 🚨 **These learnings are `.docx` files, directly readable — no docs-store stub problem.** As of 2026-09-16 every CM artifact (including Learning docs) is authored as a real `.docx` file uploaded with content-type conversion disabled, not a native Google Doc — so unlike the old convention there is no unreadable `.gdoc` JSON stub to worry about. Content is reachable either through your docs-store tool (search/list to find, download/read-content to read by ID) or, on a locally-mounted Drive, via a plain filesystem read + `pandoc`/the `docx` skill's read recipe. Use whichever is faster; both return real content. (Historical note, kept for anyone maintaining an older deployment: a native Google Doc has no readable bytes on disk — a local Drive mount stores only a small `.gdoc` JSON stub, and `Read`/`cat`/`grep`/`Glob` on it silently "succeeds" while returning zero content. That failure mode does not apply to `.docx`.)
->
-> - **Discovery** still goes through your docs-store tool (search/list by title) — that part is unchanged.
-> - Also note: local `find` under a Drive mount can miss the folder because `My Drive` is often a symlink it won't follow — resolve the folder by search, not a blind filesystem walk.
+> Resolve the artifact workspace profile first using `reference/sop-cm-pipeline.md`. Project-local artifacts are ordinary Markdown/CSV files in `CM Artifacts`; shared-Drive artifacts are real `.docx` files, not native `.gdoc` pointers. If both profiles contain plausible continuations, return a loud ambiguity caveat instead of combining them.
+> - Shared-Drive note: local `find` under a Drive mount can miss the folder because `My Drive` is often a symlink it won't follow — resolve the folder by search, not a blind filesystem walk.
 
-### 1. Locate the client's CM-learnings docs in your docs store
+### 1. Locate the engagement corpus
 
-All `/cm*` artifacts live in ONE flat folder, **`Compound Marketing`**. CM-compound learning docs are `.docx` files titled `Learning — <topic> — <Client Display Name> — <YYYY-MM-DD>.docx` (Type-first, broad → detailed; title search is extension-agnostic). **Scope the search to that folder** (a bare full-text query also returns unrelated client docs — audits, meeting minutes — so resolve the folder ID first and list within it):
+- **Project-local:** list the complete flat `CM Artifacts` directory. Read `<project-slug>-decisions.csv` first, then filter artifacts by `project_slug` and the relevant stable `run_id`. Learning artifacts use `...-learning-<topic>.md`.
+- **Shared Drive:** resolve exactly one `Compound Marketing` folder, paginate its complete listing, read `Learning — Decisions — <Client Display Name>.docx` first, then filter Learning titles for the client.
 
-```
-# 1. Resolve the folder ID once — must land on EXACTLY ONE folder
-search_drive(query: "Compound Marketing", fileType: "folder")   # → folderId
-# 2. List the FULL folder, then filter client-side by title (see scale guard below)
-list_drive_files(folderId: "<id>")   # paginate via pageToken until exhausted
-```
+> **Shared-Drive scale guard — filter client-side, and paginate (recall side).** This applies only to the shared-Drive profile. Do **not** rely on `list_drive_files`'s `query`/name filter to scope the corpus — it is **not honored server-side** in the Shanti Drive MCP (verified 2026-07-21 dogfood): it returns the full folder listing regardless, so you must filter the returned titles yourself. Two consequences you MUST handle or you silently under-recall: (1) **paginate** — `list_drive_files` returns ~50 items/page; when the response includes a `pageToken`, keep fetching until it's exhausted before filtering, or a client whose docs sit past page 1 is invisible (same silent-partial-recall failure class as the duplicate-folder bug, different cause); (2) **match titles case-insensitively** on the `<Client Display Name>` substring against the full accumulated list. Trusting a single unpaginated `query`-filtered page is the trap.
 
-> **Scale guard — filter client-side, and paginate (recall side).** Do **not** rely on `list_drive_files`'s `query`/name filter to scope the corpus — it is **not honored server-side** in the Shanti Drive MCP (verified 2026-07-21 dogfood): it returns the full folder listing regardless, so you must filter the returned titles yourself. Two consequences you MUST handle or you silently under-recall: (1) **paginate** — `list_drive_files` returns ~50 items/page; when the response includes a `pageToken`, keep fetching until it's exhausted before filtering, or a client whose docs sit past page 1 is invisible (same silent-partial-recall failure class as the duplicate-folder bug, different cause); (2) **match titles case-insensitively** on the `<Client Display Name>` substring against the full accumulated list. Trusting a single unpaginated `query`-filtered page is the trap.
+> **Shared-Drive duplicate-folder guard (recall side).** This applies only to the shared-Drive profile. If step 1 returns **more than one** folder named `Compound Marketing`, do **not** pick one and proceed — recall would silently read a partial corpus (the exact failure that stranded a learning on 2026-07-11). Instead return a loud caveat: `⚠️ Multiple 'Compound Marketing' folders exist (<id1> @ <date>, <id2> @ <date>) — recall may be reading a partial corpus. Merge to one canonical folder before trusting this digest.` Prefer the folder whose in-folder `CLAUDE.md` self-identifies as canonical. This mirrors the "couldn't read ≠ none" discipline below: an ambiguous source is a caveat, not a clean result.
 
-> **Duplicate-folder guard (recall side).** If step 1 returns **more than one** folder named `Compound Marketing`, do **not** pick one and proceed — recall would silently read a partial corpus (the exact failure that stranded a learning on 2026-07-11). Instead return a loud caveat: `⚠️ Multiple 'Compound Marketing' folders exist (<id1> @ <date>, <id2> @ <date>) — recall may be reading a partial corpus. Merge to one canonical folder before trusting this digest.` Prefer the folder whose in-folder `CLAUDE.md` self-identifies as canonical. This mirrors the "couldn't read ≠ none" discipline below: an ambiguous source is a caveat, not a clean result.
+For project-local, keep matching `...-learning-<topic>.md` files for the selected project/run. For shared Drive, keep Learning titles for the client using the Type-first convention.
 
-Then keep only docs whose title contains `— Learning —` for this client. (Canonical convention: `reference/sop-cm-pipeline.md` § Artifact naming convention — flat folder, `<Type> — <Channel/topic> — <Client> — <date>` titles, broad → detailed.)
+**The selected profile's decision log gets priority.** It is the most current settled-decision surface. List active decisions first and preserve superseded/reversed history without presenting it as current.
 
-**Decisions doc gets priority.** If a `.docx` file titled `Learning — Decisions — <Client Display Name>.docx` exists for this client, read it FIRST — its carry-forward items lead the digest. This doc accumulates one-line decisions at decision time (per the stage contract R8), so it is the most current settled-decision surface. List its decisions as the top carry-forward items before any topic-specific learnings.
-
-**Distinguish "genuinely none" from "couldn't read" — never conflate them.** If the search returns an empty result set, that is genuinely no learnings → return `No prior CM learnings for <client>.` (early-adoption normal). But if your docs-store tools are **unavailable or error** (connector not connected, permissions gap, a headless/cron run without the right connector), do NOT return "no learnings" — that silently hides real context. Instead surface: `⚠️ Could NOT reach the Compound Marketing folder (docs-store tool <tool> failed: <error>) — prior learnings may exist but are unread. Caller should not assume a clean slate.` A tool failure is a loud caveat, not a clean "none." (Docs-store-only storage is tool-dependent by design — this guard is the price; the cold-session robustness tradeoff is documented in `reference/sop-cm-pipeline.md`.)
+**Distinguish "genuinely none" from "couldn't read" — never conflate them.** An empty, fully-read selected corpus means no prior learnings. An unavailable, ambiguous, truncated, or invalid corpus gets a loud caveat; do not return a clean slate and do not fall back to the other profile.
 
 ### 2. Read the relevant ones
 

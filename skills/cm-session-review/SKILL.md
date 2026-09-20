@@ -7,7 +7,7 @@ description: "Use when you say '/cm-session-review', 'cm wrap', 'wrap the market
 
 > **Where this sits.** This is the **trigger half** of the CM compound loop. `/cm-compound` is the write half; `cm-learnings-researcher` is the recall half; this skill is the stage that decides *when* and *what* to capture. In a workspace with a host wrap ritual, it runs as the marketing lens inside that ritual. Standalone, it runs as the whole marketing wrap.
 >
-> **Stage contract (read FIRST, every run):** `reference/protocol-cm-stage-contract.md` — this skill references the contract but is not itself a pipeline stage (it does not produce a Drive artifact). It invokes `/cm-compound` for the actual write.
+> **Stage contract (read FIRST, every run):** `reference/protocol-cm-stage-contract.md` — this skill references the contract but is not itself a pipeline stage (it does not produce a pipeline artifact). It invokes `/cm-compound` for the actual write.
 >
 > Pipeline reference: `reference/sop-cm-pipeline.md`.
 
@@ -29,10 +29,10 @@ The skill reads a workspace-declared config for its surfaces. Discovery: look fo
 ```
 
 - **tracking_surface** — where routed items (effectiveness deltas, due success signals) go. `work-board` = a tracked-item ledger (e.g. commitments-log.json); `file` = a named file; `chat` = inline output only.
-- **learnings_store** — where Learning docs live (the `Compound Marketing` Drive folder by convention).
+- **learnings_store** — an explicit artifact-workspace profile/path override. When omitted, resolve the engagement profile per `reference/sop-cm-pipeline.md`.
 - **calibration_log** — writable path for user override entries (R8). JSON lines format.
 
-When no config exists, the skill uses chat output for all routing and the plugin's Drive-folder conventions for the learnings store. Nothing errors; nothing writes to undeclared surfaces.
+When no config exists, the skill uses chat output for routing and resolves the engagement's existing artifact profile. It does not create or switch storage profiles during wrap.
 
 ---
 
