@@ -13,6 +13,8 @@ description: "Use when you say '/cm-plan', 'build the marketing plan', 'turn the
 > Full pipeline reference: `reference/sop-cm-pipeline.md`
 >
 > **Companion:** when a plan action is a **measured test** (incrementality / brand-bid-down, geo holdout, budget-split lift, Google Ads native experiment, creative/LP A/B) rather than a direct change, route it to `/cm-experiment` (`reference/sop-cm-experiment.md`) to design + guardrail + baseline it before it ships.
+>
+> **Companion:** when a plan action's type is **produce creative** (make a new ad asset for a named format and target, then read it back before the next one), route it to `/cm-creative-loop` (`reference/protocol-cm-creative-adapter.md`, one adapter per asset type) to run one discovery → brief → draft → pre-check → approval → pre-registration → staged ship → read-back → verdict iteration per asset.
 
 This is the **plan stage** — turn scored insights into a sequenced action plan. The output is a durable plan doc that the review stage (Stage 4) will adversarially probe and the build prep stage (Stage 5) will map to execution surfaces. No execution here. Plan only.
 

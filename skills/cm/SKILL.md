@@ -1,7 +1,7 @@
 ---
 name: cm
 description: >-
-  Use when the user says '/cm', "what should we do about this client's marketing", "need a marketing plan", "audit their ads", "analyze this client", "check the marketing", "which lever should we pull", "marketing strategy for this client", "offer decision", "which channel should we focus on", or any client-marketing question where you're not sure which entry stage to start from. /cm is the FRONT DOOR for Compound Marketing — performs symptom intake, runs decisions recall, checks for existing engagement artifacts, and recommends the right entry stage (cm-audit / cm-analyze / cm-plan / cm-review / cm-agent-plan / cm-execute / cm-analytics-audit / cm-experiment) with a one-line reason, confirms with the user, then routes. Run this BEFORE any ce-* skill for client-marketing work.
+  Use when the user says '/cm', "what should we do about this client's marketing", "need a marketing plan", "audit their ads", "analyze this client", "check the marketing", "which lever should we pull", "marketing strategy for this client", "offer decision", "which channel should we focus on", or any client-marketing question where you're not sure which entry stage to start from. /cm is the FRONT DOOR for Compound Marketing — performs symptom intake, runs decisions recall, checks for existing engagement artifacts, and recommends the right entry stage (cm-audit / cm-analyze / cm-plan / cm-review / cm-agent-plan / cm-execute / cm-analytics-audit / cm-experiment / cm-creative-loop) with a one-line reason, confirms with the user, then routes. Run this BEFORE any ce-* skill for client-marketing work.
 ---
 
 # /cm — Compound Marketing: Front-Door Dispatcher
@@ -48,6 +48,7 @@ List what exists:
 - project-local `execution-manifest.md`, or shared-Drive `Execution Manifest —` / `Execution Tracker —` → Stage 5a (`cm-agent-plan`) complete, Stage 5b (`cm-execute`) in progress or complete
 - project-local `learning-*.md`, or shared-Drive `Learning —` docs → prior learnings exist (already surfaced in Step 0)
 - project-local `experiment.md`, or shared-Drive `Experiment —` doc → a measured test ran or is running
+- project-local `creative-iteration-<NN>.md` or `creative-asset-ledger.md` → a creative loop is running; resume the open iteration with `/cm-creative-loop`
 - `Client Context —` doc → the channel's success line is already discovered/persisted; no need to route through `/cm-channel-discovery`
 
 Mark completed stages. Route past them rather than re-running (R3).
@@ -67,6 +68,7 @@ Use the intent→stage table to recommend ONE entry stage with a one-line reason
 | "Run/resume the approved manifest" / an Execution Manifest already exists    | `/cm-execute` (Stage 5b — direct invocation, works standalone even in a fresh session) |
 | "Tracking is broken / conversions look off"                         | `/cm-analytics-audit` (diagnostic)    |
 | "Test this before we roll it out" / plan action is a measured test  | `/cm-experiment` (companion)          |
+| "Produce a creative asset" / "make the next ad image or headline and read it back" / plan action of type "produce creative" / a creative-iteration artifact to resume | `/cm-creative-loop` (companion) |
 | "Capture this learning / mark this decision"                        | `/cm-compound` (no dispatcher needed) |
 | "What's our target CAC/ROAS/CPL for this channel" / no `Client Context` doc yet / cm-audit blocked on the success line | `/cm-channel-discovery` (no dispatcher needed) |
 | "Pause/hand off this cm session" / "what's the state of this cm run" / session ending or forking mid-stage | `/cm-handoff` (no dispatcher needed) |

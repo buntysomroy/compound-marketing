@@ -130,6 +130,7 @@ The `cm-learnings-researcher` agent does the structured recall of past insights 
 | `marketing-skills:*`           | Tactical lenses CM invokes for specific craft tasks (copywriting, CRO, email). CM orchestrates; `marketing-skills` executes.                                                                                                                                                                                                                                                                                                                                |
 | `/sales-letter`                | CM-**style** asset-creation play for long-form sales letters/pages (`reference/sop-sales-letter.md`, if bundled in your setup). Follows the CM staged shape and FEEDS `/cm-compound`, but is NOT in the `/cm-*` pipeline and doesn't yet auto-recall via `cm-learnings-researcher` (future increment).                                                                                                                                                        |
 | `/cm-experiment`               | CM companion play for running a **measured marketing/PPC experiment** (incrementality / brand-bid-down, geo holdout, budget-split lift, Google Ads native experiment, creative/LP A/B) before or instead of a direct change (`reference/sop-cm-experiment.md`). Invoked from `/cm-plan` (an action is a test), `/cm-agent-plan` (compiling the test as a card), or `/cm-execute` (running it under your marketing execution protocol). Reuses standard A/B-test statistical rigor; FEEDS `/cm-compound`. Not a numbered stage. |
+| `/cm-creative-loop`            | CM companion play that **produces creative one asset at a time**: discovery (owner interview one question per turn, gut-check, reference-and-beat, brand-and-source kit) → brief → draft → pre-check → owner approval → pre-registration → staged ship → read-back → verdict, with a constraint line carried into the next brief. Generic driver; everything asset-type specific lives in an adapter (`reference/protocol-cm-creative-adapter.md`, `reference/adapter-<asset-type>.md`) and everything channel specific in the channel's own contract. Invoked from `/cm-plan` (a "produce creative" action), `/cm-agent-plan` / `/cm-execute` (the ship step), `/cm`, or standalone. FEEDS `/cm-compound`. Not a numbered stage. |
 | Single-problem mode            | The reactive "one problem + evidence → hardened solution+execution" capability lives in `/cm-plan` single-problem mode + `/cm-review` (the locked full-merge). One pipeline, not two.                                                                                                                                                                                                  |
 | `cm-lens-*` agents             | The 4 `/cm-review` lenses (evidence, measurement, ownership, brand/client), channel-agnostic (ownership reads `reference/sop-cm-execution-owner-map.md`).                                                                                                                                                                                                                                                                                                             |
 | `/cm-session-review`           | The session-wrap trigger half of the CM compound loop. Mines the session for marketing learnings, routes them through `/cm-compound`, runs a produced-vs-actioned effectiveness pass, and notices due success signals from prior Learning docs. Invoked at wrap or via close-offer from any `/cm-*` pipeline skill.                                                                                             |
@@ -175,6 +176,7 @@ Stage 5 (`/cm-agent-plan` compiling + `/cm-execute` running) runs under your **m
 | "Run/resume the approved manifest"            | `/cm` → `/cm-execute` (Stage 5b, direct invocation — works standalone, even in a fresh session) |
 | "Tracking is broken / conversions look off"   | `/cm` → `/cm-analytics-audit` (diagnostic) |
 | "Test this before we roll it out"             | `/cm` → `/cm-experiment` (companion)       |
+| "Produce a creative asset" / plan action of type "produce creative" | `/cm` → `/cm-creative-loop` (companion) |
 | "Capture this learning / mark this decision"  | `/cm-compound` (no dispatcher needed)      |
 | "What's our target CAC/ROAS/CPL for this channel" / no `Client Context` doc yet | `/cm-channel-discovery` (no dispatcher needed) |
 | "Wrap the marketing session / what did we learn" | `/cm-session-review` (session-wrap trigger) |
@@ -193,7 +195,7 @@ Stage 5 (`/cm-agent-plan` compiling + `/cm-execute` running) runs under your **m
 
 ### Stage contract
 
-Every stage (including `/cm-audit`, `/cm-analytics-audit`, and `/cm-experiment`) follows the behavioral contract defined in `reference/protocol-cm-stage-contract.md`:
+Every stage (including `/cm-audit`, `/cm-analytics-audit`, `/cm-experiment`, and `/cm-creative-loop`) follows the behavioral contract defined in `reference/protocol-cm-stage-contract.md`:
 
 1. **Decisions recall** — dispatch `cm-learnings-researcher` and list findings visibly before any stage work.
 2. **Findings confirmation** — before artifact write, render findings with provenance (claim → source → denominator/coverage → proxy-validity note), then block for user confirmation.
@@ -201,7 +203,7 @@ Every stage (including `/cm-audit`, `/cm-analytics-audit`, and `/cm-experiment`)
 4. **Handoff block** — emit inline after artifact write (What & why / Carried-over context / Don't-repeat / First step).
 5. **Decision-time logging** — append decisions to the selected profile's decision log at the moment they're made (`<project-slug>-decisions.csv` locally; `Learning — Decisions — <Client>` in shared Drive).
 
-This contract is the cross-cutting requirement for all twelve cm-\* skills. Read it before any stage run.
+This contract is the cross-cutting requirement for all sixteen CM skills in `skills/` (`/cm` plus fifteen `cm-*`). Read it before any stage run.
 
 ---
 
