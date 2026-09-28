@@ -26,6 +26,7 @@ Internal artifacts can use either of two deterministic profiles: an agent-native
 Plus supporting skills:
 
 - `/cm-experiment` — design and track a marketing experiment against the execution owner-map.
+- `/cm-creative-loop` — produce creative one asset at a time: discovery, brief, draft, pre-check, owner approval, pre-registration, staged ship, read-back and a verdict whose constraint line feeds the next brief. Generic driver plus one adapter per asset type (Performance Max images first).
 - `/cm-compound` — capture a solved marketing problem or durable decision so the next run inherits it.
 - `/cm-analytics-audit` — deep analytics/measurement audit (web analytics + ad-platform data quality).
 - `/cm-handoff` — the single owner of handoff format across workspaces: a pastable block whose first line is a skill invocation and whose payload points to the authoritative artifact workspace. Mode A routes to an artifact with the owning CE/CM skill; Mode B falls back to `/ce-handoff`; Mode C is the CM stage-completion block. Never a bare tracker pointer, never restated conclusions.
@@ -54,6 +55,8 @@ The methodology docs the skills point to live in `reference/`:
 - `sop-cm-pipeline.md` — stage order, artifact naming, and the report-at-each-gate discipline.
 - `protocol-cm-stage-contract.md` — the shared per-stage behavioral contract (recall, findings confirmation, quantitative-claim rule, handoff block, decision-time logging).
 - `sop-cm-experiment.md` — experiment design + tracking.
+- `protocol-cm-creative-adapter.md` — the six-slot adapter contract `/cm-creative-loop` runs against; `adapter-pmax-image.md` is the first adapter.
+- `sop-cm-creative-discovery.md` — the creative discovery method (one-question-per-turn owner interview, gut-check, reference-and-beat, brand-and-source kit).
 - `sop-cm-execution-owner-map.md` — the channel→owner map (a fillable template; a Red Pine example mapping is included as an appendix).
 
 ## Install
