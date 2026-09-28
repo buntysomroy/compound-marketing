@@ -17,7 +17,7 @@ docs/fixtures/creative-loop/run-dry-runs.sh /tmp/cm-dry control-04  # one case
 ```
 
 Exit codes: `0` every case passed · `1` at least one case failed its assertion · `2` the harness
-broke (no `claude` CLI, or a run produced no `## Dry-run result` section). A `2` is never a verdict
+broke (no `claude` CLI, or a run produced no `## Dry-run result` section). The agent under test is denied `Read` on this README and on `run-dry-runs.sh`, because they hold the expected outcomes. A `2` is never a verdict
 on the skill. `CM_DRYRUN_MODEL` overrides the model (default `sonnet`).
 
 ## Files
