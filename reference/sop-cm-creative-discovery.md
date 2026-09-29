@@ -112,6 +112,16 @@ site exposes is a bonus if it answers, never the only source.
 7. Pricing (verbatim, with the date read)
 8. Testimonials and social proof (verbatim, with attribution as shown)
 
+**Text inside images is part of the crawl, and it is usually most of the social proof.** A page's
+DOM text layer is not its content: testimonial, review and quote pages often render every quote as
+an image. For each crawled page, compare the text-layer length with the number of content images.
+When images outnumber what the text explains, download every image in page order, open each one,
+and transcribe its text verbatim into a sibling doc (`assets/brand-kit/<page>-testimonials.md`),
+tagged by creative angle. Where the image and the text layer disagree, the image is canonical.
+Bunty, 2026-09-28: _"a lot are images with text that you should parse out. pull all that out into
+a doc for future use as an asset"_. Worked here: 2026-09-28, get.zenmaid.com/love, which had a
+3,657-character text layer and 42 images. The first crawl missed every testimonial in them.
+
 **Source check.** Every source URL in the kit must answer when re-fetched. Run the check after
 writing the kit, and prove the check can fail by pointing it once at a deliberately wrong URL:
 
