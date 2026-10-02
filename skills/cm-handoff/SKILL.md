@@ -34,9 +34,10 @@ the next session needs is either ON the artifact or ON the tracker item; the blo
 
 Two layers, always:
 
-1. **Setup, OUTSIDE the block, addressed to the human:** `Start in:` (the folder to open the session
-   in), `Recommended model: <tier + one-line why>`, which harness/permission mode if it matters, and
-   any wall-clock constraint (a window with no scheduled fire). Prose, not payload.
+1. **Setup, OUTSIDE the block, addressed to the human:** `Session verdict:` (mandatory, first line,
+   see below), `Start in:` (the folder to open the session in), `Recommended model: <tier + one-line
+   why>`, which harness/permission mode if it matters, and any wall-clock constraint (a window with
+   no scheduled fire). Prose, not payload.
 2. **The block itself**, per the mode below.
 
 **The route lives on the tracker item first, the block second.** ZenMaid: the Work Board item's
@@ -114,6 +115,21 @@ the same stage's resume command if any Open Item is blocking, the next stage's i
 — one command, never both. Open Items are copied from the artifact's Step 6 section with the same IDs
 and wording; findings are never restated (contract Step 4, and this skill's whole reason to exist).
 
+## Session verdict — mandatory on every handoff
+
+Bunty, 2026-10-02: _"can you change our handoff behavior to add a mandatory verdict note of whether
+to current in the parent/main session or to do the handoff."_ The first setup line is exactly one of:
+
+- `Session verdict: CONTINUE HERE — <one-line reason>`
+- `Session verdict: HAND OFF — <one-line reason>`
+
+HAND OFF when any holds: `Start in:` is not this session's folder (its project `CLAUDE.md` would not
+load here) · this conversation is heavy enough that compaction is near · the next step needs a
+different model tier than this session. Otherwise CONTINUE HERE, because the evidence is already
+loaded in this conversation; then do the first step in the same turn instead of ending on the verdict.
+The block is emitted either way, so the work survives the chat. For a build, the `[build-gate]`
+fresh-session / compact / continue prompt is the same question and is not restated here.
+
 ## Step 1 — Gather session state (thin)
 
 Collect pointers, not content:
@@ -131,7 +147,7 @@ point at the doc.
 
 ## Step 2 — Emit
 
-Setup prose first (layer 1), then exactly one fenced block (layer 2) per the mode chosen in Step 0.
+Setup prose first (layer 1, opening with the `Session verdict:` line), then exactly one fenced block (layer 2) per the mode chosen in Step 0.
 Where a tracker item exists, write its `route` field BEFORE emitting, then echo `Route: <skill>` in
 the setup prose. Where a fresh session must open a particular folder so a project `CLAUDE.md` loads,
 say so in `Start in:`.
@@ -170,6 +186,9 @@ handoff format instead of pointing here, that is the defect this skill exists to
 
 ## Change record
 
+- **2026-10-02 (0.11.1)** — Mandatory `Session verdict: CONTINUE HERE | HAND OFF` line opens every
+  handoff's setup prose (Bunty). ZenMaid's Drive-root `CLAUDE.md` carries the same binding so an older
+  installed copy still behaves, and its Stop hook blocks a handoff that omits the line.
 - **2026-09-16 (0.10.4)** — Became the single owner of handoff format for all workspaces (Bunty).
   Added the principle (invocation + durable Drive-root path), Modes A and B, the retirement of the
   bare tracker-pointer block, and the two-layer setup/block contract that lived in ZenMaid
