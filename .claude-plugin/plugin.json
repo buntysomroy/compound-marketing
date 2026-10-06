@@ -1,6 +1,6 @@
 {
   "name": "compound-marketing",
-  "version": "0.11.1",
+  "version": "0.11.2",
   "description": "Compound Marketing — a staged, report-at-each-gate marketing workflow (audit → analyze → plan → review → agent-plan (compile) → execute (run)) with approval gates, deterministic project-local or shared-Drive artifact workspaces, a /cm front-door dispatcher, and a shared stage contract (recall/findings-confirmation/quantitative-claim/handoff/decision-logging/open-items). A /cm-creative-loop companion produces creative one asset at a time against per-asset-type adapters. Every stage artifact carries structured Open Items that a thin /cm-handoff points at, while the compound loop combines cm-learnings-researcher (recall), cm-compound (write), and cm-session-review (trigger). Marketing adaptation of Compound Engineering.",
   "author": {
     "name": "Bunty Somroy / Red Pine Digital",
