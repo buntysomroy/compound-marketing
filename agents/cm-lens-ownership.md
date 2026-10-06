@@ -1,7 +1,6 @@
 ---
 name: cm-lens-ownership
 description: Adversarial ownership/feasibility reviewer for Compound Marketing plan/analysis docs (the /cm-review stage). Every execution step must have the correct owner who can actually do it, resolved from the channel→owner map. Spawned by /cm-review (including /cm-plan single-problem mode).
-tools: All tools
 ---
 
 ## Artifact input — READ FIRST (mandatory contract)

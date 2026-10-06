@@ -1,7 +1,6 @@
 ---
 name: cm-lens-brand-client
 description: Adversarial brand/channel/client-framing reviewer for Compound Marketing plan/analysis docs (the /cm-review stage). Catches positioning conflicts, channel cannibalization, and not-client-ready framing. Spawned by /cm-review (including /cm-plan single-problem mode).
-tools: All tools
 ---
 
 ## Artifact input — READ FIRST (mandatory contract)

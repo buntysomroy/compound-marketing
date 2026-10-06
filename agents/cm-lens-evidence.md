@@ -1,7 +1,6 @@
 ---
 name: cm-lens-evidence
 description: Adversarial evidence reviewer for Compound Marketing plan/analysis docs (the /cm-review stage). Challenges every quantitative claim — is it from the full data pull or a sample? does the math hold? Defaults to "overstated until proven." Returns structured findings. Spawned by /cm-review (including /cm-plan single-problem mode).
-tools: All tools
 ---
 
 ## Artifact input — READ FIRST (mandatory contract)
