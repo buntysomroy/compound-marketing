@@ -1,7 +1,7 @@
 ---
 name: cm-analytics-audit
 description: >-
-  Use when you say '/cm-analytics-audit', 'audit the tracking', 'is the purchase tag firing', 'verify the conversion tracking', 'why is All-Conv way higher than Conv', 'check gclid/utm capture', 'GTM audit', 'conversion double-count', 'tracking is broken', 'conversions look off', or when a plan action is hard-blocked behind an LP/conversion-tracking gate before any pause/restructure. Compound Marketing — the ANALYTICS-DEBUGGING audit. Verify a client's conversion-tracking end-to-end in the live systems (storefront tags → GTM container → Google Ads/GA4 conversion actions), diagnose double-counts / dead actions / gclid-capture gaps, and package the exact fix.
+  Use when I start a tracking, analytics or conversion-tracking audit myself, or when you say '/cm-analytics-audit', 'audit the tracking', 'is the purchase tag firing', 'verify the conversion tracking', 'why is All-Conv way higher than Conv', 'check gclid/utm capture', 'GTM audit', 'conversion double-count', 'tracking is broken', 'conversions look off', or when a plan action is hard-blocked behind an LP/conversion-tracking gate before any pause/restructure. Compound Marketing — the ANALYTICS-DEBUGGING audit. Verify a client's conversion-tracking end-to-end in the live systems (storefront tags → GTM container → Google Ads/GA4 conversion actions), diagnose double-counts / dead actions / gclid-capture gaps, and package the exact fix.
 ---
 
 # /cm-analytics-audit — Compound Marketing: analytics-debugging audit
@@ -31,6 +31,12 @@ A tracking claim you did not see in the live GTM container + the live Google Ads
 ## The phase flow (0 → 1 → 2 → 3 → 4 → **4.5 review gate** → 5 → 6)
 
 ### Phase 0 — Intake
+
+**Run `marketing-skills:analytics` first when it is installed, then continue here.** That skill has the more defined
+tracking-audit process and gathers the context; this skill owns the audit and writes its durable document. Carry what it
+found into the audit doc and cite it. If `marketing-skills:analytics` is not installed, say so in the audit doc and run this
+audit on its own. Bunty, 2026-10-06: _"I would like Compound Marketing to be the owner, but I want Marketing Skills
+Analytics to always run to enrich it (or maybe even start with Marketing Skills Analytics so it gets context first)"_.
 
 Capture: client slug, the tracking question, the blocked plan action (if any), and the platforms (Shopify? GHL? WordPress? custom?). Confirm admin access + the RPD Chrome profile.
 
