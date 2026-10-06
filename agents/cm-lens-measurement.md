@@ -1,7 +1,6 @@
 ---
 name: cm-lens-measurement
 description: Adversarial measurement reviewer for Compound Marketing plan/analysis docs (the /cm-review stage). Every recommended action must name a success signal and where it is observed, or it is flagged. Mirrors a behavioral-outcome-monitoring discipline. Spawned by /cm-review (including /cm-plan single-problem mode).
-tools: All tools
 ---
 
 ## Artifact input — READ FIRST (mandatory contract)
