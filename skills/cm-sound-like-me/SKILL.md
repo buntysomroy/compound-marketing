@@ -67,11 +67,17 @@ End the draft with exactly one line so a skipped gate is visible:
 `[voice gate: <profile-name> applied]` — profile loaded and applied
 `[voice gate: no profile — generic rules]` — no profile found, generic copy rules applied
 
+A profile that defines its own footer line (a `Footer` step, or a `[voice gate …]` line in its procedure) wins: use that format instead.
+
 The footer is metadata for the user — strip it when the message is actually sent. Only emit it if the gate actually ran.
 
 ### 6. Draft-only + calibration
 
 Present the gated draft **inline**. Never send, never call a send/draft tool on the user's behalf — they edit it or send it themselves. Ask once (not a debrief): "did this land as your voice, or should I update the profile?" If they edit it, offer to fold the change into the Drive profile.
+
+## When the profile carries its own procedure
+
+A profile may include a gate procedure of its own (what to ground first, how to deliver, how to calibrate after a send) next to the voice rules. Where that procedure differs from the defaults above (staging the message with the platform's draft tool instead of draft-inline-only, the footer, where a correction is saved), follow the profile. The profile is the user's own ruling; these defaults only cover a profile that says nothing.
 
 ## Degradation
 
