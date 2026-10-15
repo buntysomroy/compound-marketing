@@ -1,22 +1,24 @@
 ---
 name: cm-build-voice
-description: "Use when setting up or updating a workspace's voice profile for the voice gate — 'build my voice profile', 'set up my voice', 'create a voice profile', 'update my voice profile', 'seed my voice from these samples', or '/cm-build-voice'. The companion setup skill to /cm-sound-like-me: it samples the user's real writing (an existing profile, pasted samples, or a connected source), interviews for hard rules, and WRITES the profile into the `Compound Marketing` Drive folder so /cm-sound-like-me has something to read. Generic and workspace-agnostic; no external backend, Drive-only."
+description: "Use when setting up or updating a user's voice profile for the voice gate — 'build my voice profile', 'set up my voice', 'create a voice profile', 'update my voice profile', 'seed my voice from these samples', or '/cm-build-voice'. The companion setup skill to /cm-sound-like-me: it samples the user's real writing (an existing profile, pasted samples, or a connected source), interviews for hard rules, and WRITES the profile into that user's connected `Compound Marketing` Drive folder so /cm-sound-like-me has something to read. Generic and workspace-agnostic; no external backend, Drive-only."
 ---
 
-# /cm-build-voice — build the workspace voice profile
+# /cm-build-voice — build the user's voice profile
 
-Create or update the voice profile that `/cm-sound-like-me` reads. Interactive: gather real writing, agree on the hard rules, then write the profile to Drive. This is the setup half of the pair — run it once per workspace before the gate has a profile, and again any time the voice should be refined.
+Create or update the current user's voice profile that `/cm-sound-like-me` reads. Interactive: gather the user's real writing, agree on the hard rules, then write the profile to that user's connected Drive. This is the setup half of the pair — run it once per user before the gate has a profile, and again any time the user's voice should be refined.
 
 Generic: no personal or workspace hardcodes, no external backend. The profile lives in Drive as plain markdown.
 
 ## Step 1 — Resolve the Drive destination
 
-Write to the shared **`Compound Marketing`** Drive folder — the same docs store `/cm-compound` writes to and `cm-learnings-researcher` reads. Resolve it once per run:
+Write to the current user's connected Drive, resolving the **`Compound Marketing`** folder in that user's account. Profile ownership is per user: never reuse another user's profile as this user's voice. Each user's Drive may use the same relative path. Resolve it once per run:
 
-1. Search/list your Drive (or your workspace's docs store) for a folder named `Compound Marketing`.
+1. Search/list the current user's connected Drive for a folder named `Compound Marketing`.
 2. If it does not exist, create it (top-level, flat).
-3. The profile file is `Compound Marketing/voice/voice-profile.md`. Create the `voice/` subfolder if needed.
-4. Never write to the repo or a local sandbox path — write through your Drive tooling. If the docs store is unreachable, stop and say so loudly (do not write a half-profile locally).
+3. Call `shanti_get_drive_permissions({fileId: rootFolderId})` and confirm the folder owner matches the identity of the connected account. A unique path or successful folder lookup does not prove ownership. If permissions are unavailable, the connected account identity is unknown, or the owner does not match, stop and clarify the per-user location rather than reading or overwriting a shared profile.
+4. The profile file is `Compound Marketing/voice/voice-profile.md`. Create the `voice/` subfolder if needed.
+5. Before updating an existing `voice-profile.md`, call `shanti_get_drive_permissions({fileId: profileFileId})` and confirm its owner matches the connected account as well. If that cannot be confirmed, stop without reading or overwriting it.
+6. Never write to the repo or a local sandbox path — write through the user's Drive tooling. If the Drive is unreachable, stop and say so loudly (do not write a half-profile locally).
 
 ## Step 2 — Gather source material
 
@@ -24,7 +26,7 @@ Prefer the richest source available; you need enough real writing to characteriz
 
 | Source               | Method                                                                                                                                                                                                                             | Min   |
 | -------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----- |
-| **Existing profile** | The user already has a voice doc or profile markdown — import it as the starting point (best case; skip cold interviewing). For a workspace with prior voice work, also fold in any accumulated "confirmed rules / learnings" doc. | 1 doc |
+| **Existing profile** | The user already has their own voice doc or profile markdown — import it as the starting point (best case; skip cold interviewing). For the same user with prior voice work, also fold in any accumulated "confirmed rules / learnings" doc. | 1 doc |
 | **Pasted samples**   | Ask the user to paste 10+ real messages/emails they have written.                                                                                                                                                                  | 10    |
 | **Connected source** | If a Slack/email tool is available, pull ~20 of the user's own sent messages.                                                                                                                                                      | 20    |
 
@@ -90,9 +92,9 @@ Also write a one-line `Compound Marketing/voice/CLAUDE.md` breadcrumb: what live
 
 Show a short summary of the built profile (style one-liner, the hard rules, register table, the toggles). Tell the user `/cm-sound-like-me` will now read this profile on any outward email/Slack message. Offer to refine any section.
 
-## Seeding an existing workspace
+## Seeding an existing user profile
 
-When the workspace already has voice material (an existing profile doc plus any accumulated "confirmed rules / learnings" doc), seed from BOTH rather than interviewing cold: import the existing profile as the base, then fold the confirmed/graduated rules on top (they are the most current signal), then only interview to fill gaps. This is the fast path for a workspace that has been doing voice work by hand.
+When the current user already has voice material (their existing profile doc plus any accumulated "confirmed rules / learnings" doc), seed from BOTH rather than interviewing cold: import that user's existing profile as the base, then fold the confirmed/graduated rules on top (they are the most current signal), then only interview to fill gaps. Do not combine writing samples or rules from different users. This is the fast path for a user who has been doing voice work by hand.
 
 ## Notes
 
