@@ -30,8 +30,8 @@ Plus supporting skills:
 - `/cm-compound` — capture a solved marketing problem or durable decision so the next run inherits it.
 - `/cm-analytics-audit` — deep analytics/measurement audit (web analytics + ad-platform data quality).
 - `/cm-handoff` — the single owner of handoff format across workspaces: a pastable block whose first line is a skill invocation and whose payload points to the authoritative artifact workspace. Mode A routes to an artifact with the owning CE/CM skill; Mode B falls back to `/ce-handoff`; Mode C is the CM stage-completion block. Never a bare tracker pointer, never restated conclusions.
-- `/cm-sound-like-me` — voice gate: match any outward email/Slack message to your workspace voice profile (read from your `Compound Marketing` Drive folder) before it's shown or sent. Draft-only, never sends.
-- `/cm-build-voice` — set up or update the voice profile `/cm-sound-like-me` reads: samples your writing (existing profile, pasted samples, or a connected source), interviews for hard rules, and writes the profile to your `Compound Marketing` Drive folder.
+- `/cm-sound-like-me` — voice gate: match any outward email/Slack message to your per-user voice profile (read from your connected `Compound Marketing` Drive folder) before it's shown or sent. Draft-only, never sends.
+- `/cm-build-voice` — set up or update your per-user voice profile for `/cm-sound-like-me`: samples your writing (existing profile, pasted samples, or a connected source), interviews for hard rules, and writes the profile to your connected `Compound Marketing` Drive folder.
 
 ## Stage contract
 
