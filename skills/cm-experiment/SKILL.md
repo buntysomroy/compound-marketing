@@ -1,7 +1,7 @@
 ---
 name: cm-experiment
 description: >-
-  Use when the user says "/cm-experiment", "run a marketing experiment", "A/B test this campaign", "PPC experiment", "incrementality test", "geo holdout", "brand-bid-down test", "does organic absorb the paid traffic", "test this before we roll it out", "let's test it first", or when a /cm-plan action is a measured test rather than a direct change. Compound Marketing — the EXPERIMENT companion play. Design, guardrail, baseline, run, and measure a marketing / PPC experiment (a native platform draft-and-experiment feature, geo holdout, brand-bid-down / incrementality, budget-split lift test, or a creative/LP A/B) then write a durable Experiment doc that feeds /cm-compound.
+  Use when a proposed marketing change is reversible but uncertain and its downside warrants measuring incrementality or causality, even if the user has not called it an experiment yet. The experiment flow establishes the hypothesis, success threshold, guardrail metric, and revert trigger. Also use when the user says "/cm-experiment", "run a marketing experiment", "A/B test this campaign", "PPC experiment", "incrementality test", "geo holdout", "brand-bid-down test", "does organic absorb the paid traffic", "test this before we roll it out", "let's test it first", or when a /cm-plan action is a measured test rather than a direct change. Compound Marketing — the EXPERIMENT companion play. Design, guardrail, baseline, run, and measure a marketing / PPC experiment (a native platform draft-and-experiment feature, geo holdout, brand-bid-down / incrementality, budget-split lift test, or a creative/LP A/B) then write a durable Experiment doc that feeds /cm-compound.
 ---
 
 # /cm-experiment — Compound Marketing: Experiment companion play
