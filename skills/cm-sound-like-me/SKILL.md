@@ -1,25 +1,34 @@
 ---
 name: cm-sound-like-me
-description: "Use when writing, drafting, replying to, or revising an email or a Slack message — any outward message sent AS the user — or when the user says 'sound like me', 'voice gate this', 'make it sound like me', 'gate this draft', 'did you gate this'. A BLOCKING pre-step: match the draft to the current user's voice profile BEFORE it is shown or sent. Reads that user's profile from their connected `Compound Marketing` Drive folder (Drive-driven — no GitHub or local files needed). Generic and workspace-agnostic; the profile is written by /cm-build-voice. Draft-only — never sends."
+description: "Use when writing, drafting, replying to, or revising an email or a Slack message — any outward message sent AS the user, or sent FROM the user's AI assistant on their behalf — or when the user says 'sound like me', 'voice gate this', 'make it sound like me', 'gate this draft', 'did you gate this'. A BLOCKING pre-step: match the draft to the applicable voice profile BEFORE it is shown or sent — the user's profile for messages sent as the user, the AI-assistant profile when the sender is the assistant. Reads that profile from the user's connected `Compound Marketing` Drive folder (Drive-driven — no GitHub or local files needed). Generic and workspace-agnostic; the user's profile is written by /cm-build-voice. Draft-only — never sends."
 ---
 
 # /cm-sound-like-me — Voice Gate
 
-Match any outward message to the current user's voice BEFORE it is shown or sent. This is a **blocking pre-step**: run it the moment the task is to write, draft, reply to, or revise an email or a Slack message that goes out as the user. A draft produced without this gate (no footer) is ungated by definition — do not produce one.
+Match any outward message to the current user's voice BEFORE it is shown or sent. This is a **blocking pre-step**: run it the moment the task is to write, draft, reply to, or revise an email or a Slack message that goes out as the user, or out from the user's AI assistant on their behalf. A draft produced without this gate (no footer) is ungated by definition — do not produce one.
 
-Generic and workspace-agnostic: it reads the voice profile from Drive, applies that profile's rules, and hands back a gated draft. It never sends.
+Generic and workspace-agnostic: it reads the applicable voice profile from Drive, applies that profile's rules, and hands back a gated draft. It never sends.
+
+## Which profile: the user, or the AI assistant
+
+Two profiles can live side by side in the same `voice` folder. Decide which one applies **before** resolving the path, from who the sender is:
+
+- **The message goes out as the user** (the user's own name, mailbox, or account) → `voice-profile.md`.
+- **The message goes out from the user's AI assistant** (the assistant's own identity or mailbox, declaring itself as the assistant) → `voice-profile-ai-assistant.md`.
+
+Never apply the user's profile to a message sent by the assistant, and never apply the assistant profile to a message sent as the user. If the sender is unclear, ask; do not guess. The file resolved below is called the **applicable profile file** throughout this skill.
 
 ## Where the profile lives (resolve at runtime)
 
-The current user's voice profile lives at `Compound Marketing/voice/voice-profile.md` in that user's connected Drive. Use Route A when the user's Drive is mounted on this machine; otherwise use Route B.
+The applicable voice profile lives at `Compound Marketing/voice/<profile-file>` in that user's connected Drive, where `<profile-file>` is `voice-profile.md` for the user and `voice-profile-ai-assistant.md` for the AI assistant. Use Route A when the user's Drive is mounted on this machine; otherwise use Route B.
 
-**Route A: the user's own Drive mounted on this machine.** Google Drive for desktop mounts each signed-in account at `~/Library/CloudStorage/GoogleDrive-<account email>/My Drive/`. List `Compound Marketing`, then `voice`, in that mount, and read `voice-profile.md` directly with a file read; a local listing is complete, so there is nothing to page. The account email in the mount's folder name and the `My Drive` segment (never `Shared drives`) show the file sits in that one account's own Drive, so no permissions call is needed. When more than one account is mounted, use the account the current project or workspace belongs to; if two mounts hold a profile and nothing says which is the user's here, use **Profile status unknown** and ask. File present and read in full → **Profile present**. Mount present and the folder or file absent after the listing → **No profile**. Mount absent or unreadable → Route B.
+**Route A: the user's own Drive mounted on this machine.** Google Drive for desktop mounts each signed-in account at `~/Library/CloudStorage/GoogleDrive-<account email>/My Drive/`. List `Compound Marketing`, then `voice`, in that mount, and read the applicable profile file directly with a file read; a local listing is complete, so there is nothing to page. The account email in the mount's folder name and the `My Drive` segment (never `Shared drives`) show the file sits in that one account's own Drive, so no permissions call is needed. When more than one account is mounted, use the account the current project or workspace belongs to; if two mounts hold a profile and nothing says which is the user's here, use **Profile status unknown** and ask. File present and read in full → **Profile present**. Mount present and the folder or file absent after the listing → **No profile**. Mount absent or unreadable → Route B.
 
 **Route B: no local mount (connectors).** Resolve the path by walking its parents, not by searching the entire Drive for a filename that might occur elsewhere. With Shanti Drive tools, search for the root using `shanti_search_drive({rawQuery:"name = 'Compound Marketing' and mimeType = 'application/vnd.google-apps.folder' and trashed = false", fileType:"folder", pageSize:100})`; use `rawQuery` for Drive query syntax, not the free-text `query` argument. Continue with `pageToken` until the complete result has no next page. For folder listings, use `shanti_list_drive_files({folderId, pageSize:1000})` and continue with each returned `pageToken` until exhausted. After resolving the unique root, call `shanti_get_drive_permissions({fileId: rootFolderId})` and confirm its owner matches the identity of the connected account. A unique path or successful read does not prove profile ownership. Do not use a team-shared Drive profile for an individual user's voice. If permissions are unavailable, the connected account identity is unknown, or the owner does not match, use **Profile status unknown** and stop.
 
 1. Complete the exact root-folder search, then resolve one unique, non-trashed match. Do not read the profile or draft while any search page remains unread.
 2. List every page of that folder's direct children and resolve one unique, non-trashed `voice` folder.
-3. List every page of the `voice` folder's direct children and resolve one unique, non-trashed `voice-profile.md` file.
+3. List every page of the `voice` folder's direct children and resolve one unique, non-trashed file with the applicable profile filename (`voice-profile.md` for the user, `voice-profile-ai-assistant.md` for the AI assistant). Do not resolve the other profile's file by mistake: the filename must match the sender decided above.
 4. Call `shanti_get_drive_permissions({fileId: profileFileId})` and confirm the file owner matches the connected account too. If the root or file owner cannot be confirmed, use **Profile status unknown**; do not read or apply another user's profile.
 5. For **Profile present**, read that exact file as plain markdown bytes. For a cloud doc, use the docs-store read tool; never read a `.gdoc` stub from disk.
 6. Resolve exactly one of these states before drafting:
@@ -45,7 +54,7 @@ Only once the content is verified true (to the level the message needs) do you r
 
 ### 2. Load the profile
 
-When status is **Profile present**, read the complete Drive `voice-profile.md` resolved above. It carries: a prose voice description, hard rules (including absolute bans like em/en dashes), avoided language, good/bad anti-pattern pairs, register-by-audience, **signature phrases** (the vocabulary and hedges to reach for), and any per-profile toggles (e.g. strategic-message mode). Load it every time — do not draft from memory of the voice. If the read fails or is incomplete, use the **Profile status unknown** branch; do not try a different profile backend. When status is **No profile**, skip this step and follow the generic branch. When status is **Profile status unknown**, stop without drafting.
+When status is **Profile present**, read the complete Drive applicable profile file resolved above. It carries: a prose voice description, hard rules (including absolute bans like em/en dashes), avoided language, good/bad anti-pattern pairs, register-by-audience, **signature phrases** (the vocabulary and hedges to reach for), and any per-profile toggles (e.g. strategic-message mode). Load it every time — do not draft from memory of the voice. If the read fails or is incomplete, use the **Profile status unknown** branch; do not try a different profile backend, and do not fall back to the other profile file. When status is **No profile**, skip this step and follow the generic branch. When status is **Profile status unknown**, stop without drafting.
 
 ### 3. Draft against the rules
 
@@ -97,18 +106,18 @@ A profile may include a gate procedure of its own (what to ground first, how to 
 
 ## Degradation
 
-- **No profile found** — only after a successful Drive search/list confirms the folder or file is absent, apply sane generic copy rules (short, direct, no hype, no em dashes, first person) and tell the user to run `/cm-build-voice` to create their profile. Do not infer the sender's name, signature, or personal voice from model memory or unrelated context; omit the signature or use a placeholder unless the user supplied it in this request. Footer reads `no profile — generic rules`.
+- **No profile found** — only after a successful Drive search/list confirms the folder or file is absent, apply sane generic copy rules (short, direct, no hype, no em dashes, first person) and tell the user to run `/cm-build-voice` to create their profile. When the sender is the AI assistant and only the assistant profile is absent, say so: the assistant profile does not exist yet, and `/cm-build-voice` currently creates only the user's `voice-profile.md`. Do not fall back to the user's profile for an assistant-sent message — that would put the user's voice on the assistant's words. Do not infer the sender's name, signature, or personal voice from model memory or unrelated context; omit the signature or use a placeholder unless the user supplied it in this request. Footer reads `no profile — generic rules`.
 - **Profile status unknown** — if search, read, or permissions lookup is denied, errors, times out, or returns an ambiguous result, or if the connected account identity or matching owner cannot be established, do not draft the requested message and do not emit either success footer. Tell the user the profile could not be verified and give the observed reason. A permission or tool failure is never evidence that no profile exists.
 
 ## Generic — no personal or workspace hardcodes
 
 This skill ships with zero personal config. Each run resolves the current user's Drive profile:
 
-- Profile source = the Drive convention path, resolved at runtime — never a fixed personal filename.
+- Profile source = the Drive convention path, resolved at runtime — never a fixed personal filename. Which of the two profile filenames applies depends only on the sender role (user vs AI assistant), never on a person or workspace.
 - "Owner's own channel" exemption (a self-DM that skips the gate) = a value in the profile config, not a hardcoded ID.
 - Sender name and signature = values provided in the current request or loaded profile. When no profile exists and the user did not provide them, omit the signature or use a neutral placeholder.
 - No references to any specific person, workspace path, or an external voice-profile backend.
 
 ## Companion skill
 
-`/cm-build-voice` creates and updates the current user's Drive `voice-profile.md` (samples that user's writing, interviews for hard rules, writes the profile into the user's `Compound Marketing` folder). Run it once per user before this gate has a profile to read.
+`/cm-build-voice` creates and updates the current user's Drive `voice-profile.md` (samples that user's writing, interviews for hard rules, writes the profile into the user's `Compound Marketing` folder). Run it once per user before this gate has a profile to read. It does not create the AI-assistant profile (`voice-profile-ai-assistant.md`); that file is authored separately and lives beside the user's profile in the same `voice` folder.
