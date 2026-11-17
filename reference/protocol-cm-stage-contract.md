@@ -20,7 +20,9 @@ This contract applies to every cm-\* stage skill: `/cm-audit`, `/cm-analyze`, `/
 
 **When:** Before any stage work begins. This is the first action after loading the contract.
 
-**What:** Dispatch the `cm-learnings-researcher` agent with a `<work-context>` block (Client slug + display name / Stage / Channels/topics). List the returned carry-forward items visibly in chat before proceeding.
+**What:** Dispatch the `cm-learnings-researcher` agent with a `<work-context>` block (Client slug + display name / Stage / Channels/topics / Task tracker, when the workspace keeps one). List the returned carry-forward items visibly in chat before proceeding.
+
+**The task tracker is a recall surface too.** When the workspace keeps a task tracker for this project (a work board, an issue list, a task manager), recall also reads the project's open, snoozed and deferred items there, because a decision made on the tracker ("not doing X now") never reaches the decisions log on its own. Each such item lands under **Decisions (settled)** with its tracker id, or as a carry-forward constraint. A tracker you could not read is "recall unreachable", never "none". Worked here: 2026-10-30, a UTM deferral recorded only on the tracker was missing from a plan's recall and reached it only because a separate hook happened to fire.
 
 **Output shape:**
 
@@ -35,7 +37,11 @@ This contract applies to every cm-\* stage skill: `/cm-audit`, `/cm-analyze`, `/
 - <learning summary> (Source: <doc title>)
 - ...
 
-**Recall status:** <"X decisions + Y learnings recalled" | "No prior learnings for this client" | "⚠️ Recall unreachable — <error>; prior learnings may exist but are unread">
+**Tracker items (open, snoozed, deferred):**
+- <tracker id> · <status> · <what it settles or blocks for this run>
+- ...
+
+**Recall status:** <"X decisions + Y learnings + Z tracker items recalled" | "No prior learnings for this client" | "⚠️ Recall unreachable — <error>; prior learnings may exist but are unread">
 ```
 
 **Distinguish "genuinely none" from "recall unreachable."** An empty result from the search = genuinely no learnings (early-adoption normal). MCP tool failure or unavailability = loud caveat, not a clean "none." Never conflate them.

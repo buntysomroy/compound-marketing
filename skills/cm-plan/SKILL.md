@@ -142,6 +142,12 @@ Convert the "What to change" table from the insights doc into a prioritized plan
 - Success line: [metric + target from insights doc]
 - Owner map: You · Copilot (Claude) · Vendor (the ad vendor / other) · Auto
 
+## Goal, problems, solution
+
+- **Goal:** [the outcome this plan serves, in plain language, with its success line]
+- **Problems:** [what stands between today and the goal, one line each, plain language]
+- **Solution:** [what the plan does about them, in 1–3 sentences a non-marketer can repeat]
+
 ## Bottom line
 
 [2–3 sentences: what this plan does to the success metric and why now]
@@ -172,7 +178,7 @@ Convert the "What to change" table from the insights doc into a prioritized plan
 [When to run the next /cm-audit to measure results]
 ```
 
-Show the plan doc path in chat. Render the Action plan table inline so the user can see the full sequence without opening the file.
+Show the plan doc path in chat. Render the **Goal, problems, solution** block and the Action plan table inline, in that order, so the user sees what the plan is for before the task list. A recap of the plan later in the session leads the same way: goal, problems, solution, then decisions and actions. (2026-10-30: after a plan and its review, the user still had to ask "what's the problem, solution, goal" because the close led with tasks.)
 
 ## Step 4 — Surface the highest-risk action
 
@@ -182,7 +188,7 @@ After rendering the plan table, call out the single action most likely to fail r
 
 ## Step 5 — Hand off
 
-Offer to proceed to `/cm-review` (Stage 4) to adversarially probe the plan before committing to execution. Always recommend running the review before Stage 5 — the lenses exist to catch things the planner misses.
+The handoff block opens with the plan's one-line goal and one-line solution before the next command, so the next session starts from what the plan is for. Offer to proceed to `/cm-review` (Stage 4) to adversarially probe the plan before committing to execution. Always recommend running the review before Stage 5 — the lenses exist to catch things the planner misses.
 
 ## Close — session-wrap offer (R10)
 

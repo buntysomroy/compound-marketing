@@ -50,6 +50,8 @@ Before wording anything, decide how much truth-checking the message needs:
 - **Lite check** — a one-line "here's what I'm asserting, confirm it's true" when the claim is minor or partially established.
 - **Skip** — when the message is an acknowledgement, a thanks, a scheduling reply, or the facts are already loaded in this session's context.
 
+**Before asserting any delivered thing is right, ask: is what I checked the delivered artifact, or a proxy for it?** Name the real instance you checked: the sent message as the recipient's inbox or the platform shows it, the form as it renders to a visitor, the page as the public URL serves it. A draft you read back, the editor's preview, or a request you routed around normal resolution is a proxy. If you only checked a proxy, say which one and what it cannot show.
+
 Only once the content is verified true (to the level the message needs) do you run the voice pass.
 
 ### 2. Load the profile
